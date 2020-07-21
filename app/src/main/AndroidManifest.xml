@@ -9,8 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".IvyinjiraActivity"
+            android:parentActivityName=".MainDashBoardActivity"
+            android:label="@string/title_activity_ivyinjira"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".IbidandazwaActivity"
+            android:parentActivityName=".MainDashBoardActivity"
+            android:label="@string/title_activity_ibidandazwa"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainDashBoardActivity" />
-        <activity android:name="LoginActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

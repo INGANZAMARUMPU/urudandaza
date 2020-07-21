@@ -63,7 +63,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:padding="15dp"
-                            android:src="@drawable/ic_account"
+                            android:src="@drawable/ic_cart"
                             android:background="@drawable/cercle_vert"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -74,13 +74,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Profile"
+                                android:text="Ivyinjira"
                                 android:textSize="8pt"
                                 android:textAlignment="center"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="modifier mon profile"
+                                android:text="ibihari no kurangura"
                                 android:textSize="6pt"
                                 android:textAlignment="center"/>
                         </LinearLayout>
@@ -107,7 +107,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:padding="15dp"
-                            android:src="@drawable/ic_add"
+                            android:src="@drawable/ic_balance"
                             android:background="@drawable/cercle_rouge"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -118,13 +118,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Nouveau"
+                                android:text="Ibisohoka"
                                 android:textSize="8pt"
                                 android:textAlignment="center"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Creer une équipe"
+                                android:text="ivyasohotse no kugurisha"
                                 android:textSize="6pt"
                                 android:textAlignment="center"/>
                         </LinearLayout>
@@ -150,7 +150,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:padding="15dp"
-                            android:src="@drawable/ic_balance"
+                            android:src="@drawable/ic_people"
                             android:background="@drawable/cercle_bleue"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -161,13 +161,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ouvrir"
+                                android:text="Abakiriya"
                                 android:textSize="8pt"
                                 android:textAlignment="center"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="allez dans le panneau"
+                                android:text="abanshorera n'amadeni"
                                 android:textSize="6pt"
                                 android:textAlignment="center"/>
                         </LinearLayout>
@@ -177,7 +177,8 @@
                     android:layout_width="130dp"
                     android:layout_height="170dp"
                     android:layout_margin="10dp"
-                    app:cardElevation="1dp">
+                    app:cardElevation="1dp"
+                    android:onClick="startIbidandazwa">
 
                     <FrameLayout
                         android:background="#00bfa5"
@@ -193,7 +194,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:padding="15dp"
-                            android:src="@drawable/ic_message"
+                            android:src="@drawable/ic_money"
                             android:background="@drawable/cercle_vert"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -204,13 +205,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Signaler"
+                                android:text="Ibidandazwa"
                                 android:textSize="8pt"
                                 android:textAlignment="center"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="écrire aux developpeurs"
+                                android:text="ivyo ngurisha n'ibiciro vyavyo"
                                 android:textSize="6pt"
                                 android:textAlignment="center"/>
                         </LinearLayout>
@@ -236,7 +237,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:padding="15dp"
-                            android:src="@drawable/ic__information"
+                            android:src="@drawable/ic_information"
                             android:background="@drawable/cercle_jaune"/>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -247,13 +248,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Aide"
+                                android:text="Ubufasha"
                                 android:textSize="8pt"
                                 android:textAlignment="center"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="comment utiliser l'application"
+                                android:text="gutegera uko bikora"
                                 android:textSize="6pt"
                                 android:textAlignment="center"/>
                         </LinearLayout>
@@ -266,7 +267,7 @@
                     app:cardElevation="1dp">
 
                     <FrameLayout
-                        android:background="#ff4081"
+                        android:background="#779"
                         android:layout_width="2dp"
                         android:layout_height="match_parent"/>
                     <LinearLayout
@@ -280,7 +281,7 @@
                             android:layout_height="70dp"
                             android:padding="15dp"
                             android:src="@drawable/ic_close"
-                            android:background="@drawable/cercle_rouge"/>
+                            android:background="@drawable/cercle_slategrey"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -290,13 +291,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Quitter"
+                                android:text="Kwugara"
                                 android:textSize="8pt"
                                 android:textAlignment="center"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="fermer l'application"
+                                android:text="kuzimya application"
                                 android:textSize="6pt"
                                 android:textAlignment="center"/>
                         </LinearLayout>

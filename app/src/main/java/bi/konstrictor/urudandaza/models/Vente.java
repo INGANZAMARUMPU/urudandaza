@@ -6,20 +6,22 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable
-public class Stock {
+public class Vente {
     @DatabaseField(generatedId = true)
     Integer id;
     @DatabaseField(canBeNull = false, foreign = true, foreignColumnName = "id")
-    Produit produit;
+    Stock stock;
     @DatabaseField(foreign = true, foreignColumnName = "id")
-    Offre offre;
+    Client client;
+    @DatabaseField(canBeNull = false, foreign = true, foreignColumnName = "id")
+    Prix prix;
     @DatabaseField
-    Double quantite;
+    Integer quantite;
     @DatabaseField
     Date date;
 
     @Override
     public String toString() {
-        return produit.nom+" "+quantite+produit.unite_entrant+" "+date;
+        return quantite+stock.produit.unite_sortant+" " + stock.produit.nom + " " + prix;
     }
 }
