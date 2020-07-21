@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Shira Hamwe</string>
+    <string name="mdp">Mot de passe</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="login">Se Connecter</string>
+    <string name="register">S\'enregister</string>
+</resources>
