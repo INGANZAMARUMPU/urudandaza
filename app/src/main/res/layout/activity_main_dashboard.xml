@@ -9,301 +9,394 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
-            <TextView
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/app_name"
-                android:textSize="12pt"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:text="Jonathan NKURUNZIZA"
-                android:textSize="11pt"/>
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-            <com.google.android.flexbox.FlexboxLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:paddingBottom="20dp"
-                app:justifyContent="center"
-                app:alignContent="flex_end"
-                app:alignItems="flex_start"
-                app:flexDirection="row"
-                app:flexWrap="wrap">
-                <androidx.cardview.widget.CardView
-                    android:layout_width="130dp"
-                    android:layout_height="170dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="1dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/app_name"
+                    android:textSize="12pt" />
 
-                    <FrameLayout
-                        android:background="#00bfa5"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="Jonathan NKURUNZIZA"
+                    android:textSize="11pt" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:paddingBottom="20dp"
+                    app:alignContent="flex_end"
+                    app:alignItems="flex_start"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:padding="15dp"
-                            android:src="@drawable/ic_cart"
-                            android:background="@drawable/cercle_vert"/>
+                        android:onClick="startStock"
+                        app:cardElevation="1dp">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#00bfa5" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_weight="1">
-                            <TextView
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_vert"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_cart" />
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ivyinjira"
-                                android:textSize="8pt"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="ibihari no kurangura"
-                                android:textSize="6pt"
-                                android:textAlignment="center"/>
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kurangura"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="ibihari no kuvyongereza"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="130dp"
-                    android:layout_height="170dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="1dp">
+                    </androidx.cardview.widget.CardView>
 
-                    <FrameLayout
-                        android:background="#ff4081"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:padding="15dp"
-                            android:src="@drawable/ic_balance"
-                            android:background="@drawable/cercle_rouge"/>
+                        android:onClick="startVente"
+                        app:cardElevation="1dp">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ff4081" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Ibisohoka"
-                                android:textSize="8pt"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="ivyasohotse no kugurisha"
-                                android:textSize="6pt"
-                                android:textAlignment="center"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="130dp"
-                    android:layout_height="170dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="1dp">
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
 
-                    <FrameLayout
-                        android:background="#7c4dff"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_rouge"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_balance" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kugurisha"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="ivyasohotse no kudandaza"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:padding="15dp"
-                            android:src="@drawable/ic_people"
-                            android:background="@drawable/cercle_bleue"/>
+                        android:onClick="startClient"
+                        app:cardElevation="1dp">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#7c4dff" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Abakiriya"
-                                android:textSize="8pt"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="abanshorera n'amadeni"
-                                android:textSize="6pt"
-                                android:textAlignment="center"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="130dp"
-                    android:layout_height="170dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="1dp"
-                    android:onClick="startIbidandazwa">
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
 
-                    <FrameLayout
-                        android:background="#00bfa5"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_bleue"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_people" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Abakiriya"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="abanshorera n'amadeni"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:padding="15dp"
-                            android:src="@drawable/ic_money"
-                            android:background="@drawable/cercle_vert"/>
+                        android:onClick="startIbidandazwa"
+                        app:cardElevation="1dp">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#00bfa5" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Ibidandazwa"
-                                android:textSize="8pt"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="ivyo ngurisha n'ibiciro vyavyo"
-                                android:textSize="6pt"
-                                android:textAlignment="center"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="130dp"
-                    android:layout_height="170dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="1dp">
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
 
-                    <FrameLayout
-                        android:background="#ffa000"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_vert"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_money" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ibidandazwa"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="ivyo ngurisha n'ibiciro vyavyo"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:padding="15dp"
-                            android:src="@drawable/ic_information"
-                            android:background="@drawable/cercle_jaune"/>
+                        app:cardElevation="1dp"
+                        android:onClick="startHistory">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#779" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_weight="1">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Ubufasha"
-                                android:textSize="8pt"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="gutegera uko bikora"
-                                android:textSize="6pt"
-                                android:textAlignment="center"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="130dp"
-                    android:layout_height="170dp"
-                    android:layout_margin="10dp"
-                    app:cardElevation="1dp">
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
 
-                    <FrameLayout
-                        android:background="#779"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_slategrey"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_list" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Icegeranyo"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="ivyinjiye n'ivyasohotse"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
                         android:layout_margin="10dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:padding="15dp"
-                            android:src="@drawable/ic_close"
-                            android:background="@drawable/cercle_slategrey"/>
+                        app:cardElevation="1dp">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ffa000" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_weight="1">
-                            <TextView
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_jaune"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_information" />
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Kwugara"
-                                android:textSize="8pt"
-                                android:textAlignment="center"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="kuzimya application"
-                                android:textSize="6pt"
-                                android:textAlignment="center"/>
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ubufasha"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="gutegera uko bikora"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </com.google.android.flexbox.FlexboxLayout>
-        </LinearLayout>
-    </ScrollView>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="130dp"
+                        android:layout_height="170dp"
+                        android:layout_margin="10dp"
+                        app:cardElevation="1dp">
+
+                        <FrameLayout
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#ff4081" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/cercle_rouge"
+                                android:padding="15dp"
+                                android:src="@drawable/ic_close" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kwugara"
+                                    android:textAlignment="center"
+                                    android:textSize="8pt" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="kuzimya application"
+                                    android:textAlignment="center"
+                                    android:textSize="6pt" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
 </RelativeLayout>

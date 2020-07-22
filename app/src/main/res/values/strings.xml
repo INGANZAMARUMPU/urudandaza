@@ -1,17 +1,13 @@
 <resources>
-    <string name="app_name">Shira Hamwe</string>
+    <string name="app_name">Urudandaza</string>
     <string name="mdp">Mot de passe</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="login">Se Connecter</string>
     <string name="register">S\'enregister</string>
     <string name="title_activity_ivyinjira">IvyinjiraActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_ibidandazwa">Ibidandazwa</string>
+    <string name="kurangura">Kurangura</string>
+    <string name="kugurisha">Kugurisha</string>
+    <string name="abakiriya">Abakiriya</string>
+    <string name="icegeranyo">Icegeranyo</string>
 </resources>

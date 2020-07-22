@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ProgressBar
+        android:id="@+id/progress_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_ibidandazwa"
+            android:textSize="12pt"
+            android:textColor="#000"
+            android:textAlignment="center"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/field_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Izina ry'ikidandazwa"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/field_product_unite_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ingero yo kurangura"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/field_product_unite_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="ingero yo kudandaza"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/field_product_unit_rapport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="itaniro hagati y'izo ingero"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <Button
+                android:id="@+id/btn_product_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reka"
+                android:textColor="#777"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+            <Button
+                android:id="@+id/btn_product_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sawa"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

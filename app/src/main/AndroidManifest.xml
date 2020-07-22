@@ -9,15 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".IvyinjiraActivity"
+        <activity android:name=".StockActivity"
+            android:label="@string/kurangura"
             android:parentActivityName=".MainDashBoardActivity"
-            android:label="@string/title_activity_ivyinjira"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VenteActivity"
+            android:label="@string/kugurisha"
+            android:parentActivityName=".MainDashBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ClientActivity"
+            android:label="@string/abakiriya"
+            android:parentActivityName=".MainDashBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HistoryActivity"
+            android:label="@string/icegeranyo"
+            android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".IbidandazwaActivity"
+            android:name=".IvyinjiraActivity"
+            android:label="@string/title_activity_ivyinjira"
             android:parentActivityName=".MainDashBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProductActivity"
             android:label="@string/title_activity_ibidandazwa"
+            android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainDashBoardActivity" />
         <activity android:name=".LoginActivity" />
