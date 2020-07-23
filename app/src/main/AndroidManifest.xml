@@ -9,10 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StockActivity"
-            android:label="@string/kurangura"
-            android:parentActivityName=".MainDashBoardActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".VenteActivity"
             android:label="@string/kugurisha"
             android:parentActivityName=".MainDashBoardActivity"

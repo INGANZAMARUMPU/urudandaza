@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
-import bi.konstrictor.urudandaza.models.Produit;
+import bi.konstrictor.urudandaza.models.ActionStock;
 
-class AdaptateurProduit extends RecyclerView.Adapter<AdaptateurProduit.ViewHolder> {
+class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
 
         private Context context;
-        private ArrayList<Produit> produits;
+        private ArrayList<ActionStock> stocks;
 
-        public AdaptateurProduit(Context context, ArrayList<Produit> produits) {
+        public AdaptateurStock(Context context, ArrayList<ActionStock> stocks) {
             this.context = context;
-            this.produits = produits;
+            this.stocks = stocks;
         }
 
         @Override
@@ -33,7 +33,8 @@ class AdaptateurProduit extends RecyclerView.Adapter<AdaptateurProduit.ViewHolde
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.lbl_card_product.setText(produits.get(position).nom);
+            holder.lbl_card_product.setText(stocks.get(position).produit.nom);
+            holder.lbl_card_quantite.setText(stocks.get(position).quantite.toString());
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -46,15 +47,15 @@ class AdaptateurProduit extends RecyclerView.Adapter<AdaptateurProduit.ViewHolde
 
         @Override
         public int getItemCount() {
-            return produits.size();
+            return stocks.size();
         }
 
-        public void setData(ArrayList<Produit> produit) {
-            this.produits = produit;
+        public void setData(ArrayList<ActionStock> produit) {
+            this.stocks = produit;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView lbl_card_product;
+            TextView lbl_card_product, lbl_card_quantite;
             Button btn_kurangura;
             public View view;
 
@@ -62,6 +63,7 @@ class AdaptateurProduit extends RecyclerView.Adapter<AdaptateurProduit.ViewHolde
                 super(itemView);
                 this.view = itemView;
                 lbl_card_product = itemView.findViewById(R.id.lbl_card_product);
+                lbl_card_quantite = itemView.findViewById(R.id.lbl_card_quantite);
                 btn_kurangura = itemView.findViewById(R.id.btn_kurangura);
             }
         }

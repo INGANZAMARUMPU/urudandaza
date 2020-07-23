@@ -2,6 +2,8 @@ package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,7 +23,7 @@ public class ProductForm extends Dialog {
 
     Context context;
     private TextView field_product_name, field_product_unite_in, field_product_unite_out,
-            field_product_unit_rapport, field_product_quantite;
+            field_product_unit_rapport, field_product_quantite, lbl_unite_mesure;
     private ProgressBar progress_product;
     private String product_name, product_unite_in, product_unite_out, product_unit_rapport,product_quantite;
     private Button btn_product_cancel, btn_product_submit;
@@ -38,6 +40,7 @@ public class ProductForm extends Dialog {
         field_product_unite_out = findViewById(R.id.field_product_unite_out);
         field_product_unit_rapport = findViewById(R.id.field_product_unit_rapport);
         field_product_quantite = findViewById(R.id.field_product_quantite);
+        lbl_unite_mesure = findViewById(R.id.lbl_unite_mesure);
         progress_product = findViewById(R.id.progress_product);
         btn_product_cancel = findViewById(R.id.btn_product_cancel);
         btn_product_submit = findViewById(R.id.btn_product_submit);
@@ -51,6 +54,14 @@ public class ProductForm extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+
+        field_product_unite_in.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                lbl_unite_mesure.setText(field_product_unite_in.getText());
+                return false;
             }
         });
     }
@@ -71,10 +82,12 @@ public class ProductForm extends Dialog {
                 ActionStock action = new ActionStock(produit, Double.parseDouble(product_quantite));
                 try {
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                    dao_action.create(produit);
+                    dao_action.create(action);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
                     dismiss();
                 } catch (SQLException e) {
+                    Log.i("ERREUR", e.getMessage());
+                    e.printStackTrace();
                     Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
                 }
             }

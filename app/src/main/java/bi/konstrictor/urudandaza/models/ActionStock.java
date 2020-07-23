@@ -15,7 +15,7 @@ public class ActionStock {
     public Double prix;
     @DatabaseField
     public Double payee;
-    @DatabaseField
+    @DatabaseField(foreign=true, foreignColumnName="id", foreignAutoCreate=true)
     public Personne personne;
     @DatabaseField
     public String motif;
@@ -38,5 +38,8 @@ public class ActionStock {
         this.prix = 0.;
         this.payee = 0.;
         this.date = new Date();
+    }
+
+    public ActionStock() {
     }
 }

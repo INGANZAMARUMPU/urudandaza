@@ -44,14 +44,14 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, ActionStock.class);
 
             database.execSQL("create trigger insertion_stock " +
-                    "after insert on HistoriqueStock for each row begin " +
+                    "after insert on ActionStock for each row begin " +
                     "update Produit set quantite = quantite+NEW.quantite " +
-                    "where id = NEW.produit; end;");
+                    "where id = NEW.produit_id; end;");
 
             database.execSQL("create trigger modification_stock " +
-                    "after update on HistoriqueStock for each row begin " +
+                    "after update on ActionStock for each row begin " +
                     "update Produit set quantite = quantite-OLD.quantite+NEW.quantite " +
-                    "where id = NEW.produit; end;");
+                    "where id = NEW.produit_id; end;");
 
         } catch (Exception e) {
             Log.e("INKORANYAMAKURU", e.getMessage());
