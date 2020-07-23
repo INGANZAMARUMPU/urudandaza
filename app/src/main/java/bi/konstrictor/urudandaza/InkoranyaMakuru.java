@@ -2,7 +2,6 @@ package bi.konstrictor.urudandaza;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -12,23 +11,17 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-import bi.konstrictor.urudandaza.models.Client;
-import bi.konstrictor.urudandaza.models.Offre;
-import bi.konstrictor.urudandaza.models.Prix;
+import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
-import bi.konstrictor.urudandaza.models.Stock;
-import bi.konstrictor.urudandaza.models.Vente;
 
 public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     private static final String DB_NAME = "ringtone.mp3";
     private static final int DB_VERSION = 1;
     Context context;
     private Dao<Produit, Integer> dao_produit;
-    private Dao<Prix, Integer> dao_prix;
-    private Dao<Offre, Integer> dao_offre;
-    private Dao<Client, Integer> dao_client;
-    private Dao<Stock, Integer> dao_stock;
-    private Dao<Vente, Integer> dao_vente;
+    private Dao<Personne, Integer> dao_client;
+    private Dao<ActionStock, Integer> dao_stock;
 
     public InkoranyaMakuru(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -36,31 +29,30 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public Dao<Produit, Integer> getDaoProduit() throws SQLException {
         return getDao(Produit.class);
     }
-    public Dao<Prix, Integer> getDaoPrix() throws SQLException {
-        return getDao(Prix.class);
+    public Dao<Personne, Integer> getDaoPersonne() throws SQLException {
+        return getDao(Personne.class);
     }
-    public Dao<Offre, Integer> getDaoOffre() throws SQLException {
-        return getDao(Offre.class);
-    }
-    public Dao<Client, Integer> getDaoClient() throws SQLException {
-        return getDao(Client.class);
-    }
-    public Dao<Stock, Integer> getDaoStock() throws SQLException {
-        return getDao(Stock.class);
-    }
-    public Dao<Vente, Integer> getDaoVente() throws SQLException {
-        return getDao(Vente.class);
+    public Dao<ActionStock, Integer> getDaoActionStock() throws SQLException {
+        return getDao(ActionStock.class);
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, Produit.class);
-            TableUtils.createTableIfNotExists(connectionSource, Prix.class);
-            TableUtils.createTableIfNotExists(connectionSource, Offre.class);
-            TableUtils.createTableIfNotExists(connectionSource, Client.class);
-            TableUtils.createTableIfNotExists(connectionSource, Stock.class);
-            TableUtils.createTableIfNotExists(connectionSource, Vente.class);
+            TableUtils.createTableIfNotExists(connectionSource, Personne.class);
+            TableUtils.createTableIfNotExists(connectionSource, ActionStock.class);
+
+            database.execSQL("create trigger insertion_stock " +
+                    "after insert on HistoriqueStock for each row begin " +
+                    "update Produit set quantite = quantite+NEW.quantite " +
+                    "where id = NEW.produit; end;");
+
+            database.execSQL("create trigger modification_stock " +
+                    "after update on HistoriqueStock for each row begin " +
+                    "update Produit set quantite = quantite-OLD.quantite+NEW.quantite " +
+                    "where id = NEW.produit; end;");
+
         } catch (Exception e) {
             Log.e("INKORANYAMAKURU", e.getMessage());
         }

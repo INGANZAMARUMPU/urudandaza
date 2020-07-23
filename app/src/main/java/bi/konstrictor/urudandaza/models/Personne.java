@@ -3,12 +3,14 @@ package bi.konstrictor.urudandaza.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Date;
+
 @DatabaseTable
-public class Client {
+public class Personne {
     @DatabaseField(generatedId = true)
-    Integer id;
+    public Integer id;
     @DatabaseField
-    String nom;
+    public String nom;
     @DatabaseField
-    String tel;
+    public String phone;
 }

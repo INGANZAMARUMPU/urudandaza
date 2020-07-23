@@ -46,9 +46,10 @@
                     app:flexWrap="wrap"
                     app:justifyContent="center">
 
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
-                        android:layout_height="170dp"
+                        android:layout_height="150dp"
                         android:layout_margin="10dp"
                         android:onClick="startStock"
                         app:cardElevation="1dp">
@@ -70,7 +71,7 @@
                                 android:layout_height="70dp"
                                 android:background="@drawable/cercle_vert"
                                 android:padding="15dp"
-                                android:src="@drawable/ic_cart" />
+                                android:src="@drawable/ic_money" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -82,14 +83,14 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Kurangura"
+                                    android:text="Ibidandazwa"
                                     android:textAlignment="center"
                                     android:textSize="8pt" />
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="ibihari no kuvyongereza"
+                                    android:text="ibihari no kurangura"
                                     android:textAlignment="center"
                                     android:textSize="6pt" />
                             </LinearLayout>
@@ -98,7 +99,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
-                        android:layout_height="170dp"
+                        android:layout_height="150dp"
                         android:layout_margin="10dp"
                         android:onClick="startVente"
                         app:cardElevation="1dp">
@@ -148,7 +149,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
-                        android:layout_height="170dp"
+                        android:layout_height="150dp"
                         android:layout_margin="10dp"
                         android:onClick="startClient"
                         app:cardElevation="1dp">
@@ -198,57 +199,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
-                        android:layout_height="170dp"
-                        android:layout_margin="10dp"
-                        android:onClick="startIbidandazwa"
-                        app:cardElevation="1dp">
-
-                        <FrameLayout
-                            android:layout_width="2dp"
-                            android:layout_height="match_parent"
-                            android:background="#00bfa5" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="10dp"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:background="@drawable/cercle_vert"
-                                android:padding="15dp"
-                                android:src="@drawable/ic_money" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center_vertical"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ibidandazwa"
-                                    android:textAlignment="center"
-                                    android:textSize="8pt" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="ivyo ngurisha n'ibiciro vyavyo"
-                                    android:textAlignment="center"
-                                    android:textSize="6pt" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="130dp"
-                        android:layout_height="170dp"
+                        android:layout_height="150dp"
                         android:layout_margin="10dp"
                         app:cardElevation="1dp"
                         android:onClick="startHistory">
@@ -298,7 +249,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
-                        android:layout_height="170dp"
+                        android:layout_height="150dp"
                         android:layout_margin="10dp"
                         app:cardElevation="1dp">
 
@@ -347,7 +298,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
-                        android:layout_height="170dp"
+                        android:layout_height="150dp"
                         android:layout_margin="10dp"
                         app:cardElevation="1dp">
 

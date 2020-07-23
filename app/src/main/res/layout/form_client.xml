@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ProgressBar
-        android:id="@+id/progress_product"
+        android:id="@+id/progress_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_activity_ibidandazwa"
+            android:text="Umukiriya"
             android:textSize="12pt"
             android:textColor="#000"
             android:textAlignment="center"/>
@@ -30,10 +30,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/field_product_name"
+                android:id="@+id/field_client_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Izina ry'ikidandazwa*"
+                android:hint="Izina ry'umukiriya"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true"/>
@@ -42,67 +42,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/field_product_unite_in"
+                android:id="@+id/field_client_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="ingero yo kurangura*"
-                android:inputType="text"
+                android:hint="numero za telephone"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/field_product_unite_out"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="ingero yo kudandaza"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/field_product_unit_rapport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="itaniro hagati y'izo ingero"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
+        <EditText
+            android:id="@+id/field_client_autres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <EditText
-                    android:id="@+id/field_product_quantite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="ibihari"
-                    android:inputType="numberSigned"
-                    android:maxLines="1"
-                    android:singleLine="true"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <TextView
-                android:id="@+id/lbl_unite_mesure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="__"
-                android:textSize="10pt"/>
-        </LinearLayout>
+            android:maxLines="3"
+            android:hint="ibindi bimwerekeye"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/btn_product_delete"
+                android:id="@+id/btn_client_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="hanagura"
@@ -116,14 +74,14 @@
                 android:orientation="horizontal"
                 android:gravity="right">
                 <Button
-                    android:id="@+id/btn_product_cancel"
+                    android:id="@+id/btn_client_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="reka"
                     android:textColor="#777"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
                 <Button
-                    android:id="@+id/btn_product_submit"
+                    android:id="@+id/btn_client_submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sawa"

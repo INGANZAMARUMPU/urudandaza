@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import bi.konstrictor.urudandaza.dialogs.ClientForm;
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
 
 public class ClientActivity extends AppCompatActivity {
@@ -21,14 +22,10 @@ public class ClientActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(ClientActivity.this, R.anim.button_fadein));
-            }
-        });
     }
-
+    public void startAddClient(View view){
+        view.startAnimation(AnimationUtils.loadAnimation(ClientActivity.this, R.anim.button_fadein));
+        ClientForm client_form = new ClientForm(ClientActivity.this);
+        client_form.show();
+    }
 }

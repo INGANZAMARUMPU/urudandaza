@@ -13,14 +13,9 @@ public class MainDashBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_dashboard);
     }
-    public void startIbidandazwa(View view){
-        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, ProductActivity.class);
-        startActivity(open_ibidandazwa);
-    }
     public void startStock(View view){
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, StockActivity.class);
+        Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, ProductActivity.class);
         startActivity(open_ibidandazwa);
     }
     public void startVente(View view){

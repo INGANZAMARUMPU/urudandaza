@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/lbl_card_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ikidandazwa"
+                    android:textSize="10pt"/>
+                <TextView
+                    android:id="@+id/lbl_card_quantite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="10pt"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_kurangura"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/ic_add_p"
+                android:layout_gravity="center"
+                style="@style/Widget.AppCompat.Button.Borderless"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
