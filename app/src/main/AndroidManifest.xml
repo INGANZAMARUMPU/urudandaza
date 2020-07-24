@@ -29,7 +29,7 @@
             android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ProductActivity"
+            android:name=".StockActivity"
             android:label="@string/title_activity_ibidandazwa"
             android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />

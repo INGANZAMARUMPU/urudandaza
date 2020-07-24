@@ -36,6 +36,7 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.lbl_card_product.setText(stocks.get(position).produit.nom);
             holder.lbl_card_quantite.setText(stocks.get(position).quantite.toString());
+            holder.lbl_card_unite.setText(stocks.get(position).produit.unite_entrant);
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,7 +65,7 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView lbl_card_product, lbl_card_quantite;
+            TextView lbl_card_product, lbl_card_quantite, lbl_card_unite;
             Button btn_kurangura;
             public View view;
 
@@ -73,6 +74,7 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
                 this.view = itemView;
                 lbl_card_product = itemView.findViewById(R.id.lbl_card_product);
                 lbl_card_quantite = itemView.findViewById(R.id.lbl_card_quantite);
+                lbl_card_unite = itemView.findViewById(R.id.lbl_card_unite);
                 btn_kurangura = itemView.findViewById(R.id.btn_kurangura);
             }
         }

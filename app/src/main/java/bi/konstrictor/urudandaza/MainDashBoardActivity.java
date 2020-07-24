@@ -15,7 +15,7 @@ public class MainDashBoardActivity extends AppCompatActivity {
     }
     public void startStock(View view){
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, ProductActivity.class);
+        Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, StockActivity.class);
         startActivity(open_ibidandazwa);
     }
     public void startVente(View view){
