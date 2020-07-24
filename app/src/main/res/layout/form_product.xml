@@ -93,9 +93,10 @@
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 android:id="@+id/lbl_unite_mesure"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="__"
+                android:text="--"
+                android:textAlignment="center"
                 android:textSize="10pt"/>
         </LinearLayout>
         <LinearLayout

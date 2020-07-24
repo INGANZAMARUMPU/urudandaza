@@ -46,7 +46,6 @@
                     app:flexWrap="wrap"
                     app:justifyContent="center">
 
-
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
                         android:layout_height="150dp"

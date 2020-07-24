@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -37,6 +40,8 @@ public class ProductActivity extends AppCompatActivity {
 
         recycler_ibidandazwa = findViewById(R.id.recycler_ibidandazwa);
         recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 1));
+//        recycler_ibidandazwa.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
+
 
         stocks = new ArrayList<>();
         adaptateur = new AdaptateurStock(ProductActivity.this, stocks);

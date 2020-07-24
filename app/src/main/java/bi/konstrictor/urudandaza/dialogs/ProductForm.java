@@ -2,6 +2,8 @@ package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,12 +59,15 @@ public class ProductForm extends Dialog {
             }
         });
 
-        field_product_unite_in.setOnKeyListener(new View.OnKeyListener() {
+        field_product_unite_in.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 lbl_unite_mesure.setText(field_product_unite_in.getText());
-                return false;
             }
+            @Override
+            public void afterTextChanged(Editable s) { }
         });
     }
     public void setEdition(Boolean edition) {

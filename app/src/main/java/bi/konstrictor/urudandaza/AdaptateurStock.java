@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
 
@@ -41,6 +42,14 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
                     v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
                     ProductForm product_form = new ProductForm(context);
                     product_form.show();
+                }
+            });
+            holder.btn_kurangura.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bounce));
+                    KuranguraForm kurangura_form = new KuranguraForm(context);
+                    kurangura_form.show();
                 }
             });
         }
