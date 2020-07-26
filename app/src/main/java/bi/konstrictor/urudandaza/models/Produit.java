@@ -25,7 +25,6 @@ public class Produit {
     public Produit() {
     }
 
-
     public Produit(String nom, String unite_entrant, String unite_sortant, Double rapport, Double quantite) {
         this.nom = nom;
         this.unite_entrant = unite_entrant;

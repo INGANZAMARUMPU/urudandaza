@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
     </com.google.android.material.appbar.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,20 +34,19 @@
             android:orientation="horizontal"
             android:padding="5dp">
             <LinearLayout
-                android:id="@+id/layout_vente"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="10pt"
                     android:gravity="center"
-                    android:text="Wahisemwo : " />
+                    android:text="bigurwa : " />
                 <TextView
-                    android:id="@+id/lbl_vente_quantite"
+                    android:id="@+id/lbl_vente_total"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="10pt"
@@ -55,13 +54,12 @@
                     android:text="0"
                     android:gravity="center|left|start"/>
             </LinearLayout>
-            <ToggleButton
-                android:id="@+id/btn_toggle_vente"
+            <Button
+                android:id="@+id/btn_vendre"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:textOff="Vendre"
-                android:textOn="Annuler"
+                android:text="Vendre"
                 android:background="@drawable/material_button"/>
         </LinearLayout>
     </LinearLayout>

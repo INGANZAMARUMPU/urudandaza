@@ -11,7 +11,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,59 +33,29 @@
             android:textSize="8pt"
             android:textColor="#000"
             android:textAlignment="center"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="igitigiri* :"
-            android:textColor="#000"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_moins_10"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="-10"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-            <Button
-                android:id="@+id/btn_moins_1"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="-1"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-            <EditText
-                android:id="@+id/champ_kurangura_quantite"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:text="0"
-                android:inputType="numberSigned|numberDecimal"/>
-            <Button
-                android:id="@+id/btn_plus_1"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="+1"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-            <Button
-                android:id="@+id/btn_plus_10"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="+10"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-        </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <AutoCompleteTextView
                 android:id="@+id/field_kurangura_prix"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="igiciro"
+                android:hint="igiciro*"
                 android:inputType="numberSigned|numberDecimal"
-                android:maxLines="1"
-                android:width="250dip" />
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <AutoCompleteTextView
+                android:id="@+id/field_kurangura_qtt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="igitigiri*"
+                android:inputType="numberSigned|numberDecimal"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

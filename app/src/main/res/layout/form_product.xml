@@ -9,9 +9,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:visibility="gone"/>
-
     <LinearLayout
-        android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,80 +23,101 @@
             android:textSize="12pt"
             android:textColor="#000"
             android:textAlignment="center"/>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/field_product_name"
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Izina ry'ikidandazwa*"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/field_product_unite_in"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="ingero yo kurangura*"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/field_product_unite_out"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="ingero yo kudandaza"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/field_product_unit_rapport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="itaniro hagati y'izo ingero"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <EditText
-                    android:id="@+id/field_product_quantite"
+                android:orientation="vertical"
+                android:padding="5dp">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/field_product_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Izina ry'ikidandazwa*"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/field_product_unite_in"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="ingero yo kurangura*"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/field_product_unite_out"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="ingero yo kudandaza"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/field_product_unit_rapport"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="itaniro hagati y'izo ingero"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/field_product_prix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="igiciro co kugurisha*"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="ibihari"
-                    android:inputType="numberSigned"
-                    android:maxLines="1"
-                    android:singleLine="true"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <TextView
-                android:id="@+id/lbl_unite_mesure"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="--"
-                android:textAlignment="center"
-                android:textSize="10pt"/>
-        </LinearLayout>
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/field_product_quantite"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="ibihari"
+                            android:inputType="numberSigned"
+                            android:maxLines="1"
+                            android:singleLine="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:id="@+id/lbl_unite_mesure"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textAlignment="center"
+                        android:textSize="10pt"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

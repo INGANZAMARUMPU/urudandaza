@@ -32,10 +32,18 @@ public class ActionStock {
         this.date = new Date();
     }
 
+    public ActionStock(Produit produit, Double quantite, Double prix) {
+        this.produit = produit;
+        this.quantite = quantite;
+        this.prix = prix;
+        this.payee = 0.;
+        this.date = new Date();
+    }
+
     public ActionStock(Produit produit, Double quantite) {
         this.produit = produit;
         this.quantite = quantite;
-        this.prix = 0.;
+        this.prix = produit.prix;
         this.payee = 0.;
         this.date = new Date();
     }

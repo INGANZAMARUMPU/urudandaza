@@ -34,7 +34,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class KuranguraForm extends Dialog {
 
     Context context;
-    TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total;
+    TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,field_kurangura_qtt;
+    String kurangura_prix, kurangura_qtt;
     private AutoCompleteTextView field_kurangura_personne;
     private EditText champ_kurangura_quantite;
     private ProgressBar progress_kurangura;
@@ -48,22 +49,15 @@ public class KuranguraForm extends Dialog {
         this.context = context;
 
         lbl_kurangura_product = findViewById(R.id.lbl_kurangura_product);
-        champ_kurangura_quantite = findViewById(R.id.champ_kurangura_quantite);
+        field_kurangura_qtt = findViewById(R.id.field_kurangura_qtt);
         field_kurangura_prix = findViewById(R.id.field_kurangura_prix);
         field_kurangura_total = findViewById(R.id.field_kurangura_total);
         field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
         progress_kurangura = findViewById(R.id.progress_kurangura);
-        Button btn_moins_10 = findViewById(R.id.btn_moins_10);
-        Button btn_moins_1 = findViewById(R.id.btn_moins_1);
-        Button btn_plus_10 = findViewById(R.id.btn_plus_10);
-        Button btn_plus_1 = findViewById(R.id.btn_plus_1);
+
         Button btn_kurangura_submit = findViewById(R.id.btn_kurangura_submit);
         Button btn_kurangura_cancel = findViewById(R.id.btn_kurangura_cancel);
 
-        btn_moins_1.setOnClickListener(calculerQuantite(btn_moins_1.getText().toString()));
-        btn_moins_10.setOnClickListener(calculerQuantite(btn_moins_10.getText().toString()));
-        btn_plus_1.setOnClickListener(calculerQuantite(btn_plus_1.getText().toString()));
-        btn_plus_10.setOnClickListener(calculerQuantite(btn_plus_10.getText().toString()));
         btn_kurangura_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,9 +161,11 @@ public class KuranguraForm extends Dialog {
     }
     public void build(){ show(); }
     public void submit(){
-        progress_kurangura.setVisibility(View.VISIBLE);
-        something_changed = true;
-        progress_kurangura.setVisibility(View.GONE);
+        if(validateFields()) {
+            progress_kurangura.setVisibility(View.VISIBLE);
+            something_changed = true;
+            progress_kurangura.setVisibility(View.GONE);
+        }
     }
     private void loadContact() {
         Cursor cursor = getContacts();
@@ -194,5 +190,18 @@ public class KuranguraForm extends Dialog {
                 projection, selection, selectionArgs, "UPPER("
                         + ContactsContract.Contacts.DISPLAY_NAME + ") ASC");
         return contacts;
+    }
+    private Boolean validateFields() {
+        kurangura_qtt = field_kurangura_qtt.getText().toString().trim();
+        kurangura_prix = field_kurangura_prix.getText().toString().trim();
+        if(kurangura_prix.isEmpty()){
+            field_kurangura_prix.setError("uzuza ngaha");
+            return false;
+        }
+        if(kurangura_qtt.isEmpty()){
+            field_kurangura_qtt.setError("uzuza ngaha");
+            return false;
+        }
+        return true;
     }
 }
