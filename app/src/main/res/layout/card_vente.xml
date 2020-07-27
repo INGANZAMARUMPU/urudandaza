@@ -2,78 +2,118 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/lbl_card_vente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ikidandazwa"
+                        android:textSize="10pt"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" : "
+                        android:textSize="7pt"/>
+                    <TextView
+                        android:id="@+id/lbl_card_vente_prix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#339"
+                        android:text="1000Fbu"
+                        android:textSize="7pt"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#339"
+                        android:text="hasigaye : "
+                        android:textSize="7pt"
+                        android:gravity="right"/>
+                    <TextView
+                        android:id="@+id/lbl_card_vente_qtt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#339"
+                        android:text="00"
+                        android:textSize="7pt"/>
+                    <TextView
+                        android:id="@+id/lbl_card_vente_mesure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#339"
+                        android:text="pieces"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="7pt"/>
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="5dp">
-                <TextView
-                    android:id="@+id/lbl_card_vente"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="ikidandazwa"
-                    android:textSize="10pt"/>
-                <TextView
-                    android:id="@+id/lbl_card_vente_prix"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="1000Fbu"
-                    android:textSize="10pt"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/layout_card_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:visibility="gone">
-                <NumberPicker
-                    android:id="@+id/nbr_vente_qtt"
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
-                    android:focusableInTouchMode="true"
-                    android:theme="@style/NumberPickerText"
-                    android:visibility="gone"/>
-                <EditText
-                    android:id="@+id/field_vente_qtt"
-                    android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="10pt"
-                    android:layout_gravity="center"
-                    android:inputType="numberSigned|numberDecimal" />
-                <TextView
-                    android:id="@+id/lbl_card_unite_out"
-                    android:paddingLeft="5dp"
+                android:layout_alignParentRight="true">
+                <LinearLayout
+                    android:id="@+id/layout_card_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="10pt"
-                    android:text="kg"/>
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+                    <NumberPicker
+                        android:id="@+id/nbr_vente_qtt"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:focusableInTouchMode="true"
+                        android:theme="@style/NumberPickerText"
+                        android:visibility="gone"/>
+                    <EditText
+                        android:id="@+id/field_vente_qtt"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="10pt"
+                        android:layout_gravity="center"
+                        android:inputType="numberSigned|numberDecimal" />
+                    <TextView
+                        android:id="@+id/lbl_card_unite_out"
+                        android:paddingLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="10pt"
+                        android:text="kg"/>
+                    <Button
+                        android:id="@+id/btn_card_close"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/ic_close_p"
+                        android:layout_gravity="center"
+                        android:visibility="visible"/>
+                </LinearLayout>
                 <Button
-                    android:id="@+id/btn_card_close"
+                    android:id="@+id/btn_card_edit"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:background="@drawable/ic_close_p"
+                    android:background="@drawable/ic_edit"
                     android:layout_gravity="center"
-                    android:visibility="visible"/>
+                    android:visibility="visible"
+                    android:layout_alignParentRight="true"/>
             </LinearLayout>
-            <Button
-                android:id="@+id/btn_card_edit"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/ic_edit"
-                android:layout_gravity="center"
-                android:visibility="visible"/>
-        </LinearLayout>
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

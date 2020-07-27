@@ -2,6 +2,7 @@ package bi.konstrictor.urudandaza.models;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ActionStock {
@@ -49,5 +50,12 @@ public class ActionStock {
     }
 
     public ActionStock() {
+    }
+    public String getDateFormated(){
+        SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy ");
+        return sdate.format(this.date);
+    }
+    public Double total(){
+        return this.prix*this.quantite;
     }
 }

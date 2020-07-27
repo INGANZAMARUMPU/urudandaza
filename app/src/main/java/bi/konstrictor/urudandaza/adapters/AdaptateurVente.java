@@ -1,9 +1,9 @@
-package bi.konstrictor.urudandaza;
+package bi.konstrictor.urudandaza.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.content.DialogInterface;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +12,22 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
-import bi.konstrictor.urudandaza.dialogs.ProductForm;
+import bi.konstrictor.urudandaza.R;
+import bi.konstrictor.urudandaza.VenteActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
 
-class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
+public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
 
         private VenteActivity context;
         private ArrayList<Produit> stocks;
@@ -47,6 +47,8 @@ class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.lbl_card_vente.setText(stocks.get(position).nom);
             holder.lbl_card_unite_out.setText(stocks.get(position).unite_sortant);
+            holder.lbl_card_vente_mesure.setText(stocks.get(position).unite_sortant);
+            holder.lbl_card_vente_qtt.setText(stocks.get(position).quantite.toString());
             holder.lbl_card_vente_prix.setText(stocks.get(position).prix.toString());
             holder.btn_card_edit.setVisibility(View.VISIBLE);
             holder.layout_card_edit.setVisibility(View.GONE);
@@ -56,6 +58,32 @@ class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
                     removeFromCart(holder, stocks.get(position));
                     holder.nbr_vente_qtt.setValue(0);
                     holder.field_vente_qtt.setText("");
+                }
+            });
+            holder.lbl_card_vente_prix.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Igiciro gishasha");
+                    final EditText input = new EditText(context);
+                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String str = input.getText().toString();
+                            Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
                 }
             });
             if(context.getINTEGER_MODE()){
@@ -131,7 +159,8 @@ class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView lbl_card_vente, lbl_card_vente_prix, lbl_card_unite_out;
+            TextView lbl_card_vente, lbl_card_vente_prix, lbl_card_unite_out, lbl_card_vente_mesure,
+                    lbl_card_vente_qtt;
             Button btn_card_edit, btn_card_close;
             LinearLayout layout_card_edit;
             EditText field_vente_qtt;
@@ -144,7 +173,9 @@ class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
                 this.view = itemView;
                 lbl_card_vente = itemView.findViewById(R.id.lbl_card_vente);
                 lbl_card_vente_prix = itemView.findViewById(R.id.lbl_card_vente_prix);
+                lbl_card_vente_mesure = itemView.findViewById(R.id.lbl_card_vente_mesure);
                 lbl_card_unite_out = itemView.findViewById(R.id.lbl_card_unite_out);
+                lbl_card_vente_qtt = itemView.findViewById(R.id.lbl_card_vente_qtt);
                 btn_card_edit = itemView.findViewById(R.id.btn_card_edit);
                 btn_card_close = itemView.findViewById(R.id.btn_card_close);
                 layout_card_edit = itemView.findViewById(R.id.layout_card_edit);
@@ -157,9 +188,6 @@ class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
                         btn_card_edit.setVisibility(View.GONE);
                         layout_card_edit.setVisibility(View.VISIBLE);
                         if(field_vente_qtt.getVisibility()==View.VISIBLE) {
-                            field_vente_qtt.requestFocus();
-                            field_vente_qtt.setFocusable(true);
-                            field_vente_qtt.setFocusableInTouchMode(true);
                             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                         }

@@ -16,8 +16,8 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import bi.konstrictor.urudandaza.adapters.AdaptateurStock;
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
-import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class StockActivity extends RefreshableActivity{

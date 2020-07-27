@@ -45,10 +45,6 @@ public class KuranguraForm extends Dialog {
     final int PRIX=10, TOTAL=20;
     private Produit produit;
 
-    public boolean isEdition() {
-        return edition;
-    }
-
     private boolean edition;
 
     public KuranguraForm(final RefreshableActivity context, Produit produit) {
@@ -227,5 +223,16 @@ public class KuranguraForm extends Dialog {
             return false;
         }
         return true;
+    }
+
+    public void setEdition(boolean edition, ActionStock as) {
+        this.edition = edition;
+        lbl_kurangura_product.setText(as.produit.nom);
+        field_kurangura_qtt.setText(as.quantite.toString());
+        field_kurangura_prix.setText(as.prix.toString());
+        field_kurangura_total.setText(as.total().toString());
+        try {
+            field_kurangura_personne.setText(as.personne.nom);
+        } catch (NullPointerException e){ }
     }
 }

@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="rondera"/>
+    <item
         android:id="@+id/action_number_format"
         android:icon="@drawable/ic_int"
         app:showAsAction="always|collapseActionView"
@@ -11,10 +17,4 @@
         android:icon="@drawable/ic_refresh"
         app:showAsAction="ifRoom|collapseActionView"
         android:title="kureka"/>
-    <item
-        android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:title="rondera"/>
 </menu>
