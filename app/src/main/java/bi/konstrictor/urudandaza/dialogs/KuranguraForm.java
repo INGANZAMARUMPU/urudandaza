@@ -27,26 +27,35 @@ import java.util.List;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
+import bi.konstrictor.urudandaza.RefreshableActivity;
+import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Personne;
+import bi.konstrictor.urudandaza.models.Produit;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class KuranguraForm extends Dialog {
-
-    Context context;
-    TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,field_kurangura_qtt;
-    String kurangura_prix, kurangura_qtt;
+    private RefreshableActivity context;
+    private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,field_kurangura_qtt;
+    private String kurangura_prix, kurangura_qtt;
     private AutoCompleteTextView field_kurangura_personne;
-    private EditText champ_kurangura_quantite;
     private ProgressBar progress_kurangura;
     public Boolean something_changed = false;
     private String[] arrcontact;
     final int PRIX=10, TOTAL=20;
+    private Produit produit;
 
-    public KuranguraForm(final Context context) {
+    public boolean isEdition() {
+        return edition;
+    }
+
+    private boolean edition;
+
+    public KuranguraForm(final RefreshableActivity context, Produit produit) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
         setContentView(R.layout.form_kurangura);
         this.context = context;
+        this.produit = produit;
 
         lbl_kurangura_product = findViewById(R.id.lbl_kurangura_product);
         field_kurangura_qtt = findViewById(R.id.field_kurangura_qtt);
@@ -58,10 +67,17 @@ public class KuranguraForm extends Dialog {
         Button btn_kurangura_submit = findViewById(R.id.btn_kurangura_submit);
         Button btn_kurangura_cancel = findViewById(R.id.btn_kurangura_cancel);
 
+        lbl_kurangura_product.setText(produit.nom);
         btn_kurangura_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
+            }
+        });
+        btn_kurangura_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
             }
         });
 
@@ -104,7 +120,7 @@ public class KuranguraForm extends Dialog {
     private Double getChampKuranguraQuantite(){
         Double quantite = 0.;
         try {
-            quantite = Double.parseDouble(champ_kurangura_quantite.getText().toString());
+            quantite = Double.parseDouble(field_kurangura_qtt.getText().toString());
         }catch (Exception e){
         }
         return quantite;
@@ -130,23 +146,14 @@ public class KuranguraForm extends Dialog {
                         }else{
                             total = 0.;
                         }
+                        total = value*quantity;
                         field_kurangura_prix.setText(total.toString());
                     }
                 }
             }
         };
     }
-    public View.OnClickListener calculerQuantite(final String nombre) {
-        final Double value = Double.parseDouble(nombre);
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Double quantite = getChampKuranguraQuantite()+value;
-                if (quantite<0) quantite = 0.0;
-                champ_kurangura_quantite.setText(quantite.toString());
-            }
-        };
-    }
+
     private void loadClient() {
         try {
             Dao dao_clients = new InkoranyaMakuru(context).getDaoPersonne();
@@ -163,7 +170,24 @@ public class KuranguraForm extends Dialog {
     public void submit(){
         if(validateFields()) {
             progress_kurangura.setVisibility(View.VISIBLE);
-            something_changed = true;
+            if (edition) {
+
+            } else {
+                double qtt = Double.parseDouble(kurangura_qtt);
+                double prix = Double.parseDouble(kurangura_prix);
+                ActionStock action = new ActionStock(produit, qtt, prix);
+                try {
+                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                    dao_action.create(action);
+                    Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+                    dismiss();
+                } catch (SQLException e) {
+                    Log.i("ERREUR", e.getMessage());
+                    e.printStackTrace();
+                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+                }
+            }
+            context.refresh();
             progress_kurangura.setVisibility(View.GONE);
         }
     }

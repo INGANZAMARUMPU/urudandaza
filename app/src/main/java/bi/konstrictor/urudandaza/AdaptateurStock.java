@@ -1,6 +1,5 @@
 package bi.konstrictor.urudandaza;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +13,16 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Produit;
 
 class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
 
-        private Context context;
-        private ArrayList<ActionStock> stocks;
+        private RefreshableActivity context;
+        private ArrayList<Produit> produits;
 
-        public AdaptateurStock(Context context, ArrayList<ActionStock> stocks) {
+        public AdaptateurStock(StockActivity context, ArrayList<Produit> produits) {
             this.context = context;
-            this.stocks = stocks;
+            this.produits = produits;
         }
 
         @Override
@@ -34,9 +33,9 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.lbl_card_product.setText(stocks.get(position).produit.nom);
-            holder.lbl_card_quantite.setText(stocks.get(position).quantite.toString());
-            holder.lbl_card_unite.setText(stocks.get(position).produit.unite_entrant);
+            holder.lbl_card_product.setText(produits.get(position).nom);
+            holder.lbl_card_quantite.setText(produits.get(position).quantite.toString());
+            holder.lbl_card_unite.setText(produits.get(position).unite_entrant);
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -49,7 +48,7 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
                 @Override
                 public void onClick(View v) {
 //                    v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bounce));
-                    KuranguraForm kurangura_form = new KuranguraForm(context);
+                    KuranguraForm kurangura_form = new KuranguraForm(context, produits.get(position));
                     kurangura_form.show();
                 }
             });
@@ -57,11 +56,11 @@ class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
 
         @Override
         public int getItemCount() {
-            return stocks.size();
+            return produits.size();
         }
 
-        public void setData(ArrayList<ActionStock> produit) {
-            this.stocks = produit;
+        public void setData(ArrayList<Produit> produit) {
+            this.produits = produit;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

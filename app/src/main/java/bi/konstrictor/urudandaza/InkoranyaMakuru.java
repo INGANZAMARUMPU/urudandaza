@@ -45,13 +45,13 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
 
             database.execSQL("create trigger insertion_stock " +
                     "after insert on ActionStock for each row begin " +
-                    "update Produit set quantite = quantite+NEW.quantite," +
-                    " prix = NEW.prix where id = NEW.produit_id; end;");
+                    "update Produit set quantite = quantite+NEW.quantite " +
+                    "where id = NEW.produit_id; end;");
 
             database.execSQL("create trigger modification_stock " +
                     "after update on ActionStock for each row begin " +
-                    "update Produit set quantite = quantite-OLD.quantite+NEW.quantite, " +
-                    "prix = NEW.prix where id = NEW.produit_id; end;");
+                    "update Produit set quantite = quantite-OLD.quantite+NEW.quantite " +
+                    "where id = NEW.produit_id; end;");
 
         } catch (Exception e) {
             Log.e("INKORANYAMAKURU", e.getMessage());

@@ -84,10 +84,10 @@ public class ProductForm extends Dialog {
             if (edition) {
 
             } else {
-                Produit produit = new Produit(product_name, product_unite_in, product_unite_out,
-                        Double.parseDouble(product_unit_rapport), 0.0);
-                ActionStock action = new ActionStock(produit, Double.parseDouble(product_quantite),
-                        Double.parseDouble(product_prix));
+                double rapport = Double.parseDouble(product_unit_rapport);
+                double prix = Double.parseDouble(product_prix);
+                Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, prix);
+                ActionStock action = new ActionStock(produit, Double.parseDouble(product_quantite));
                 try {
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(action);

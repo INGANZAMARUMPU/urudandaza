@@ -48,6 +48,8 @@ class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
             holder.lbl_card_vente.setText(stocks.get(position).nom);
             holder.lbl_card_unite_out.setText(stocks.get(position).unite_sortant);
             holder.lbl_card_vente_prix.setText(stocks.get(position).prix.toString());
+            holder.btn_card_edit.setVisibility(View.VISIBLE);
+            holder.layout_card_edit.setVisibility(View.GONE);
             holder.btn_card_close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

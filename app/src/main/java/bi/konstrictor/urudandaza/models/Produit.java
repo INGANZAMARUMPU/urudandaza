@@ -25,13 +25,14 @@ public class Produit {
     public Produit() {
     }
 
-    public Produit(String nom, String unite_entrant, String unite_sortant, Double rapport, Double quantite) {
+    public Produit(String nom, String unite_entrant, String unite_sortant, Double rapport, Double prix) {
         this.nom = nom;
         this.unite_entrant = unite_entrant;
         this.unite_sortant = unite_sortant;
         this.rapport = rapport;
         this.visible = true;
-        this.quantite = quantite;
+        this.quantite = 0.0;
+        this.prix = prix;
     }
 
     @Override

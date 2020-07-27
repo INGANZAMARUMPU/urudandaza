@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,11 +18,12 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Produit;
 
-public class StockActivity extends AppCompatActivity {
+public class StockActivity extends RefreshableActivity{
 
     RecyclerView recycler_ibidandazwa;
-    ArrayList<ActionStock> stocks;
+    ArrayList<Produit> produits;
     private AdaptateurStock adaptateur;
 
     @Override
@@ -39,8 +39,8 @@ public class StockActivity extends AppCompatActivity {
 //        recycler_ibidandazwa.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
 
-        stocks = new ArrayList<>();
-        adaptateur = new AdaptateurStock(StockActivity.this, stocks);
+        produits = new ArrayList<>();
+        adaptateur = new AdaptateurStock(StockActivity.this, produits);
         recycler_ibidandazwa.addItemDecoration(new DividerItemDecoration(recycler_ibidandazwa.getContext(), DividerItemDecoration.VERTICAL));
         recycler_ibidandazwa.setAdapter(adaptateur);
         chargerStock();
@@ -48,10 +48,10 @@ public class StockActivity extends AppCompatActivity {
 
     private void chargerStock() {
         try {
-            Dao dao_stocks = new InkoranyaMakuru(this).getDaoActionStock();
-            stocks = (ArrayList<ActionStock>) dao_stocks.queryForAll();
-//            stocks.addAll(stocks);
-            adaptateur.setData(stocks);
+            Dao dao_produits = new InkoranyaMakuru(this).getDaoProduit();
+            produits = (ArrayList<Produit>) dao_produits.queryForAll();
+//            produits.addAll(produits);
+            adaptateur.setData(produits);
             adaptateur.notifyDataSetChanged();
         } catch (SQLException e) {
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
@@ -72,4 +72,8 @@ public class StockActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void refresh() {
+        chargerStock();
+    }
 }

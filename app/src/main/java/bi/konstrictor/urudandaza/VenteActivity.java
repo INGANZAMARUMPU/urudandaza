@@ -113,6 +113,7 @@ public class VenteActivity extends AppCompatActivity {
             }
         }else if(id == R.id.action_annuler_vente){
             CART = new ArrayList<>();
+            setMONTANT(0.);
             chargerStock();
             adaptateur.notifyDataSetChanged();
         }
