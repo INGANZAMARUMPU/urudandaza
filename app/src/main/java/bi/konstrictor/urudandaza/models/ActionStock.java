@@ -58,4 +58,9 @@ public class ActionStock {
     public Double total(){
         return this.prix*this.quantite;
     }
+
+    @Override
+    public String toString() {
+        return quantite + " " + produit.unite_sortant + " " + produit.nom + " : " + quantite*prix;
+    }
 }

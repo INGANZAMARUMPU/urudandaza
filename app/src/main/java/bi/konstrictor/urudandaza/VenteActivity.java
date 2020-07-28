@@ -1,12 +1,24 @@
 package bi.konstrictor.urudandaza;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +34,9 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
+
+import static android.util.TypedValue.COMPLEX_UNIT_PT;
+import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
 public class VenteActivity extends AppCompatActivity {
 
@@ -167,5 +182,35 @@ public class VenteActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+
+    public void vendre(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Kugurisha");
+
+        ScrollView sv = new ScrollView(this);
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        TextView label = new TextView(this);
+        String confirmation = "Mugomba mugurishe: \n";
+        Log.i("===== VENTE =====", "For Loop");
+        for(ActionStock as:CART){
+            confirmation += "\n\t- "+as.toString();
+        }
+        label.setText(confirmation);
+        label.setTextSize(COMPLEX_UNIT_PT, 7);
+        layout.addView(label);
+        sv.addView(layout);
+        builder.setView(sv);
+
+        builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(VenteActivity.this, "Vyaguzwe", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton("Reka", null);
+        builder.show();
     }
 }
