@@ -26,12 +26,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
+import bi.konstrictor.urudandaza.adapters.AdaptateurVente2;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
 
@@ -41,7 +48,7 @@ import static android.util.TypedValue.COMPLEX_UNIT_SP;
 public class VenteActivity extends AppCompatActivity {
 
     private RecyclerView recycler_ibidandazwa;
-    private AdaptateurVente adaptateur;
+    private AdaptateurVente2 adaptateur;
     private Button btn_vendre;
     private TextView lbl_vente_total;
     private Menu menu;
@@ -66,11 +73,13 @@ public class VenteActivity extends AppCompatActivity {
         btn_vendre = findViewById(R.id.btn_vendre);
         lbl_vente_total = findViewById(R.id.lbl_vente_total);
 
-        recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 1));
-//        recycler_ibidandazwa.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
+//        recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 2));
+        FlexboxLayoutManager layout = new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP);
+//        layout.setJustifyContent(JustifyContent.CENTER);
+        recycler_ibidandazwa.setLayoutManager(layout);
         produits = new ArrayList<>();
-        adaptateur = new AdaptateurVente(VenteActivity.this, produits);
-        recycler_ibidandazwa.addItemDecoration(new DividerItemDecoration(recycler_ibidandazwa.getContext(), DividerItemDecoration.VERTICAL));
+        adaptateur = new AdaptateurVente2(VenteActivity.this, produits);
+//        recycler_ibidandazwa.addItemDecoration(new DividerItemDecoration(recycler_ibidandazwa.getContext(), DividerItemDecoration.VERTICAL));
         recycler_ibidandazwa.setAdapter(adaptateur);
 
         CART = new ArrayList<>();

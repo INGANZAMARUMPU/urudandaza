@@ -227,7 +227,7 @@
                                 android:layout_height="70dp"
                                 android:background="@drawable/cercle_jaune"
                                 android:padding="15dp"
-                                android:src="@drawable/ic_list" />
+                                android:src="@drawable/ic_payment" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -279,7 +279,7 @@
                                 android:layout_height="70dp"
                                 android:background="@drawable/cercle_vert"
                                 android:padding="15dp"
-                                android:src="@drawable/ic_list" />
+                                android:src="@drawable/ic_out" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
