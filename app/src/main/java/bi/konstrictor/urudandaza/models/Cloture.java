@@ -15,4 +15,6 @@ public class Cloture {
     public Double sortie;
     @DatabaseField
     public Double reste;
+    @DatabaseField(defaultValue = "0")
+    public Boolean compiled;
 }

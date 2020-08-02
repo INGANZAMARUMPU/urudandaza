@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ActionStock {
+public class ProxyAction {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)
@@ -22,10 +22,8 @@ public class ActionStock {
     public String motif;
     @DatabaseField
     public Date date;
-    @DatabaseField(foreign=true, foreignColumnName="id", foreignAutoCreate=true)
-    public Personne Cloture;
 
-    public ActionStock(Produit produit, Double quantite, Double prix, Double payee, Personne personne, String motif) {
+    public ProxyAction(Produit produit, Double quantite, Double prix, Double payee, Personne personne, String motif) {
         this.produit = produit;
         this.quantite = quantite;
         this.prix = prix;
@@ -35,23 +33,21 @@ public class ActionStock {
         this.date = new Date();
     }
 
-    public ActionStock(Produit produit, Double quantite, Double prix) {
+    public ProxyAction(Produit produit, Double quantite, Double prix) {
         this.produit = produit;
         this.quantite = quantite;
         this.prix = prix;
         this.payee = 0.;
         this.date = new Date();
     }
-
-    public ActionStock(Produit produit, Double quantite) {
+    public ProxyAction(Produit produit, Double quantite) {
         this.produit = produit;
         this.quantite = quantite;
         this.prix = produit.prix;
         this.payee = 0.;
         this.date = new Date();
     }
-
-    public ActionStock() {
+    public ProxyAction() {
     }
     public String getDateFormated(){
         SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy ");

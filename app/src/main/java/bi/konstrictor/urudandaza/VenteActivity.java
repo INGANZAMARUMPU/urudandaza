@@ -1,5 +1,6 @@
 package bi.konstrictor.urudandaza;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -18,9 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.AlignContent;
+import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -31,12 +35,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
+import bi.konstrictor.urudandaza.dialogs.VenteForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
 
 import static android.util.TypedValue.COMPLEX_UNIT_PT;
 
-public class VenteActivity extends AppCompatActivity {
+public class VenteActivity extends RefreshableActivity{
 
     private RecyclerView recycler_ibidandazwa;
     private AdaptateurVente adaptateur;
@@ -64,9 +69,10 @@ public class VenteActivity extends AppCompatActivity {
         btn_vendre = findViewById(R.id.btn_vendre);
         lbl_vente_total = findViewById(R.id.lbl_vente_total);
 
-//        recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 2));
+//        recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 3));
         FlexboxLayoutManager layout = new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP);
         layout.setJustifyContent(JustifyContent.SPACE_AROUND);
+//        layout.setAlignItems(AlignItems.BASELINE);
         recycler_ibidandazwa.setLayoutManager(layout);
         produits = new ArrayList<>();
         adaptateur = new AdaptateurVente(VenteActivity.this, produits);
@@ -121,9 +127,7 @@ public class VenteActivity extends AppCompatActivity {
         if (id == R.id.action_number_format) {
             setINTEGER_MODE(!this.isINTEGER_MODE());
         }else if(id == R.id.action_annuler_vente){
-            CART = new ArrayList<>();
-            setMONTANT(0.);
-            chargerStock();
+            refresh();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -137,6 +141,8 @@ public class VenteActivity extends AppCompatActivity {
         if(INTEGER_MODE){
             action_number_format.setIcon(R.drawable.ic_float);
             action_number_format.setTitle("Ibigaburika");
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }else{
             action_number_format.setIcon(R.drawable.ic_int);
             action_number_format.setTitle("Ibitagaburika");
@@ -181,31 +187,13 @@ public class VenteActivity extends AppCompatActivity {
 
     public void vendre(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Kugurisha");
-
-        ScrollView sv = new ScrollView(this);
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        TextView label = new TextView(this);
-        String confirmation = "Mugomba mugurishe: \n";
-        Log.i("===== VENTE =====", "For Loop");
-        for(ActionStock as:CART){
-            confirmation += "\n\t- "+as.toString();
-        }
-        label.setText(confirmation);
-        label.setTextSize(COMPLEX_UNIT_PT, 7);
-        layout.addView(label);
-        sv.addView(layout);
-        builder.setView(sv);
-
-        builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(VenteActivity.this, "Vyaguzwe", Toast.LENGTH_LONG).show();
-            }
-        });
-        builder.setNegativeButton("Reka", null);
-        builder.show();
+        VenteForm kurangura_form = new VenteForm(this, CART);
+        kurangura_form.show();
+    }
+    @Override
+    public void refresh() {
+        CART = new ArrayList<>();
+        setMONTANT(0.);
+        chargerStock();
     }
 }

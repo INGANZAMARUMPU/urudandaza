@@ -52,6 +52,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         holder.btn_vente_qtt_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_zoomin));
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
                 if(qtt+1<=produit.quantite){
                     qtt++;
@@ -63,6 +64,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         holder.btn_vente_qtt_moins.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_zoomout));
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
                 if(qtt>0){
                     qtt--;
@@ -123,6 +125,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
             holder.field_vente_qtt.setFocusable(false);
         }else{
             holder.field_vente_qtt.setFocusable(true);
+            holder.field_vente_qtt.setFocusableInTouchMode(true);
         }
     }
     private void addTocart(Produit produit, Double quantite) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
+    android:layout_width="120sp"
+    android:layout_marginTop="10sp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
         <LinearLayout
             android:layout_width="match_parent"
@@ -10,11 +10,14 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/lbl_card_vente"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ikidandazwa"
+                android:textStyle="bold"
+                android:lines="2"
                 android:layout_gravity="center"
-                android:textSize="10pt"/>
+                android:gravity="center"
+                android:textSize="18sp"/>
             <TextView
                 android:id="@+id/lbl_card_vente_prix"
                 android:layout_width="wrap_content"
@@ -22,34 +25,33 @@
                 android:textColor="#339"
                 android:layout_gravity="center"
                 android:text="1000Fbu"
-                android:textSize="7pt"/>
+                android:textSize="13sp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/btn_vente_qtt_moins"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:textSize="15pt"
-                android:text="-"
-                style="@style/Widget.AppCompat.Button.Borderless"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_remove"/>
             <EditText
                 android:id="@+id/field_vente_qtt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="10pt"
+                android:textSize="8pt"
+                android:layout_marginTop="-10dp"
                 android:text="0"
                 android:inputType="numberDecimal"
                 android:textAlignment="center"/>
             <Button
                 android:id="@+id/btn_vente_qtt_plus"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:textSize="15pt"
-                android:text="+"
-                style="@style/Widget.AppCompat.Button.Borderless"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_add_p"/>
         </LinearLayout>
         </LinearLayout>
 </androidx.cardview.widget.CardView>
