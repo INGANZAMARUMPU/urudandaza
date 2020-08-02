@@ -9,7 +9,7 @@
         android:title="rondera"/>
     <item
         android:id="@+id/action_number_format"
-        android:icon="@drawable/ic_int"
+        android:icon="@drawable/ic_float"
         app:showAsAction="always|collapseActionView"
         android:title="ibigaburika"/>
     <item

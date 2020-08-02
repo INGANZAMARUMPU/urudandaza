@@ -1,6 +1,5 @@
 package bi.konstrictor.urudandaza.adapters;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.InputType;
@@ -9,11 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,29 +41,35 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.lbl_card_vente.setText(stocks.get(position).nom);
-        holder.lbl_card_unite_out.setText(stocks.get(position).unite_sortant);
-        holder.lbl_card_vente_mesure.setText(stocks.get(position).unite_sortant);
-        holder.lbl_card_vente_qtt.setText(stocks.get(position).quantite.toString());
-        holder.lbl_card_vente_prix.setText(stocks.get(position).prix.toString());
-        holder.btn_card_edit.setVisibility(View.VISIBLE);
-        holder.layout_card_edit.setVisibility(View.GONE);
-        holder.btn_card_close.setOnClickListener(new View.OnClickListener() {
+        final Produit produit = stocks.get(position);
+        holder.lbl_card_vente.setText(produit.nom);
+        try {
+            holder.field_vente_qtt.setText(context.getCartItem(produit).quantite.toString());
+        }catch (Exception e){
+            holder.field_vente_qtt.setText("0");
+        }
+        holder.lbl_card_vente_prix.setText(produit.prix.toString());
+        holder.btn_vente_qtt_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFromCart(holder, stocks.get(position));
-                holder.nbr_vente_qtt.setValue(0);
-                holder.field_vente_qtt.setText("");
-                removeFocus(holder.field_vente_qtt);
+                Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
+                if(qtt+1<=produit.quantite){
+                    qtt++;
+                    holder.field_vente_qtt.setText(qtt.toString());
+                    addTocart(produit, qtt);
+                }
             }
         });
-        holder.field_vente_qtt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        holder.btn_vente_qtt_moins.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    addFocus(v);
+            public void onClick(View v) {
+                Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
+                if(qtt>0){
+                    qtt--;
+                    holder.field_vente_qtt.setText(qtt.toString());
+                    addTocart(produit, qtt);
                 }else{
-                    removeFocus(v);
+                    context.removeFromCart(produit);
                 }
             }
         });
@@ -97,73 +99,32 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                 builder.show();
             }
         });
-        if(context.getINTEGER_MODE()){
-            holder.nbr_vente_qtt.setVisibility(View.VISIBLE);
-            holder.field_vente_qtt.setVisibility(View.GONE);
-            holder.nbr_vente_qtt.setOnScrollListener(new NumberPicker.OnScrollListener() {
-                @Override
-                public void onScrollStateChange(NumberPicker view, int scrollState) {
-                    if(scrollState==SCROLL_STATE_IDLE){
-                        int new_val = view.getValue();
-                        if (new_val>0 & new_val<=stocks.get(position).quantite){
-                            addTocart(stocks.get(position), new_val*1.);
-                        } else {
-                            removeFromCart(holder, stocks.get(position));
-                        }
-                    }
-                }
-            });
-        }else{
-            holder.nbr_vente_qtt.setVisibility(View.GONE);
-            holder.field_vente_qtt.setVisibility(View.VISIBLE);
-            holder.field_vente_qtt.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) { }
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String str_new_val = s.toString().trim();
-                    if (str_new_val.isEmpty()){
-                        removeFromCart(holder, stocks.get(position));
-                        return;
-                    }
-                    Double new_val = Double.parseDouble(str_new_val);
-                    if (new_val<0 | new_val>stocks.get(position).quantite){
-                        removeFromCart(holder, stocks.get(position));
-                        return;
-                    }
-                    addTocart(stocks.get(position), new_val);
-                }
-            });
-        }
-
-        holder.btn_card_edit.setOnClickListener(new View.OnClickListener() {
+        holder.field_vente_qtt.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                holder.btn_card_edit.setVisibility(View.GONE);
-                holder.layout_card_edit.setVisibility(View.VISIBLE);
-                holder.field_vente_qtt.requestFocus();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str_new_val = s.toString().trim();
+                if (str_new_val.isEmpty()){
+                    context.removeFromCart(produit);
+                    return;
+                }
+                Double new_val = Double.parseDouble(str_new_val);
+                if (new_val<0 | new_val>produit.quantite){
+                    context.removeFromCart(produit);
+                    return;
+                }
+                addTocart(produit, new_val);
             }
         });
+        if(context.isINTEGER_MODE()){
+            holder.field_vente_qtt.setFocusable(false);
+        }else{
+            holder.field_vente_qtt.setFocusable(true);
+        }
     }
-    private void removeFocus(View view){
-        view.clearFocus();
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
-    private void addFocus(View view){
-        view.requestFocus();
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-    }
-    private void removeFromCart(ViewHolder holder, Produit produit) {
-        holder.btn_card_edit.setVisibility(View.VISIBLE);
-        holder.layout_card_edit.setVisibility(View.GONE);
-        context.removeFromCart(produit);
-    }
-
     private void addTocart(Produit produit, Double quantite) {
         ActionStock as = new ActionStock(produit, quantite);
         context.addToCart(as);
@@ -179,13 +140,9 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView lbl_card_vente, lbl_card_vente_prix, lbl_card_unite_out, lbl_card_vente_mesure,
-                    lbl_card_vente_qtt;
-            Button btn_card_edit, btn_card_close;
-            LinearLayout layout_card_edit;
+            TextView lbl_card_vente, lbl_card_vente_prix;
+            Button btn_vente_qtt_moins, btn_vente_qtt_plus;
             EditText field_vente_qtt;
-            NumberPicker nbr_vente_qtt;
-            Boolean IS_SELECTED = false;
             View view;
 
             public ViewHolder(final View itemView) {
@@ -193,16 +150,10 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                 this.view = itemView;
                 lbl_card_vente = itemView.findViewById(R.id.lbl_card_vente);
                 lbl_card_vente_prix = itemView.findViewById(R.id.lbl_card_vente_prix);
-                lbl_card_vente_mesure = itemView.findViewById(R.id.lbl_card_vente_mesure);
-                lbl_card_unite_out = itemView.findViewById(R.id.lbl_card_unite_out);
-                lbl_card_vente_qtt = itemView.findViewById(R.id.lbl_card_vente_qtt);
-                btn_card_edit = itemView.findViewById(R.id.btn_card_edit);
-                btn_card_close = itemView.findViewById(R.id.btn_card_close);
-                layout_card_edit = itemView.findViewById(R.id.layout_card_edit);
-                nbr_vente_qtt = itemView.findViewById(R.id.nbr_vente_qtt);
                 field_vente_qtt = itemView.findViewById(R.id.field_vente_qtt);
-                nbr_vente_qtt.setMaxValue(100);
-                nbr_vente_qtt.setMinValue(0);
+                btn_vente_qtt_moins = itemView.findViewById(R.id.btn_vente_qtt_moins);
+                btn_vente_qtt_plus = itemView.findViewById(R.id.btn_vente_qtt_plus);
+
             }
         }
     }
