@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClotureActivity">
+    tools:context=".DetailHistActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -107,14 +107,14 @@
                         android:paddingRight="5dp"
                         android:layout_weight="1">
                         <TextView
-                            android:id="@+id/lbl_hist_achat_tot"
+                            android:id="@+id/lbl_det_hist_achat_tot"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="00"
                             android:textColor="#000"
                             android:textSize="6pt"/>
                         <TextView
-                            android:id="@+id/lbl_hist_achat_rest"
+                            android:id="@+id/lbl_det_hist_achat_rest"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="00"
@@ -158,14 +158,14 @@
                         android:paddingRight="5dp"
                         android:layout_weight="1">
                         <TextView
-                            android:id="@+id/lbl_hist_vente_tot"
+                            android:id="@+id/lbl_det_hist_vente_tot"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="00"
                             android:textColor="#000"
                             android:textSize="6pt"/>
                         <TextView
-                            android:id="@+id/lbl_hist_vente_reste"
+                            android:id="@+id/lbl_det_hist_vente_reste"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="00"

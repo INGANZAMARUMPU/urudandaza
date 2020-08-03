@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
 import bi.konstrictor.urudandaza.models.ActionStock;
 
-public class HistoryActivity extends RefreshableActivity {
+public class DetailHistActivity extends RefreshableActivity {
 
     RecyclerView recycler_history;
     ArrayList<ActionStock> produits;
@@ -26,7 +26,7 @@ public class HistoryActivity extends RefreshableActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_det_hist);
         Toolbar toolbar = findViewById(R.id.history_toolbar);
 
         setSupportActionBar(toolbar);
@@ -36,9 +36,8 @@ public class HistoryActivity extends RefreshableActivity {
         recycler_history.setLayoutManager(new GridLayoutManager(this, 1));
 //        recycler_history.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-
         produits = new ArrayList<>();
-        adaptateur = new AdaptateurHist(HistoryActivity.this, produits);
+        adaptateur = new AdaptateurHist(DetailHistActivity.this, produits);
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
         chargerStock();

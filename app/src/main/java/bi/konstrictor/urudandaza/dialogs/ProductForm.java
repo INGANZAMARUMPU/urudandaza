@@ -86,10 +86,11 @@ public class ProductForm extends Dialog {
             } else {
                 double rapport = Double.parseDouble(product_unit_rapport);
                 double prix = Double.parseDouble(product_prix);
+                InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
                 Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, prix);
-                ActionStock action = new ActionStock(produit, Double.parseDouble(product_quantite));
                 try {
-                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                    ActionStock action = new ActionStock(produit, Double.parseDouble(product_quantite), inkoranyaMakuru.getLatestCloture());
+                    Dao dao_action = inkoranyaMakuru.getDaoActionStock();
                     dao_action.create(action);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
                     dismiss();

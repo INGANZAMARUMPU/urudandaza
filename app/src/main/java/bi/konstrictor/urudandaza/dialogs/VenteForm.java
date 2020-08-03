@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.List;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
+import bi.konstrictor.urudandaza.VenteActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
@@ -34,16 +36,19 @@ import bi.konstrictor.urudandaza.models.Produit;
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class VenteForm extends Dialog {
-    private RefreshableActivity context;
+    private VenteActivity context;
     private TextView lbl_vente_list;
     private AutoCompleteTextView field_vente_client;
+    private EditText field_vente_payee;
     private ProgressBar progress_vente;
     private String[] arrcontact;
     final int PRIX=10, TOTAL=20;
     private ArrayList<ActionStock> CART;
     private boolean edition;
+    private double payee;
+    private String client;
 
-    public VenteForm(final RefreshableActivity context, ArrayList CART) {
+    public VenteForm(final VenteActivity context, ArrayList CART) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
         setContentView(R.layout.form_vente);
         this.context = context;
@@ -52,9 +57,11 @@ public class VenteForm extends Dialog {
         lbl_vente_list = findViewById(R.id.lbl_vente_list);
         field_vente_client = findViewById(R.id.field_vente_client);
         progress_vente = findViewById(R.id.progress_vente);
+        field_vente_payee = findViewById(R.id.field_vente_payee);
 
         Button btn_vente_submit = findViewById(R.id.btn_vente_submit);
         Button btn_vente_cancel = findViewById(R.id.btn_vente_cancel);
+        Button btn_reset_payee = findViewById(R.id.btn_reset_payee);
 
         btn_vente_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +75,10 @@ public class VenteForm extends Dialog {
                 submit();
             }
         });
+        btn_reset_payee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { field_vente_payee.setText("0"); }
+        });
 
         init();
     }
@@ -77,15 +88,7 @@ public class VenteForm extends Dialog {
             @Override
             public void onClick(View v) {
                 progress_vente.setVisibility(View.VISIBLE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (context.checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                        loadContact();
-                    }else {
-                        loadClient();
-                    }
-                }else{
-                    loadContact();
-                }
+                loadClient();
                 field_vente_client.setAdapter(new ArrayAdapter<String>(context,
                         android.R.layout.simple_dropdown_item_1line, arrcontact));
                 progress_vente.setVisibility(View.GONE);
@@ -93,9 +96,20 @@ public class VenteForm extends Dialog {
         });
         String confirmation = "";
         for(ActionStock as:CART){
-            confirmation += "- "+as.toString()+"\n";
+            confirmation += as.toString()+"\n";
         }
         lbl_vente_list.setText(confirmation);
+        field_vente_payee.setText(context.getMONTANT().toString());
+        field_vente_payee.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()<1) field_vente_payee.setText("0");
+            }
+        });
     }
 
     private void loadClient() {
@@ -112,37 +126,50 @@ public class VenteForm extends Dialog {
     }
     public void build(){ show(); }
     public void submit(){
-        Toast.makeText(context, "Vyaguzwe", Toast.LENGTH_LONG).show();
-    }
-    private void loadContact() {
-        Cursor cursor = getContacts();
-        arrcontact = new String[cursor.getCount()];
-        int count = 0;
-
-        while (cursor.moveToNext()) {
-            String displayName = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-            arrcontact[count] = displayName + "\n" + "908228282";
-            count++;
+        if(validateFields()) {
+            progress_vente.setVisibility(View.VISIBLE);
+            Personne personne = getClient(client);
+            for (ActionStock as : CART){
+                as.personne = personne;
+                Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                try {
+                    dao_action.create(as);
+                } catch (SQLException e) {
+                    Log.i("===== ERREUR ==== ", e.getMessage());
+                    e.printStackTrace();
+                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+                    break;
+                }
+            }
+            progress_vente.setVisibility(View.GONE);
+            dismiss();
+            context.refresh();
+            Toast.makeText(context, "Vyaguzwe", Toast.LENGTH_LONG).show();
         }
     }
-
-    private Cursor getContacts() {
-        final ContentResolver cr = context.getContentResolver();
-        String[] projection = { ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts._ID };
-        String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
-        String[] selectionArgs = { "1" };
-        final Cursor contacts = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                projection, selection, selectionArgs, "UPPER("
-                        + ContactsContract.Contacts.DISPLAY_NAME + ") ASC");
-        return contacts;
+    private Personne getClient(String nom){
+        try{
+            Dao dao_personne = new InkoranyaMakuru(context).getDaoPersonne();
+            List<Personne> personnes = dao_personne.queryBuilder().where().eq("nom", nom).query();
+            if (personnes.size()>0){
+                return personnes.get(0);
+            }
+        } catch (SQLException e) {
+            Log.i("ERREUR", e.getMessage());
+            e.printStackTrace();
+            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+        }
+        return new Personne(nom);
     }
     private Boolean validateFields() {
-//        vente_qtt = field_vente_qtt.getText().toString().trim();
-//        if(vente_qtt.isEmpty()){
-//            field_vente_qtt.setError("uzuza ngaha");
-//            return false;
-//        }
+        payee = Double.parseDouble(field_vente_payee.getText().toString());
+        client = field_vente_client.getText().toString().trim();
+        if(payee<context.getMONTANT()){
+            if(client.isEmpty()) {
+                field_vente_client.setError("ko atarishe yose uzuza izina");
+            }
+            return false;
+        }
         return true;
     }
 }

@@ -13,4 +13,14 @@ public class Personne {
     public String nom;
     @DatabaseField
     public String phone;
+
+    public Personne() {
+    }
+    public Personne(String nom) {
+        this.nom = nom;
+    }
+    public Personne(String nom, String phone) {
+        this.nom = nom;
+        this.phone = phone;
+    }
 }

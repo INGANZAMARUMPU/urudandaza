@@ -171,9 +171,10 @@ public class KuranguraForm extends Dialog {
             } else {
                 double qtt = Double.parseDouble(kurangura_qtt);
                 double prix = Double.parseDouble(kurangura_prix);
-                ActionStock action = new ActionStock(produit, qtt, prix);
+                InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
                 try {
-                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                    ActionStock action = new ActionStock(produit, qtt, prix, inkoranyaMakuru.getLatestCloture());
+                    Dao dao_action = inkoranyaMakuru.getDaoActionStock();
                     dao_action.create(action);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
                     dismiss();

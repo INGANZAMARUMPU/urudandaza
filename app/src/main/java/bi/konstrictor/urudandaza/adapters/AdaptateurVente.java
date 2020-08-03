@@ -16,12 +16,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.VenteActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
+import bi.konstrictor.urudandaza.models.ProxyAction;
 
 public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
 
@@ -44,7 +47,8 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         final Produit produit = stocks.get(position);
         holder.lbl_card_vente.setText(produit.nom);
         try {
-            holder.field_vente_qtt.setText(context.getCartItem(produit).quantite.toString());
+            Double qtt = Math.abs(context.getCartItem(produit).quantite);
+            holder.field_vente_qtt.setText(qtt.toString());
         }catch (Exception e){
             holder.field_vente_qtt.setText("0");
         }
@@ -129,7 +133,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         }
     }
     private void addTocart(Produit produit, Double quantite) {
-        ActionStock as = new ActionStock(produit, quantite);
+        ProxyAction as = new ProxyAction(produit, quantite, new InkoranyaMakuru(context).getLatestCloture());
         context.addToCart(as);
     }
 

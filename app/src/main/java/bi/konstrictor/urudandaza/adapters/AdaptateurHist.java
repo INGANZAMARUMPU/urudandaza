@@ -18,17 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import bi.konstrictor.urudandaza.HistoryActivity;
+import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
 
 public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHolder> {
 
-        private HistoryActivity context;
+        private DetailHistActivity context;
         private ArrayList<ActionStock> histories;
 
-        public AdaptateurHist(HistoryActivity context, ArrayList<ActionStock> histories) {
+        public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories) {
             this.context = context;
             this.histories = histories;
         }
@@ -41,20 +41,21 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            Double tot = histories.get(position).quantite*histories.get(position).prix;
-            Double reste = tot - histories.get(position).payee;
-            Boolean is_vente = histories.get(position).quantite<0;
-            Double qtt = Math.abs(histories.get(position).quantite);
-            holder.lbl_hist_product.setText(histories.get(position).produit.nom);
-            holder.lbl_hist_date.setText(histories.get(position).getDateFormated());
+            final ActionStock historie = histories.get(position);
+            Double tot = Math.abs(historie.quantite*historie.prix);
+            Double reste = tot - historie.payee;
+            Boolean is_vente = historie.quantite<0;
+            Double qtt = Math.abs(historie.quantite);
+            holder.lbl_hist_product.setText(historie.produit.nom);
+            holder.lbl_hist_date.setText(historie.getDateFormated());
             holder.lbl_hist_qtt.setText(qtt.toString());
-            holder.lbl_hist_price.setText(histories.get(position).prix.toString());
+            holder.lbl_hist_price.setText(historie.prix.toString());
             holder.lbl_hist_tot.setText(tot.toString());
-            holder.lbl_hist_payee.setText(histories.get(position).payee.toString());
+            holder.lbl_hist_payee.setText(historie.payee.toString());
             holder.lbl_hist_reste.setText(reste.toString());
             if(is_vente){
-                int vert = context.getResources().getColor(R.color.colorGreen);
-                holder.lbl_hist_payee.setBackgroundColor(vert);
+                int vert = context.getResources().getColor(R.color.colorRed);
+                holder.lbl_hist_payee.setTextColor(vert);
             }
             holder.btn_hist_options.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,9 +68,9 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                         public boolean onMenuItemClick(MenuItem item) {
                             int item_id = item.getItemId();
                             if(item_id == R.id.action_item_edit){
-                                if(histories.get(position).quantite>0){
-                                    KuranguraForm kurangura_form = new KuranguraForm(context, histories.get(position).produit);
-                                    kurangura_form.setEdition(true, histories.get(position));
+                                if(historie.quantite>0){
+                                    KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
+                                    kurangura_form.setEdition(true, historie);
                                     kurangura_form.show();
                                 }
                             }

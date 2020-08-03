@@ -1,7 +1,10 @@
 package bi.konstrictor.urudandaza.models;
 
+import androidx.annotation.NonNull;
+
 import com.j256.ormlite.field.DatabaseField;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Cloture {
@@ -9,12 +12,42 @@ public class Cloture {
     public Integer id;
     @DatabaseField
     public Date date;
-    @DatabaseField
-    public Double entree;
-    @DatabaseField
-    public Double sortie;
-    @DatabaseField
-    public Double reste;
+    @DatabaseField(defaultValue = "0")
+    public Double achat;
+    @DatabaseField(defaultValue = "0")
+    public Double vente;
+    @DatabaseField(defaultValue = "0")
+    public Double payee_achat;
+    @DatabaseField(defaultValue = "0")
+    public Double payee_vente;
     @DatabaseField(defaultValue = "0")
     public Boolean compiled;
+
+    public Cloture() {
+        this.date = new Date();
+    }
+    public Double getVenteReste(){
+        return vente-payee_vente;
+    }
+    public Double getAchatReste(){
+        return achat-payee_achat;
+    }
+
+    public String getDateFormated(){
+        SimpleDateFormat sdate = new SimpleDateFormat("dd - MM - yyyy ");
+        return sdate.format(this.date);
+    }
+
+    @Override
+    public String toString() {
+        return "Cloture{" +
+                "id=" + id +
+                ", date=" + date +
+                ", achat=" + achat +
+                ", vente=" + vente +
+                ", payee_achat=" + payee_achat +
+                ", payee_vente=" + payee_vente +
+                ", compiled=" + compiled +
+                '}';
+    }
 }

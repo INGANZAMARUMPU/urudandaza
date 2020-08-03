@@ -19,9 +19,13 @@
             android:label="@string/abakiriya"
             android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HistoryActivity"
+        <activity android:name=".ClotureActivity"
             android:label="@string/icegeranyo"
             android:parentActivityName=".MainDashBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DetailHistActivity"
+            android:label="@string/icegeranyo"
+            android:parentActivityName=".ClotureActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IvyinjiraActivity"

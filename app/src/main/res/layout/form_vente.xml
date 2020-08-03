@@ -44,6 +44,30 @@
                 android:text="- ikidandazwa\n- ikidandazwa"
                 android:textSize="8pt"/>
         </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <EditText
+                    android:id="@+id/field_vente_payee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ayarishwe"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:text="0"
+                    android:singleLine="true"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/btn_reset_payee"
+                android:layout_width="36sp"
+                android:layout_height="36sp"
+                android:background="@drawable/ic_close_p"/>
+        </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
 import bi.konstrictor.urudandaza.dialogs.VenteForm;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.ProxyAction;
 import bi.konstrictor.urudandaza.models.Produit;
 
 import static android.util.TypedValue.COMPLEX_UNIT_PT;
@@ -51,7 +51,7 @@ public class VenteActivity extends RefreshableActivity{
     private SearchView searchView;
 
     private ArrayList<Produit> produits;
-    private ArrayList<ActionStock> CART;
+    private ArrayList<ProxyAction> CART;
     private Boolean INTEGER_MODE = true;
 
     private Double MONTANT = 0.;
@@ -149,24 +149,25 @@ public class VenteActivity extends RefreshableActivity{
         }
         chargerStock();
     }
-    public ActionStock getCartItem(Produit produit){
+    public ProxyAction getCartItem(Produit produit){
         for (int i=0; i<CART.size(); i++){
             if(produit.id == CART.get(i).produit.id) return CART.get(i);
         }
         return null;
     }
-    public void addToCart(ActionStock stock){
+    public void addToCart(ProxyAction stock){
         if(stock.quantite<1){
             removeFromCart(stock.produit);
             return;
         };
-        ActionStock old = getCartItem(stock.produit);
+        ProxyAction old = getCartItem(stock.produit);
         if(old==null){
+            stock.quantite = -stock.quantite;
             CART.add(stock);
-            setMONTANT(MONTANT + stock.prix*stock.quantite);
+            setMONTANT(MONTANT + Math.abs(stock.prix*stock.quantite));
         }else{
-            setMONTANT(MONTANT - old.prix*old.quantite + stock.prix*stock.quantite);
-            old.quantite = stock.quantite;
+            setMONTANT(MONTANT - Math.abs(old.prix*old.quantite) + Math.abs(stock.prix*stock.quantite));
+            old.quantite = -stock.quantite;
         }
     }
 
@@ -175,20 +176,26 @@ public class VenteActivity extends RefreshableActivity{
         lbl_vente_total.setText(this.MONTANT.toString());
     }
 
+    public Double getMONTANT() {
+        return MONTANT;
+    }
+
     public void removeFromCart(Produit produit){
-        for(ActionStock as : CART){
+        for(ProxyAction as : CART){
             if(produit.id == as.produit.id){
                 CART.remove(as);
-                setMONTANT(MONTANT - as.prix*as.quantite);
+                setMONTANT(MONTANT - Math.abs(as.prix*as.quantite));
                 return;
             }
         }
     }
 
     public void vendre(View view) {
-        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        VenteForm kurangura_form = new VenteForm(this, CART);
-        kurangura_form.show();
+        if(MONTANT>0) {
+            view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+            VenteForm kurangura_form = new VenteForm(this, CART);
+            kurangura_form.show();
+        }
     }
     @Override
     public void refresh() {
