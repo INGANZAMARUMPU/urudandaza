@@ -12,7 +12,16 @@ public class Depense {
     @DatabaseField
     Date date;
     @DatabaseField
-    Integer montant;
+    Double montant;
     @DatabaseField
     String motif;
+
+    public Depense() {
+    }
+
+    public Depense(Double montant, String motif) {
+        this.montant = montant;
+        this.motif = motif;
+        this.date = new Date();
+    }
 }

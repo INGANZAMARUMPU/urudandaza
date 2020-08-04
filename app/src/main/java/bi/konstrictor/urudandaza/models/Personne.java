@@ -22,6 +22,8 @@ public class Personne {
     public String nom;
     @DatabaseField
     public String phone;
+    @DatabaseField
+    public String autres;
 
     public Personne() {
     }

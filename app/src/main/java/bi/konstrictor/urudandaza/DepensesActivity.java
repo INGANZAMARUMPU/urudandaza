@@ -15,21 +15,22 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import bi.konstrictor.urudandaza.adapters.AdaptateurClient;
-import bi.konstrictor.urudandaza.dialogs.ClientForm;
-import bi.konstrictor.urudandaza.models.Personne;
+import bi.konstrictor.urudandaza.adapters.AdaptateurDepense;
+import bi.konstrictor.urudandaza.dialogs.DepensesForm;
+import bi.konstrictor.urudandaza.models.Depense;
+import bi.konstrictor.urudandaza.models.Depense;
 
-public class ClientActivity extends RefreshableActivity {
+public class DepensesActivity extends RefreshableActivity {
 
-    private ArrayList<Personne> clients;
-    private AdaptateurClient adaptateur;
+    private ArrayList<Depense> depenses;
+    private AdaptateurDepense adaptateur;
     private RecyclerView recycler_client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client);
-        Toolbar toolbar = findViewById(R.id.client_toolbar);
+        setContentView(R.layout.activity_depenses);
+        Toolbar toolbar = findViewById(R.id.depenses_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -37,32 +38,32 @@ public class ClientActivity extends RefreshableActivity {
         recycler_client.setLayoutManager(new GridLayoutManager(this, 1));
 //        recycler_client.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-        clients = new ArrayList<>();
-        adaptateur = new AdaptateurClient(ClientActivity.this, clients);
+        depenses = new ArrayList<>();
+        adaptateur = new AdaptateurDepense(DepensesActivity.this, depenses);
         recycler_client.addItemDecoration(new DividerItemDecoration(recycler_client.getContext(), DividerItemDecoration.VERTICAL));
         recycler_client.setAdapter(adaptateur);
 
-        chargerClient();
+        chargerDepenses();
     }
 
-    private void chargerClient() {
+    private void chargerDepenses() {
         try {
-            Dao dao_clients = new InkoranyaMakuru(this).getDaoPersonne();
-            clients = (ArrayList<Personne>) dao_clients.queryForAll();
-            adaptateur.setData(clients);
+            Dao dao_depenses = new InkoranyaMakuru(this).getDaoDepense();
+            depenses = (ArrayList<Depense>) dao_depenses.queryForAll();
+            adaptateur.setData(depenses);
             adaptateur.notifyDataSetChanged();
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
         }
     }
-    public void startAddClient(View view){
-        view.startAnimation(AnimationUtils.loadAnimation(ClientActivity.this, R.anim.button_fadein));
-        ClientForm client_form = new ClientForm(ClientActivity.this);
+    public void startAddDepenses(View view){
+        view.startAnimation(AnimationUtils.loadAnimation(DepensesActivity.this, R.anim.button_fadein));
+        DepensesForm client_form = new DepensesForm(DepensesActivity.this);
         client_form.show();
     }
     @Override
     public void refresh() {
-        chargerClient();
+        chargerDepenses();
     }
 }
