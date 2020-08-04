@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -92,8 +95,18 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                 builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String str = input.getText().toString();
-                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+                        Double prix = Double.parseDouble(input.getText().toString());
+                        produit.prix = prix;
+                        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+                        try {
+                            Dao<Produit, Integer> dao_protuit = inkoranyaMakuru.getDaoProduit();
+                            dao_protuit.update(produit);
+                            context.refresh();
+                        } catch (SQLException e) {
+                            Log.i("ERREUR", e.getMessage());
+                            e.printStackTrace();
+                            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
                 builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {
@@ -133,7 +146,8 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         }
     }
     private void addTocart(Produit produit, Double quantite) {
-        ProxyAction as = new ProxyAction(produit, quantite, new InkoranyaMakuru(context).getLatestCloture());
+        ProxyAction as = new ProxyAction();
+        as.kudandaza(produit, quantite, new InkoranyaMakuru(context).getLatestCloture());
         context.addToCart(as);
     }
 

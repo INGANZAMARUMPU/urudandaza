@@ -33,70 +33,103 @@
             android:textSize="8pt"
             android:textColor="#000"
             android:textAlignment="center"/>
-        <com.google.android.material.textfield.TextInputLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <AutoCompleteTextView
-                android:id="@+id/field_kurangura_qtt"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="igitigiri*"
-                android:inputType="numberSigned|numberDecimal"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <AutoCompleteTextView
-                android:id="@+id/field_kurangura_prix"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="igiciro*"
-                android:inputType="numberSigned|numberDecimal"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <AutoCompleteTextView
-                android:id="@+id/field_kurangura_total"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="yose hamwe"
-                android:inputType="numberSigned|numberDecimal"
-                android:maxLines="1"
-                android:width="250dip" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <AutoCompleteTextView
-                android:id="@+id/field_kurangura_personne"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="Umucuruza"
-                android:inputType="text"
-                android:maxLines="1"
-                android:width="250dip" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
-            <Button
-                android:id="@+id/btn_kurangura_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="reka"
-                android:textColor="#777"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-            <Button
-                android:id="@+id/btn_kurangura_submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sawa"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-        </LinearLayout>
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/field_kurangura_qtt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="igitigiri*"
+                        android:inputType="numberSigned|numberDecimal"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/field_kurangura_prix"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="igiciro*"
+                        android:inputType="numberSigned|numberDecimal"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/field_kurangura_total"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="yose hamwe"
+                        android:inputType="numberSigned|numberDecimal"
+                        android:maxLines="1"
+                        android:width="250dip" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/field_kurangura_payee"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="ayo ndishe"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            android:text="0"
+                            android:singleLine="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <Button
+                        android:id="@+id/btn_reset_payee"
+                        android:layout_width="36sp"
+                        android:layout_height="36sp"
+                        android:background="@drawable/ic_close_p"/>
+                </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/field_kurangura_personne"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Umucuruza"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:width="250dip" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+                    <Button
+                        android:id="@+id/btn_kurangura_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="reka"
+                        android:textColor="#777"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                    <Button
+                        android:id="@+id/btn_kurangura_submit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sawa"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </RelativeLayout>

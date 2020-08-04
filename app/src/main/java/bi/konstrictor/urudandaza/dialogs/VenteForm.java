@@ -128,11 +128,19 @@ public class VenteForm extends Dialog {
     public void submit(){
         if(validateFields()) {
             progress_vente.setVisibility(View.VISIBLE);
-            Personne personne = getClient(client);
+            Personne personne = Personne.getClient(client, context);
             for (ActionStock as : CART){
                 as.personne = personne;
-                Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                Double a_payer = Math.abs(as.produit.prix*as.quantite);
+                if (payee>=a_payer) {
+                    as.payee = a_payer;
+                    payee -= a_payer;
+                } else {
+                    as.payee = payee;
+                    payee = 0;
+                }
                 try {
+                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(as);
                 } catch (SQLException e) {
                     Log.i("===== ERREUR ==== ", e.getMessage());
@@ -146,20 +154,6 @@ public class VenteForm extends Dialog {
             context.refresh();
             Toast.makeText(context, "Vyaguzwe", Toast.LENGTH_LONG).show();
         }
-    }
-    private Personne getClient(String nom){
-        try{
-            Dao dao_personne = new InkoranyaMakuru(context).getDaoPersonne();
-            List<Personne> personnes = dao_personne.queryBuilder().where().eq("nom", nom).query();
-            if (personnes.size()>0){
-                return personnes.get(0);
-            }
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-        }
-        return new Personne(nom);
     }
     private Boolean validateFields() {
         payee = Double.parseDouble(field_vente_payee.getText().toString());

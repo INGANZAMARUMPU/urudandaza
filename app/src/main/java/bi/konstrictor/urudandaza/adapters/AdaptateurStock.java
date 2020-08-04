@@ -36,10 +36,19 @@ public class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHo
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.lbl_card_product.setText(produits.get(position).nom);
-            holder.lbl_card_quantite.setText(produits.get(position).quantite.toString());
-            holder.lbl_kurangura_prix.setText(produits.get(position).prix.toString());
-            holder.lbl_card_unite.setText(produits.get(position).unite_entrant);
+            final Produit produit = produits.get(position);
+            holder.lbl_card_unite.setText(produit.unite_entrant);
+            holder.lbl_card_quantite.setText(produit.quantite.toString());
+            if(produit.rapport>1){
+                String str_quantite;
+                Double quantite = produit.quantite/produit.rapport;
+                Integer modulo = produit.quantite.intValue()%produit.rapport.intValue();
+                str_quantite = quantite.intValue()+" "+ produit.unite_entrant +" "+ modulo +" "+ produit.unite_sortant;
+                holder.lbl_card_unite.setText("");
+                holder.lbl_card_quantite.setText(str_quantite);
+            }
+            holder.lbl_card_product.setText(produit.nom);
+            holder.lbl_kurangura_prix.setText(produit.prix.toString());
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -52,7 +61,7 @@ public class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHo
                 @Override
                 public void onClick(View v) {
                     v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bounce));
-                    KuranguraForm kurangura_form = new KuranguraForm(context, produits.get(position));
+                    KuranguraForm kurangura_form = new KuranguraForm(context, produit);
                     kurangura_form.show();
                 }
             });

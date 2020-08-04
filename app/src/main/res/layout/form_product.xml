@@ -116,39 +116,39 @@
                         android:textAlignment="center"
                         android:textSize="10pt"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btn_product_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hanagura"
+                        android:textColor="#900"
+                        android:visibility="gone"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="right">
+                        <Button
+                            android:id="@+id/btn_product_cancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="reka"
+                            android:textColor="#777"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                        <Button
+                            android:id="@+id/btn_product_submit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="sawa"
+                            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btn_product_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hanagura"
-                android:textColor="#900"
-                android:visibility="gone"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:gravity="right">
-                <Button
-                    android:id="@+id/btn_product_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="reka"
-                    android:textColor="#777"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-                <Button
-                    android:id="@+id/btn_product_submit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sawa"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

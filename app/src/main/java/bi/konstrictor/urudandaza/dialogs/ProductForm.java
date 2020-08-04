@@ -89,7 +89,9 @@ public class ProductForm extends Dialog {
                 InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
                 Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, prix);
                 try {
-                    ActionStock action = new ActionStock(produit, Double.parseDouble(product_quantite), inkoranyaMakuru.getLatestCloture());
+                    Double quantite = Double.parseDouble(product_quantite)*produit.rapport;
+                    ActionStock action = new ActionStock();
+                    action.gutanguza(produit, quantite, inkoranyaMakuru.getLatestCloture());
                     Dao dao_action = inkoranyaMakuru.getDaoActionStock();
                     dao_action.create(action);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();

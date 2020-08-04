@@ -30,75 +30,27 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public InkoranyaMakuru(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
-    public Dao<Produit, Integer> getDaoProduit(){
-        try {
-            return getDao(Produit.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
+    public Dao<Produit, Integer> getDaoProduit() throws SQLException {
+        return getDao(Produit.class);
     }
-    public Dao<Personne, Integer> getDaoPersonne(){
-        try {
-            return getDao(Personne.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
+    public Dao<Personne, Integer> getDaoPersonne() throws SQLException {
+        return getDao(Personne.class);
     }
-    public Dao<Depense, Integer> getDaoDepense(){
-        try {
-            return getDao(Depense.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
+    public Dao<Depense, Integer> getDaoDepense() throws SQLException {
+        return getDao(Depense.class);
     }
-    public Dao<Dette, Integer> getDaoDette(){
-        try {
-            return getDao(Dette.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
+    public Dao<Dette, Integer> getDaoDette() throws SQLException {
+        return getDao(Dette.class);
     }
-    public Dao<ProxyAction, Integer> getDaoProxy(){
-        try {
-            return getDao(ProxyAction.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
+    public Dao<ProxyAction, Integer> getDaoProxy() throws SQLException {
+        return getDao(ProxyAction.class);
     }
-    public Dao<ActionStock, Integer> getDaoActionStock(){
-        try {
+    public Dao<ActionStock, Integer> getDaoActionStock() throws SQLException {
             return getDao(ActionStock.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
     }
-    public Dao<Cloture, Integer> getDaoCloture(){
-        try {
-            return getDao(Cloture.class);
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-            return null;
-        }
+    public Dao<Cloture, Integer> getDaoCloture() throws SQLException {
+        return getDao(Cloture.class);
+
     }
 
     @Override
@@ -111,18 +63,16 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Depense.class);
             TableUtils.createTableIfNotExists(connectionSource, ProxyAction.class);
             TableUtils.createTableIfNotExists(connectionSource, Dette.class);
-
             getDaoCloture().create(new Cloture());
-
             database.execSQL("CREATE TRIGGER insertion_stock " +
                     "AFTER INSERT ON actionstock FOR EACH ROW BEGIN " +
                     "UPDATE produit SET quantite = quantite+NEW.quantite WHERE id = NEW.produit_id; " +
-                    "UPDATE cloture SET achat = NEW.quantite*NEW.prix, payee_achat = NEW.payee " +
+                    "UPDATE cloture SET achat = achat+NEW.quantite*NEW.prix, payee_achat = NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite>0; " +
-                    "UPDATE cloture SET vente = NEW.quantite*NEW.prix, payee_vente = NEW.payee  " +
+                    "UPDATE cloture SET vente = vente+NEW.quantite*NEW.prix, payee_vente = NEW.payee  " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0; " +
-                    "INSERT INTO proxyaction VALUES (NEW.id, NEW.produit_id, NEW.quantite, NEW.prix, " +
-                        "NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
+                    "INSERT INTO proxyaction (produit_id, quantite, prix, payee, personne_id, motif, date, cloture_id) " +
+                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
                     "END;");
 
             database.execSQL("CREATE TRIGGER modification_stock " +
@@ -134,8 +84,9 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                     "UPDATE cloture SET vente = vente-(OLD.quantite*OLD.prix)+(NEW.quantite*NEW.prix), " +
                         "payee_vente = payee_vente-OLD.payee+NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0; " +
-                    "DELETE FROM proxyaction WHERE id = NEW.id; "+
-                    "INSERT INTO proxyaction VALUES (NEW.id, NEW.produit_id, NEW.quantite, NEW.prix, " +
+                    "DELETE FROM proxyaction WHERE date = OLD.date; "+
+                    "INSERT INTO proxyaction (produit_id, quantite, prix, payee, personne_id, motif, date, cloture_id)" +
+                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, " +
                         "NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
                     "END;");
 

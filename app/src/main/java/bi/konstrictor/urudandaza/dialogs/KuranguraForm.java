@@ -36,16 +36,18 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 public class KuranguraForm extends Dialog {
     private RefreshableActivity context;
-    private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,field_kurangura_qtt;
-    private String kurangura_prix, kurangura_qtt;
+    private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,
+            field_kurangura_qtt, field_kurangura_payee;
+    private String kurangura_prix, kurangura_qtt, client, kurangura_payee;
     private AutoCompleteTextView field_kurangura_personne;
     private ProgressBar progress_kurangura;
     public Boolean something_changed = false;
     private String[] arrcontact;
     final int PRIX=10, TOTAL=20;
+    private double payee, a_payer;
     private Produit produit;
-
-    private boolean edition;
+    private boolean edition = false;
+    private boolean ideni = false;
 
     public KuranguraForm(final RefreshableActivity context, Produit produit) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -57,11 +59,13 @@ public class KuranguraForm extends Dialog {
         field_kurangura_qtt = findViewById(R.id.field_kurangura_qtt);
         field_kurangura_prix = findViewById(R.id.field_kurangura_prix);
         field_kurangura_total = findViewById(R.id.field_kurangura_total);
+        field_kurangura_payee = findViewById(R.id.field_kurangura_payee);
         field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
         progress_kurangura = findViewById(R.id.progress_kurangura);
 
         Button btn_kurangura_submit = findViewById(R.id.btn_kurangura_submit);
         Button btn_kurangura_cancel = findViewById(R.id.btn_kurangura_cancel);
+        Button btn_reset_payee = findViewById(R.id.btn_reset_payee);
 
         lbl_kurangura_product.setText(produit.nom);
         btn_kurangura_cancel.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +79,10 @@ public class KuranguraForm extends Dialog {
             public void onClick(View v) {
                 submit();
             }
+        });
+        btn_reset_payee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { field_kurangura_payee.setText("0"); }
         });
 
         final TextWatcher calculer_prix = calculer(PRIX);
@@ -136,13 +144,14 @@ public class KuranguraForm extends Dialog {
                     if(type==TOTAL) {
                         total = value*quantity;
                         field_kurangura_total.setText(total.toString());
+                        field_kurangura_payee.setText(total.toString());
                     }else {
                         if(quantity!=0) {
                             total = value/quantity;
                         }else{
                             total = 0.;
                         }
-                        total = value*quantity;
+                        field_kurangura_payee.setText(value.toString());
                         field_kurangura_prix.setText(total.toString());
                     }
                 }
@@ -169,11 +178,17 @@ public class KuranguraForm extends Dialog {
             if (edition) {
 
             } else {
-                double qtt = Double.parseDouble(kurangura_qtt);
+                double qtt = Double.parseDouble(kurangura_qtt)*produit.rapport;
                 double prix = Double.parseDouble(kurangura_prix);
                 InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
                 try {
-                    ActionStock action = new ActionStock(produit, qtt, prix, inkoranyaMakuru.getLatestCloture());
+                    ActionStock action = new ActionStock();
+                    if(ideni){
+                        Personne personne = Personne.getClient(client, context);
+                        action.ideniKurangura(produit, qtt, prix, personne, payee, null, inkoranyaMakuru.getLatestCloture());
+                    }else {
+                        action.kurangura(produit, qtt, prix, payee, inkoranyaMakuru.getLatestCloture());
+                    }
                     Dao dao_action = inkoranyaMakuru.getDaoActionStock();
                     dao_action.create(action);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
@@ -215,6 +230,8 @@ public class KuranguraForm extends Dialog {
     private Boolean validateFields() {
         kurangura_qtt = field_kurangura_qtt.getText().toString().trim();
         kurangura_prix = field_kurangura_prix.getText().toString().trim();
+        kurangura_payee = field_kurangura_payee.getText().toString().trim();
+        client = field_kurangura_personne.getText().toString().trim();
         if(kurangura_prix.isEmpty()){
             field_kurangura_prix.setError("uzuza ngaha");
             return false;
@@ -222,6 +239,20 @@ public class KuranguraForm extends Dialog {
         if(kurangura_qtt.isEmpty()){
             field_kurangura_qtt.setError("uzuza ngaha");
             return false;
+        }
+        if(kurangura_payee.isEmpty()){
+            field_kurangura_payee.setError("uzuza ngaha");
+            return false;
+        }
+        a_payer = Double.parseDouble(kurangura_prix)*Double.parseDouble(kurangura_qtt);
+        payee = Double.parseDouble(kurangura_payee);
+        if(payee<a_payer){
+            if(client.isEmpty()) {
+                field_kurangura_personne.setError("ko atarishe yose uzuza izina");
+                return false;
+            } else {
+                ideni = true;
+            }
         }
         return true;
     }
@@ -232,6 +263,7 @@ public class KuranguraForm extends Dialog {
         field_kurangura_qtt.setText(as.quantite.toString());
         field_kurangura_prix.setText(as.prix.toString());
         field_kurangura_total.setText(as.total().toString());
+        field_kurangura_payee.setText(as.payee.toString());
         try {
             field_kurangura_personne.setText(as.personne.nom);
         } catch (NullPointerException e){ }
