@@ -37,7 +37,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class KuranguraForm extends Dialog {
     private RefreshableActivity context;
     private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,
-            field_kurangura_qtt, field_kurangura_payee;
+            field_kurangura_qtt, field_kurangura_payee, lbl_kurangura_unite;
     private String kurangura_prix, kurangura_qtt, client, kurangura_payee;
     private AutoCompleteTextView field_kurangura_personne;
     private ProgressBar progress_kurangura;
@@ -61,6 +61,7 @@ public class KuranguraForm extends Dialog {
         field_kurangura_total = findViewById(R.id.field_kurangura_total);
         field_kurangura_payee = findViewById(R.id.field_kurangura_payee);
         field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
+        lbl_kurangura_unite = findViewById(R.id.lbl_kurangura_unite);
         progress_kurangura = findViewById(R.id.progress_kurangura);
 
         Button btn_kurangura_submit = findViewById(R.id.btn_kurangura_submit);
@@ -68,6 +69,7 @@ public class KuranguraForm extends Dialog {
         Button btn_reset_payee = findViewById(R.id.btn_reset_payee);
 
         lbl_kurangura_product.setText(produit.nom);
+        lbl_kurangura_unite.setText(produit.unite_entrant);
         btn_kurangura_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +180,7 @@ public class KuranguraForm extends Dialog {
             if (edition) {
 
             } else {
-                double qtt = Double.parseDouble(kurangura_qtt)*produit.rapport;
+                double qtt = Double.parseDouble(kurangura_qtt);
                 double prix = Double.parseDouble(kurangura_prix);
                 InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
                 try {

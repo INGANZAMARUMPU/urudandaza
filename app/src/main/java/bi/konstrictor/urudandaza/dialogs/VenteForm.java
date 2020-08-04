@@ -129,9 +129,10 @@ public class VenteForm extends Dialog {
         if(validateFields()) {
             progress_vente.setVisibility(View.VISIBLE);
             Personne personne = Personne.getClient(client, context);
+            Log.i("===== PERSONNE ===== ", personne.toString());
             for (ActionStock as : CART){
                 as.personne = personne;
-                Double a_payer = Math.abs(as.produit.prix*as.quantite);
+                Double a_payer = as.produit.prix*as.quantite;
                 if (payee>=a_payer) {
                     as.payee = a_payer;
                     payee -= a_payer;
@@ -141,6 +142,8 @@ public class VenteForm extends Dialog {
                 }
                 try {
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                    as.quantite = -as.quantite;
+                    Log.i("===== AS ===== ", as.toString());
                     dao_action.create(as);
                 } catch (SQLException e) {
                     Log.i("===== ERREUR ==== ", e.getMessage());
@@ -161,8 +164,8 @@ public class VenteForm extends Dialog {
         if(payee<context.getMONTANT()){
             if(client.isEmpty()) {
                 field_vente_client.setError("ko atarishe yose uzuza izina");
+                return false;
             }
-            return false;
         }
         return true;
     }

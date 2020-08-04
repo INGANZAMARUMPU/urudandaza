@@ -46,4 +46,12 @@ public class Personne {
         }
         return new Personne(nom);
     }
+
+    @Override
+    public String toString() {
+        return "Personne{" +
+                ", nom='" + nom + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

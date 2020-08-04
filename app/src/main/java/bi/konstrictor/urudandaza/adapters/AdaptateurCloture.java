@@ -38,7 +38,8 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
             holder.lbl_cloture_achat_rest.setText(cloture.getAchatReste().toString());
             holder.lbl_cloture_achat_tot.setText(cloture.achat.toString());
             holder.lbl_cloture_vente_reste.setText(cloture.getVenteReste().toString());
-            holder.lbl_cloture_vente_tot.setText(cloture.vente.toString());
+            holder.lbl_cloture_vente_tot.setText(cloture.getVente().toString());
+            holder.lbl_cloture_vente_payee.setText(cloture.getVentePayee().toString());
             holder.lbl_cloture_date.setText(cloture.getDateFormated());
         }
 
@@ -52,8 +53,8 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            TextView lbl_cloture_date, lbl_cloture_achat_tot, lbl_cloture_achat_rest, lbl_cloture_vente_tot,
-                lbl_cloture_vente_reste;
+            TextView lbl_cloture_date, lbl_cloture_achat_tot, lbl_cloture_achat_rest,
+                    lbl_cloture_vente_tot, lbl_cloture_vente_payee, lbl_cloture_vente_reste;
             public View view;
 
             public ViewHolder(final View itemView) {
@@ -64,6 +65,7 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
                 lbl_cloture_achat_rest = itemView.findViewById(R.id.lbl_cloture_achat_rest);
                 lbl_cloture_vente_tot = itemView.findViewById(R.id.lbl_cloture_vente_tot);
                 lbl_cloture_vente_reste = itemView.findViewById(R.id.lbl_cloture_vente_reste);
+                lbl_cloture_vente_payee = itemView.findViewById(R.id.lbl_cloture_vente_payee);
             }
         }
     }

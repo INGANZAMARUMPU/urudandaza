@@ -53,10 +53,7 @@ public class ActionStock {
         this.cloture = cloture;
     }
     public void kudandaza(Produit produit, Double quantite, Cloture cloture) {
-        kurangura(produit, quantite, produit.prix, produit.prix*produit.prix, cloture);
-    }
-    public void gutanguza(Produit produit, Double quantite, Cloture cloture) {
-        kurangura(produit, quantite, produit.prix, produit.prix*produit.prix, cloture);
+        kurangura(produit, quantite, produit.prix, quantite*produit.prix, cloture);
     }
     public String getDateFormated(){
         SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy ");

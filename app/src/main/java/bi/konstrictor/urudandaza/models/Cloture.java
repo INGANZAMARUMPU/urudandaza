@@ -27,10 +27,13 @@ public class Cloture {
         this.date = new Date();
     }
     public Double getVenteReste(){
-        return vente-payee_vente;
+        return Math.abs(vente)-Math.abs(payee_vente);
+    }
+    public Double getVentePayee(){
+        return Math.abs(payee_vente);
     }
     public Double getAchatReste(){
-        return achat-payee_achat;
+        return Math.abs(achat)-Math.abs(payee_achat);
     }
 
     public String getDateFormated(){
@@ -49,5 +52,9 @@ public class Cloture {
                 ", payee_vente=" + payee_vente +
                 ", compiled=" + compiled +
                 '}';
+    }
+
+    public Double getVente() {
+        return Math.abs(vente);
     }
 }

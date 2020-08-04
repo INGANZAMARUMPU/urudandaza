@@ -162,12 +162,11 @@ public class VenteActivity extends RefreshableActivity{
         };
         ProxyAction old = getCartItem(stock.produit);
         if(old==null){
-            stock.quantite = -stock.quantite;
             CART.add(stock);
-            setMONTANT(MONTANT + Math.abs(stock.prix*stock.quantite));
+            setMONTANT(MONTANT + stock.prix*stock.quantite);
         }else{
-            setMONTANT(MONTANT - Math.abs(old.prix*old.quantite) + Math.abs(stock.prix*stock.quantite));
-            old.quantite = -stock.quantite;
+            setMONTANT(MONTANT - old.prix*old.quantite + stock.prix*stock.quantite);
+            old.quantite = stock.quantite;
         }
     }
 
@@ -184,7 +183,7 @@ public class VenteActivity extends RefreshableActivity{
         for(ProxyAction as : CART){
             if(produit.id == as.produit.id){
                 CART.remove(as);
-                setMONTANT(MONTANT - Math.abs(as.prix*as.quantite));
+                setMONTANT(MONTANT - as.prix*as.quantite);
                 return;
             }
         }
