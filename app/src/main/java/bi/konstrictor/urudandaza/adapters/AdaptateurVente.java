@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.adapters;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -8,13 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
@@ -49,6 +53,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Produit produit = stocks.get(position);
         holder.lbl_card_vente.setText(produit.nom);
+        holder.view.clearFocus();
         try {
             Double qtt = context.getCartItem(produit).quantite;
             holder.field_vente_qtt.setText(qtt.toString());
@@ -59,6 +64,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         holder.btn_vente_qtt_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.view.requestFocus();
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_zoomin));
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
                 if(qtt+1<=produit.quantite){
@@ -71,6 +77,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         holder.btn_vente_qtt_moins.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.view.requestFocus();
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_zoomout));
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
                 if(qtt>0){
@@ -85,6 +92,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         holder.lbl_card_vente_prix.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.view.requestFocus();
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Igiciro gishasha");
@@ -174,7 +182,27 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                 field_vente_qtt = itemView.findViewById(R.id.field_vente_qtt);
                 btn_vente_qtt_moins = itemView.findViewById(R.id.btn_vente_qtt_moins);
                 btn_vente_qtt_plus = itemView.findViewById(R.id.btn_vente_qtt_plus);
-
+                itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus){
+//                            Animation anim = new ScaleAnimation(
+//                                    1f, 1.5f, // Start and end values for the X axis scaling
+//                                    1f, 1.5f, // Start and end values for the Y axis scaling
+//                                    Animation.ZORDER_NORMAL, 0f, // Pivot point of X scaling
+//                                    Animation.ZORDER_NORMAL, 0f); // Pivot point of Y scaling
+//                            anim.setFillAfter(true); // Needed to keep the result of the animation
+//                            anim.setDuration(100);
+////                            Animation anim = AnimationUtils.loadAnimation(context, R.anim.zoomin);
+//                            v.startAnimation(anim);
+//                            ViewCompat.setTranslationZ(v, 5f);
+                        }else{
+//                            Animation anim = AnimationUtils.loadAnimation(context, R.anim.zoomout);
+//                            v.startAnimation(anim);
+//                            ViewCompat.setTranslationZ(v, 1f);
+                        }
+                    }
+                });
             }
         }
     }
