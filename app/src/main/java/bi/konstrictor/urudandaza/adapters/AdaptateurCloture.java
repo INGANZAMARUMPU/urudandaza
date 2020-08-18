@@ -1,16 +1,19 @@
 package bi.konstrictor.urudandaza.adapters;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.ClotureActivity;
+import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.models.Cloture;
 
@@ -33,17 +36,36 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             final Cloture cloture = clotures.get(position);
-            Log.i("==== CLOTURE ====", cloture.toString());
-
             holder.lbl_cloture_achat_rest.setText(cloture.getAchatReste().toString());
             holder.lbl_cloture_achat_tot.setText(cloture.achat.toString());
             holder.lbl_cloture_vente_reste.setText(cloture.getVenteReste().toString());
             holder.lbl_cloture_vente_tot.setText(cloture.getVente().toString());
             holder.lbl_cloture_vente_payee.setText(cloture.getVentePayee().toString());
             holder.lbl_cloture_date.setText(cloture.getDateFormated());
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DetailHistActivity.class);
+                    intent.putExtra("cloture_id", cloture.id);
+                    intent.putExtra("cloture", cloture);
+                    context.startActivity(intent);
+                }
+            });
+            updateTot(cloture);
         }
 
-        @Override
+    private void updateTot(Cloture cloture) {
+        Double achat_tot =  context.achat_tot+cloture.achat;
+        Double achat_rest =  context.achat_rest+cloture.getAchatReste();
+        Double vente_tot =  context.vente_tot+cloture.vente;
+        Double vente_reste =  context.achat_rest+cloture.getVenteReste();
+        context.setAchatTot(achat_tot);
+        context.setAchatRest(achat_rest);
+        context.setVenteTot(vente_tot);
+        context.setVenteReste(vente_reste);
+    }
+
+    @Override
         public int getItemCount() {
             return clotures.size();
         }

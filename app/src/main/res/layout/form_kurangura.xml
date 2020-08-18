@@ -70,7 +70,7 @@
                         android:id="@+id/field_kurangura_prix"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="igiciro*"
+                        android:hint="igiciro ca kimwe*"
                         android:inputType="numberSigned|numberDecimal"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>

@@ -4,10 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Cloture {
+public class Cloture implements Serializable {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

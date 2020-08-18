@@ -39,4 +39,8 @@ public class MainDashBoardActivity extends AppCompatActivity {
         Intent open_depenses = new Intent(MainDashBoardActivity.this, DepensesActivity.class);
         startActivity(open_depenses);
     }
+
+    public void fermer(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+    }
 }

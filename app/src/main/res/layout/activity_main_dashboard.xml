@@ -424,6 +424,7 @@
                             android:layout_width="110dp"
                             android:layout_height="140dp"
                             android:layout_margin="1dp"
+                            android:onClick="fermer"
                             app:cardElevation="0dp">
                             <LinearLayout
                                 android:layout_width="match_parent"
