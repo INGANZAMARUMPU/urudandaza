@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.models;
 
 import android.content.Context;
+import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,9 +19,9 @@ import bi.konstrictor.urudandaza.InkoranyaMakuru;
 public class Personne {
     @DatabaseField(generatedId = true)
     public Integer id;
-    @DatabaseField
+    @DatabaseField(unique=true)
     public String nom;
-    @DatabaseField
+    @DatabaseField(unique=true)
     public String phone;
     @DatabaseField
     public String autres;
@@ -34,6 +35,11 @@ public class Personne {
         this.nom = nom;
         this.phone = phone;
     }
+    public Personne(String nom, String phone, String autres) {
+        this.nom = nom;
+        this.phone = phone;
+        this.autres = autres;
+    }
     public static Personne getClient(String nom, Context context){
         try{
             Dao dao_personne = new InkoranyaMakuru(context).getDaoPersonne();
@@ -46,7 +52,7 @@ public class Personne {
             e.printStackTrace();
             Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
         }
-        return new Personne(nom);
+        return null;
     }
 
     @Override

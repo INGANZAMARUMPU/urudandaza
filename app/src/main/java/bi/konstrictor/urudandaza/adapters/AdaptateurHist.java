@@ -54,8 +54,11 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             holder.lbl_hist_payee.setText(historie.payee.toString());
             holder.lbl_hist_reste.setText(reste.toString());
             if(is_vente){
-                int vert = context.getResources().getColor(R.color.colorRed);
-                holder.lbl_hist_payee.setTextColor(vert);
+                int rouge = context.getResources().getColor(R.color.colorRed);
+                if (reste>0) holder.lbl_hist_reste.setTextColor(rouge);
+            }else {
+                int bleu = context.getResources().getColor(R.color.colorBlue);
+                holder.lbl_hist_product.setTextColor(bleu);
             }
             holder.btn_hist_options.setOnClickListener(new View.OnClickListener() {
                 @Override

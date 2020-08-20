@@ -25,19 +25,25 @@
                         android:textSize="10pt"
                         android:layout_marginRight="5dp"/>
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#339"
+                        android:text="tel: "
+                        android:textSize="7pt"/>
+                    <TextView
                         android:id="@+id/lbl_card_client_tel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#339"
-                        android:text="75 96 06 96"
+                        android:text="-"
                         android:textSize="7pt"/>
                 </LinearLayout>
                 <TextView
                     android:id="@+id/lbl_card_client_infos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#339"
-                    android:text="wo kwa gapilipili"
+                    android:textColor="#aaa"
+                    android:text="nta bindi bimuranga"
                     android:textSize="14sp"
                     android:gravity="right"/>
             </LinearLayout>

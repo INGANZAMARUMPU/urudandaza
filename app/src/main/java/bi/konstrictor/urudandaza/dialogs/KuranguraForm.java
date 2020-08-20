@@ -38,8 +38,8 @@ public class KuranguraForm extends Dialog {
     private RefreshableActivity context;
     private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,
             field_kurangura_qtt, field_kurangura_payee, lbl_kurangura_unite;
-    private String kurangura_prix, kurangura_qtt, client, kurangura_payee;
     private AutoCompleteTextView field_kurangura_personne;
+    private String kurangura_prix, kurangura_qtt, client, kurangura_payee;
     private ProgressBar progress_kurangura;
     public Boolean something_changed = false;
     private String[] arrcontact;
@@ -86,7 +86,10 @@ public class KuranguraForm extends Dialog {
             @Override
             public void onClick(View v) { field_kurangura_payee.setText("0"); }
         });
+        init();
+    }
 
+    private void init() {
         final TextWatcher calculer_prix = calculer(PRIX);
         final TextWatcher calculer_total = calculer(TOTAL);
 
@@ -110,18 +113,30 @@ public class KuranguraForm extends Dialog {
                 }
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (context.checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                loadContact();
-            }else {
-                loadClient();
+        field_kurangura_personne.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    progress_kurangura.setVisibility(View.VISIBLE);
+                    loadClient();
+                    field_kurangura_personne.setAdapter(new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, arrcontact));
+                    progress_kurangura.setVisibility(View.GONE);
+                }
             }
-        }else{
-            loadContact();
+        });
+    }
+    private void loadClient() {
+        try {
+            Dao dao_clients = new InkoranyaMakuru(context).getDaoPersonne();
+            List<Personne> personnes = dao_clients.queryForAll();
+            arrcontact = new String[personnes.size()];
+            for (int i=0; i<personnes.size(); i++){
+                arrcontact[i] = personnes.get(i).nom;
+            }
+        } catch (SQLException e) {
+            Toast.makeText(context, "Erreur de lecture des contacts",Toast.LENGTH_LONG).show();
         }
-        field_kurangura_personne.setAdapter(new ArrayAdapter<String>(context,
-                android.R.layout.simple_dropdown_item_1line, arrcontact));
     }
     private Double getChampKuranguraQuantite(){
         Double quantite = 0.;
@@ -161,18 +176,6 @@ public class KuranguraForm extends Dialog {
         };
     }
 
-    private void loadClient() {
-        try {
-            Dao dao_clients = new InkoranyaMakuru(context).getDaoPersonne();
-            List<Personne> personnes = dao_clients.queryForAll();
-            arrcontact = new String[personnes.size()];
-            for (int i=0; i<personnes.size(); i++){
-                arrcontact[i] = personnes.get(i).nom;
-            }
-        } catch (SQLException e) {
-            Toast.makeText(context, "Erreur de lecture des contacts",Toast.LENGTH_LONG).show();
-        }
-    }
     public void build(){ show(); }
     public void submit(){
         if(validateFields()) {
@@ -187,6 +190,13 @@ public class KuranguraForm extends Dialog {
                     ActionStock action = new ActionStock();
                     if(ideni){
                         Personne personne = Personne.getClient(client, context);
+                        if (personne==null){
+                            ClientForm form = new ClientForm(context);
+                            form.setPARENT_NAME_FIELD(field_kurangura_personne);
+                            form.show();
+                            progress_kurangura.setVisibility(View.GONE);
+                            return;
+                        }
                         action.ideniKurangura(produit, qtt, prix, personne, payee, null, inkoranyaMakuru.getLatestCloture());
                     }else {
                         action.kurangura(produit, qtt, prix, payee, inkoranyaMakuru.getLatestCloture());
@@ -204,30 +214,6 @@ public class KuranguraForm extends Dialog {
             context.refresh();
             progress_kurangura.setVisibility(View.GONE);
         }
-    }
-    private void loadContact() {
-        Cursor cursor = getContacts();
-        arrcontact = new String[cursor.getCount()];
-        int count = 0;
-
-        while (cursor.moveToNext()) {
-            String displayName = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-            arrcontact[count] = displayName + "\n" + "908228282";
-            count++;
-        }
-    }
-
-    private Cursor getContacts() {
-        final ContentResolver cr = context.getContentResolver();
-        String[] projection = { ContactsContract.Contacts.DISPLAY_NAME,
-                ContactsContract.Contacts._ID };
-        String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
-        String[] selectionArgs = { "1" };
-        final Cursor contacts = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                projection, selection, selectionArgs, "UPPER("
-                        + ContactsContract.Contacts.DISPLAY_NAME + ") ASC");
-        return contacts;
     }
     private Boolean validateFields() {
         kurangura_qtt = field_kurangura_qtt.getText().toString().trim();

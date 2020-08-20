@@ -84,14 +84,17 @@ public class VenteForm extends Dialog {
     }
 
     private void init() {
-        field_vente_client.setOnClickListener(new View.OnClickListener() {
+        field_vente_client.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                progress_vente.setVisibility(View.VISIBLE);
-                loadClient();
-                field_vente_client.setAdapter(new ArrayAdapter<String>(context,
-                        android.R.layout.simple_dropdown_item_1line, arrcontact));
-                progress_vente.setVisibility(View.GONE);
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    progress_vente.setVisibility(View.VISIBLE);
+                    loadClient();
+                    field_vente_client.setAdapter(new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, arrcontact));
+                    progress_vente.setVisibility(View.GONE);
+                    Toast.makeText(context, "Lecture des contacts",Toast.LENGTH_LONG).show();
+                }
             }
         });
         String confirmation = "";

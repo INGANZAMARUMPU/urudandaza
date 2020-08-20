@@ -1,11 +1,9 @@
 package bi.konstrictor.urudandaza;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,12 +13,10 @@ import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
-import bi.konstrictor.urudandaza.models.Produit;
 
 public class DetailHistActivity extends RefreshableActivity {
 

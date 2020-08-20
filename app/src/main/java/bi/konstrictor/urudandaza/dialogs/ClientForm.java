@@ -2,21 +2,45 @@ package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+
+import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
+import bi.konstrictor.urudandaza.models.Depense;
+import bi.konstrictor.urudandaza.models.Personne;
+
+import static android.Manifest.permission.READ_CONTACTS;
 
 public class ClientForm extends Dialog {
 
     private final RefreshableActivity context;
-    private TextView field_client_name, field_client_tel, field_client_autres;
+    private TextView field_client_tel, field_client_autres;
+    private AutoCompleteTextView field_client_name;
+    private TextView PARENT_NAME_FIELD;
     private Button btn_client_cancel, btn_client_submit;
     private String[] arrcontact;
+    HashMap<String, String> dict_contact;
+    private boolean EDIT_MODE = false;
+    private Personne client;
 
     public ClientForm(RefreshableActivity context) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -28,31 +52,118 @@ public class ClientForm extends Dialog {
         field_client_autres = findViewById(R.id.field_client_autres);
         btn_client_cancel = findViewById(R.id.btn_client_cancel);
         btn_client_submit = findViewById(R.id.btn_client_submit);
+        btn_client_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+        btn_client_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        field_client_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selected = parent.getItemAtPosition(position).toString();
+                field_client_tel.setText(dict_contact.get(selected));
+            }
+        });
     }
-    private void loadContact() {
-        Cursor cursor = getContacts();
-        arrcontact = new String[cursor.getCount()];
-        int count = 0;
 
-        while (cursor.moveToNext()) {
-            String displayName = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-            arrcontact[count] = displayName + "\n" + "908228282";
-            count++;
+    private void submit() {
+        if (validateFields()){
+            InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+            if(EDIT_MODE){
+                try {
+                    UpdateBuilder<Personne, Integer> update = inkoranyaMakuru.getDaoPersonne().updateBuilder();
+                    update.where().eq("nom", client.nom);
+                    update.updateColumnValue("nom" , field_client_name.getText());
+                    update.updateColumnValue("phone" , field_client_tel.getText());
+                    update.updateColumnValue("autres" , field_client_autres.getText());
+                    update.update();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                try {
+                    Dao dao_personne = inkoranyaMakuru.getDaoPersonne();
+                    dao_personne.create(new Personne(
+                            field_client_name.getText().toString(),
+                            field_client_tel.getText().toString(),
+                            field_client_autres.getText().toString()));
+                    if(PARENT_NAME_FIELD == null) context.refresh();
+                    else PARENT_NAME_FIELD.setText(field_client_name.getText());
+                    dismiss();
+                } catch (SQLException e) {
+                    Log.i("ERREUR", e.getMessage());
+                    e.printStackTrace();
+                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+                }
+            }
+            context.refresh();
+            dismiss();
         }
     }
 
-    private Cursor getContacts() {
-        final ContentResolver cr = context.getContentResolver();
-        String[] projection = { ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts._ID };
-        String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
-        String[] selectionArgs = { "1" };
-        final Cursor contacts = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                projection, selection, selectionArgs, "UPPER("
-                        + ContactsContract.Contacts.DISPLAY_NAME + ") ASC");
-        return contacts;
+    private boolean validateFields() {
+        String nom = field_client_name.getText().toString().trim();
+        String tel = field_client_tel.getText().toString().trim();
+        if(nom.isEmpty()){
+            field_client_name.setError("uzuza ngaha");
+            return false;
+        }
+        if(tel.isEmpty()){
+            field_client_tel.setError("uzuza ngaha");
+            return false;
+        }
+        return true;
     }
-    public void build(){
-        show();
+    private void loadContact() {
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection = new String[] {
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER };
+
+        Cursor people = context.getContentResolver().query(uri, projection, null, null, null);
+        int indexName = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+        int indexNumber = people.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        arrcontact = new String[people.getCount()];
+        int count = 0;
+        dict_contact = new HashMap<>();
+        while (people.moveToNext()) {
+            String name = people.getString(indexName);
+            String number = people.getString(indexNumber);
+            String contact = name + "" + number;
+            dict_contact.put(name, number);
+            arrcontact[count] = name;
+            count++;
+        }
+    }
+    public void show(){
+        super.show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context.checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                loadContact();
+            }
+        }else{
+            loadContact();
+        }
+        field_client_name.setAdapter(new ArrayAdapter<String>(context,
+                android.R.layout.simple_dropdown_item_1line, arrcontact));
+    }
+    public void setClient(Personne client) {
+        this.client = client;
+        field_client_name.setText(client.nom);
+        field_client_tel.setText(client.phone);
+        field_client_autres.setText(client.autres);
+        this.EDIT_MODE = true;
+    }
+
+    public void setPARENT_NAME_FIELD(TextView PARENT_NAME_FIELD) {
+        this.PARENT_NAME_FIELD = PARENT_NAME_FIELD;
+        field_client_name.setText(PARENT_NAME_FIELD.getText());
     }
 }

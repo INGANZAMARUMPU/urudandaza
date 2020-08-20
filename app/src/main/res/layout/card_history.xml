@@ -105,14 +105,14 @@
                             android:textColor="#000"
                             android:textSize="6pt"/>
                         <TextView
-                            android:id="@+id/lbl_hist_reste"
+                            android:id="@+id/lbl_hist_payee"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="00"
                             android:textColor="#000"
                             android:textSize="6pt"/>
                         <TextView
-                            android:id="@+id/lbl_hist_payee"
+                            android:id="@+id/lbl_hist_reste"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="00"

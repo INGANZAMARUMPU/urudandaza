@@ -34,7 +34,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Jonathan NKURUNZIZA"
-                        android:textSize="11pt" />
+                        android:textSize="11pt"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <com.google.android.flexbox.FlexboxLayout

@@ -118,7 +118,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Umucuruza"
-                        android:inputType="text"
                         android:maxLines="1"
                         android:width="250dip" />
                 </com.google.android.material.textfield.TextInputLayout>

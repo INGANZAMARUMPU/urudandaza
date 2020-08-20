@@ -53,7 +53,7 @@
                     android:text="Kurangura"
                     android:textSize="6pt"
                     android:layout_weight="1"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlue"
                     android:textStyle="bold"/>
                 <TextView
                     android:layout_width="0dp"

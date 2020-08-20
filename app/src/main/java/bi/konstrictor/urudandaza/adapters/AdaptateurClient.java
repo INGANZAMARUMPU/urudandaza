@@ -1,33 +1,19 @@
 package bi.konstrictor.urudandaza.adapters;
 
-import android.content.DialogInterface;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.j256.ormlite.dao.Dao;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.ClientActivity;
-import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.VenteActivity;
+import bi.konstrictor.urudandaza.dialogs.ClientForm;
 import bi.konstrictor.urudandaza.models.Personne;
-import bi.konstrictor.urudandaza.models.ProxyAction;
 
 public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.ViewHolder> {
 
@@ -47,10 +33,20 @@ public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Personne client = clients.get(position);
+        final Personne client = clients.get(position);
         holder.lbl_card_client_name.setText(client.nom);
-        holder.lbl_card_client_infos.setText(client.autres);
-        holder.lbl_card_client_tel.setText(client.phone);
+        if((client.autres!=null) && (!client.autres.trim().isEmpty()))
+            holder.lbl_card_client_infos.setText(client.autres);
+        if((client.phone!=null) && (!client.phone.trim().isEmpty()))
+            holder.lbl_card_client_tel.setText(client.phone);
+        holder.btn_card_client_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClientForm form = new ClientForm(context);
+                form.setClient(client);
+                form.show();
+            }
+        });
     }
 
     @Override
