@@ -24,8 +24,7 @@ public class DetailHistActivity extends RefreshableActivity {
     ArrayList<ActionStock> produits;
     TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
     private AdaptateurHist adaptateur;
-    private int cloture_id;
-    private Cloture cloture;
+    private String filtre, valeur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,8 @@ public class DetailHistActivity extends RefreshableActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        cloture_id = getIntent().getExtras().getInt("cloture_id");
-        cloture = (Cloture) getIntent().getSerializableExtra("cloture");
+        filtre = getIntent().getExtras().getString("filtre");
+        valeur = getIntent().getExtras().getString("valeur");
         lbl_det_hist_achat_tot = findViewById(R.id.lbl_det_hist_achat_tot);
         lbl_det_hist_achat_rest = findViewById(R.id.lbl_det_hist_achat_rest);
         lbl_det_hist_vente_tot = findViewById(R.id.lbl_det_hist_vente_tot);
@@ -51,21 +50,25 @@ public class DetailHistActivity extends RefreshableActivity {
         adaptateur = new AdaptateurHist(DetailHistActivity.this, produits);
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
-        fillLabels();
         chargerStock();
     }
 
-    private void fillLabels() {
-        lbl_det_hist_achat_tot.setText(cloture.achat.toString());
-        lbl_det_hist_achat_rest.setText(cloture.getAchatReste().toString());
-        lbl_det_hist_vente_tot.setText(cloture.getVente().toString());
-        lbl_det_hist_vente_reste.setText(cloture.getVenteReste().toString());
+    public void addToTotals(ActionStock history) {
+        Double achat_tot = Double.parseDouble(lbl_det_hist_achat_tot.getText().toString())+history.getAchatTotal();
+        Double achat_rest = Double.parseDouble(lbl_det_hist_achat_rest.getText().toString())+history.getAchatReste();
+        Double vente_tot = Double.parseDouble(lbl_det_hist_vente_tot.getText().toString())+history.getVenteTotal();
+        Double vente_reste = Double.parseDouble(lbl_det_hist_vente_reste.getText().toString())+history.getVenteReste();
+
+        lbl_det_hist_achat_tot.setText(achat_tot.toString());
+        lbl_det_hist_achat_rest.setText(achat_rest.toString());
+        lbl_det_hist_vente_tot.setText(vente_tot.toString());
+        lbl_det_hist_vente_reste.setText(vente_reste.toString());
     }
 
     private void chargerStock() {
         try {
             Dao dao_as = new InkoranyaMakuru(this).getDaoActionStock();
-            produits = (ArrayList<ActionStock>) dao_as.queryBuilder().where().eq("cloture_id",cloture_id).query();
+            produits = (ArrayList<ActionStock>) dao_as.queryBuilder().where().eq(filtre,valeur).query();
 //            produits.addAll(produits);
             adaptateur.setData(produits);
             adaptateur.notifyDataSetChanged();

@@ -20,7 +20,9 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
+import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
+import bi.konstrictor.urudandaza.dialogs.VenteForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
 
 public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHolder> {
@@ -73,8 +75,12 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                             if(item_id == R.id.action_item_edit){
                                 if(historie.quantite>0){
                                     KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
-                                    kurangura_form.setEdition(true, historie);
+                                    kurangura_form.setEdition(historie);
                                     kurangura_form.show();
+                                }else{
+                                    KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
+                                    kudandaza_form.setEdition(historie);
+                                    kudandaza_form.show();
                                 }
                             }
                             if(item_id == R.id.action_item_delete){
@@ -97,6 +103,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                     popup_menu.show();
                 }
             });
+            context.addToTotals(historie);
         }
 
         @Override

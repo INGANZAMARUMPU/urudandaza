@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +46,10 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
                     Intent intent = new Intent(context, DetailHistActivity.class);
-                    intent.putExtra("cloture_id", cloture.id);
+                    intent.putExtra("filtre", "cloture_id");
+                    intent.putExtra("valeur", cloture.id.toString());
                     intent.putExtra("cloture", cloture);
                     context.startActivity(intent);
                 }

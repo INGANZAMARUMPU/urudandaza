@@ -49,12 +49,14 @@ public class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHo
             }
             holder.lbl_card_product.setText(produit.nom);
             holder.lbl_kurangura_prix.setText(produit.prix.toString());
-            holder.view.setOnClickListener(new View.OnClickListener() {
+            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
                     ProductForm product_form = new ProductForm(context);
+                    product_form.setEdition(produit);
                     product_form.show();
+                    return false;
                 }
             });
             holder.btn_kurangura.setOnClickListener(new View.OnClickListener() {

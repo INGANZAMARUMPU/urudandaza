@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.OnTextChangeListener;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
@@ -41,9 +42,7 @@ public class KuranguraForm extends Dialog {
     private AutoCompleteTextView field_kurangura_personne;
     private String kurangura_prix, kurangura_qtt, client, kurangura_payee;
     private ProgressBar progress_kurangura;
-    public Boolean something_changed = false;
     private String[] arrcontact;
-    final int PRIX=10, TOTAL=20;
     private double payee, a_payer;
     private Produit produit;
     private boolean edition = false;
@@ -90,26 +89,59 @@ public class KuranguraForm extends Dialog {
     }
 
     private void init() {
-        final TextWatcher calculer_prix = calculer(PRIX);
-        final TextWatcher calculer_total = calculer(TOTAL);
 
-        field_kurangura_prix.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        field_kurangura_qtt.addTextChangedListener(new OnTextChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    field_kurangura_prix.addTextChangedListener(calculer_total);
-                }else{
-                    field_kurangura_prix.removeTextChangedListener(calculer_total);
+            public void textChanged(Editable s) {
+                if(field_kurangura_qtt.hasFocus()) {
+                    String str_prix = field_kurangura_prix.getText().toString().trim();
+                    String str_total = field_kurangura_total.getText().toString().trim();
+                    if (s.length()<1) return;
+                    Double quantity = Double.parseDouble(s.toString());
+                    if (!str_prix.isEmpty()) {
+                        Double prix = Double.parseDouble(str_prix);
+                        Double total;
+                        total = prix*quantity;
+                        field_kurangura_total.setText(total.toString());
+                        field_kurangura_payee.setText(total.toString());
+                    } else if (!str_total.isEmpty()) {
+                        Double total = Double.parseDouble(str_total);
+                        Double prix;
+                        prix = total/quantity;
+                        field_kurangura_prix.setText(prix.toString());
+                        field_kurangura_payee.setText(total.toString());
+                    }
                 }
             }
         });
-        field_kurangura_total.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        field_kurangura_total.addTextChangedListener(new OnTextChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    field_kurangura_total.addTextChangedListener(calculer_prix);
-                }else{
-                    field_kurangura_total.removeTextChangedListener(calculer_prix);
+            public void textChanged(Editable s) {
+                if(field_kurangura_total.hasFocus()) {
+                    String str_qtt = field_kurangura_qtt.getText().toString().trim();
+                    if ((!str_qtt.isEmpty()) && s.length()>0) {
+                        Double quantity = Double.parseDouble(str_qtt);
+                        Double total = Double.parseDouble(s.toString());
+                        Double prix = total/quantity;
+                        field_kurangura_prix.setText(prix.toString());
+                        field_kurangura_payee.setText(total.toString());
+                    }
+                }
+            }
+        });
+
+        field_kurangura_prix.addTextChangedListener(new OnTextChangeListener() {
+            @Override
+            public void textChanged(Editable s) {
+                if (field_kurangura_prix.hasFocus()) {
+                    String str_qtt = field_kurangura_total.getText().toString().trim();
+                    if ((!str_qtt.isEmpty()) && s.length()>0) {
+                        Double quantity = Double.parseDouble(str_qtt);
+                        Double prix = Double.parseDouble(s.toString());
+                        Double total = prix * quantity;
+                        field_kurangura_total.setText(total.toString());
+                        field_kurangura_payee.setText(total.toString());
+                    }
                 }
             }
         });
@@ -138,44 +170,6 @@ public class KuranguraForm extends Dialog {
             Toast.makeText(context, "Erreur de lecture des contacts",Toast.LENGTH_LONG).show();
         }
     }
-    private Double getChampKuranguraQuantite(){
-        Double quantite = 0.;
-        try {
-            quantite = Double.parseDouble(field_kurangura_qtt.getText().toString());
-        }catch (Exception e){
-        }
-        return quantite;
-    }
-    private TextWatcher calculer(final int type) {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length()>0){
-                    Double quantity = getChampKuranguraQuantite();
-                    Double value = Double.parseDouble(s.toString());
-                    Double total;
-                    if(type==TOTAL) {
-                        total = value*quantity;
-                        field_kurangura_total.setText(total.toString());
-                        field_kurangura_payee.setText(total.toString());
-                    }else {
-                        if(quantity!=0) {
-                            total = value/quantity;
-                        }else{
-                            total = 0.;
-                        }
-                        field_kurangura_payee.setText(value.toString());
-                        field_kurangura_prix.setText(total.toString());
-                    }
-                }
-            }
-        };
-    }
-
     public void build(){ show(); }
     public void submit(){
         if(validateFields()) {
@@ -245,8 +239,8 @@ public class KuranguraForm extends Dialog {
         return true;
     }
 
-    public void setEdition(boolean edition, ActionStock as) {
-        this.edition = edition;
+    public void setEdition(ActionStock as) {
+        this.edition = true;
         lbl_kurangura_product.setText(as.produit.nom);
         field_kurangura_qtt.setText(as.quantite.toString());
         field_kurangura_prix.setText(as.prix.toString());

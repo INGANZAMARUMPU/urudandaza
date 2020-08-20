@@ -72,7 +72,7 @@ public class ClotureActivity extends RefreshableActivity {
     }
 
     public void setVenteTot(Double vente_tot) {
-        this.vente_tot = vente_tot;
+        this.vente_tot = Math.abs(vente_tot);
         this.lbl_hist_vente_tot.setText(vente_tot.toString());
     }
 

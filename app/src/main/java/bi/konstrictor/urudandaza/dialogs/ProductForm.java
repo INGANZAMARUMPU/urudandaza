@@ -2,10 +2,7 @@ package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,12 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class ProductForm extends Dialog {
@@ -28,9 +26,10 @@ public class ProductForm extends Dialog {
             field_product_unit_rapport;
     private ProgressBar progress_product;
     private String product_name, product_unite_in, product_unite_out, product_unit_rapport;
-    private Button btn_product_cancel, btn_product_submit;
-    public Boolean edition = false;
+    private Button btn_product_cancel, btn_product_submit, btn_product_delete;
+    private Boolean edition = false;
     public Boolean something_changed = false;
+    private Produit produit;
 
     public ProductForm(Context context) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -44,6 +43,7 @@ public class ProductForm extends Dialog {
         progress_product = findViewById(R.id.progress_product);
         btn_product_cancel = findViewById(R.id.btn_product_cancel);
         btn_product_submit = findViewById(R.id.btn_product_submit);
+        btn_product_delete = findViewById(R.id.btn_product_delete);
         btn_product_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,8 +57,15 @@ public class ProductForm extends Dialog {
             }
         });
     }
-    public void setEdition(Boolean edition) {
-        this.edition = edition;
+    public void setEdition(Produit produit) {
+        this.edition = true;
+        btn_product_delete.setVisibility(View.VISIBLE);
+        this.produit = produit;
+
+        field_product_name.setText(produit.nom);
+        field_product_unite_in.setText(produit.unite_entrant);
+        field_product_unite_out.setText(produit.unite_sortant);
+        field_product_unit_rapport.setText(produit.rapport.toString());
     }
     public void build(){
         show();
@@ -66,11 +73,21 @@ public class ProductForm extends Dialog {
     public void submit(){
         progress_product.setVisibility(View.VISIBLE);
         if(validateFields()) {
+            InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             if (edition) {
-
+                try {
+                    UpdateBuilder<Produit, Integer> update = inkoranyaMakuru.getDaoProduit().updateBuilder();
+                    update.where().eq("nom", produit.nom);
+                    update.updateColumnValue("nom" , field_product_name.getText());
+                    update.updateColumnValue("unite_entrant" , field_product_unite_in.getText());
+                    update.updateColumnValue("unite_sortant" , field_product_unite_out.getText());
+                    update.updateColumnValue("rapport" , field_product_unit_rapport.getText());
+                    update.update();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             } else {
                 double rapport = Double.parseDouble(product_unit_rapport);
-                InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
                 Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, 0.);
                 try {
                     Dao dao_produit = inkoranyaMakuru.getDaoProduit();
@@ -85,10 +102,6 @@ public class ProductForm extends Dialog {
             }
             something_changed = true;
         }
-//        Intent intent = new Intent(context, context.getClass());
-//        Activity activity = (Activity) context;
-//        activity.finish();
-//        context.startActivity(intent);
         progress_product.setVisibility(View.GONE);
     }
     private Boolean validateFields() {

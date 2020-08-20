@@ -67,4 +67,20 @@ public class ActionStock {
     public String toString() {
         return quantite + " " + produit.unite_sortant + " " + produit.nom + " : " + Math.abs(quantite*prix);
     }
+    public Double getAchatTotal() {
+        if(this.quantite>0) return Math.abs(this.prix*this.quantite);
+        else return 0.;
+    }
+    public Double getVenteTotal() {
+        if(this.quantite<0) return Math.abs(this.prix*this.quantite);
+        else return 0.;
+    }
+    public Double getVenteReste() {
+        if(this.quantite<0) return this.getVenteTotal()-payee;
+        else return 0.;
+    }
+    public Double getAchatReste() {
+        if(this.quantite>0) return this.getAchatTotal()-payee;
+        else return 0.;
+    }
 }

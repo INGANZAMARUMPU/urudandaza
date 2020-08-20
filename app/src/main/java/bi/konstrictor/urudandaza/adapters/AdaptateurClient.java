@@ -1,8 +1,10 @@
 package bi.konstrictor.urudandaza.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.ClientActivity;
+import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.ClientForm;
 import bi.konstrictor.urudandaza.models.Personne;
@@ -45,6 +48,16 @@ public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.View
                 ClientForm form = new ClientForm(context);
                 form.setClient(client);
                 form.show();
+            }
+        });
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
+                Intent intent = new Intent(context, DetailHistActivity.class);
+                intent.putExtra("filtre", "personne_id");
+                intent.putExtra("valeur", client.id.toString());
+                context.startActivity(intent);
             }
         });
     }
