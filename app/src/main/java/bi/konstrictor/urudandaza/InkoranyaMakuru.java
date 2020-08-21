@@ -50,7 +50,6 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     }
     public Dao<Cloture, Integer> getDaoCloture() throws SQLException {
         return getDao(Cloture.class);
-
     }
 
     @Override

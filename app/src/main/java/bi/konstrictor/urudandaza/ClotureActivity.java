@@ -1,9 +1,15 @@
 package bi.konstrictor.urudandaza;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,6 +25,7 @@ import bi.konstrictor.urudandaza.models.Cloture;
 
 public class ClotureActivity extends RefreshableActivity {
 
+    public static final int CLOTURE_CODE = 10;
     RecyclerView recycler_history;
     ArrayList<Cloture> clotures;
     private AdaptateurCloture adaptateur;
@@ -49,7 +56,6 @@ public class ClotureActivity extends RefreshableActivity {
         recycler_history.setAdapter(adaptateur);
         chargerStock();
     }
-
     private void chargerStock() {
         try {
             Dao dao_clotures = new InkoranyaMakuru(this).getDaoCloture();
@@ -61,27 +67,39 @@ public class ClotureActivity extends RefreshableActivity {
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
         }
     }
-    public void setAchatTot(Double achat_tot) {
-        this.achat_tot = achat_tot;
-        this.lbl_hist_achat_tot.setText(achat_tot.toString());
+    public void increaseAchatTot(Double achat_tot) {
+        this.achat_tot += achat_tot;
+        this.lbl_hist_achat_tot.setText(this.achat_tot.toString());
     }
 
-    public void setAchatRest(Double achat_rest) {
-        this.achat_rest = achat_rest;
-        this.lbl_hist_achat_rest.setText(achat_rest.toString());
+    public void increaseAchatRest(Double achat_rest) {
+        this.achat_rest += achat_rest;
+        this.lbl_hist_achat_rest.setText(this.achat_rest.toString());
     }
 
-    public void setVenteTot(Double vente_tot) {
-        this.vente_tot = Math.abs(vente_tot);
-        this.lbl_hist_vente_tot.setText(vente_tot.toString());
+    public void increaseVenteTot(Double vente_tot) {
+        this.vente_tot += Math.abs(vente_tot);
+        this.lbl_hist_vente_tot.setText(this.vente_tot.toString());
     }
 
-    public void setVenteReste(Double vente_reste) {
-        this.vente_reste = vente_reste;
-        this.lbl_hist_vente_reste.setText(vente_reste.toString());
+    public void increaseVenteReste(Double vente_reste) {
+        this.vente_reste += vente_reste;
+        this.lbl_hist_vente_reste.setText(this.vente_reste.toString());
     }
     @Override
     public void refresh() {
         chargerStock();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CLOTURE_CODE) {
+            if (resultCode == RESULT_OK) {
+                String returned_result = data.getData().toString();
+                if (returned_result.equals("changed")){
+                    refresh();
+                }
+            }
+        }
     }
 }

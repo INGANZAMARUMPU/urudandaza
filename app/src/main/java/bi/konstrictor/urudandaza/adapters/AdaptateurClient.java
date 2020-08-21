@@ -57,6 +57,7 @@ public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.View
                 Intent intent = new Intent(context, DetailHistActivity.class);
                 intent.putExtra("filtre", "personne_id");
                 intent.putExtra("valeur", client.id.toString());
+                intent.putExtra("is_dette", true);
                 context.startActivity(intent);
             }
         });

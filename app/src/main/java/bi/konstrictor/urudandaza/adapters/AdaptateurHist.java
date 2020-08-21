@@ -24,15 +24,18 @@ import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
 import bi.konstrictor.urudandaza.dialogs.VenteForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Cloture;
 
 public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHolder> {
 
-        private DetailHistActivity context;
-        private ArrayList<ActionStock> histories;
+    private DetailHistActivity context;
+    private ArrayList<ActionStock> histories;
+    private Cloture cloture = null;
 
-        public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories) {
+    public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories) {
             this.context = context;
             this.histories = histories;
+            this.cloture = context.cloture;
         }
 
         @Override
@@ -62,47 +65,51 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                 int bleu = context.getResources().getColor(R.color.colorBlue);
                 holder.lbl_hist_product.setTextColor(bleu);
             }
-            holder.btn_hist_options.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bounce));
-                    PopupMenu popup_menu = new PopupMenu(context, holder.btn_hist_options);
-                    popup_menu.inflate(R.menu.item_menu);
-                    popup_menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            int item_id = item.getItemId();
-                            if(item_id == R.id.action_item_edit){
-                                if(historie.quantite>0){
-                                    KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
-                                    kurangura_form.setEdition(historie);
-                                    kurangura_form.show();
-                                }else{
-                                    KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
-                                    kudandaza_form.setEdition(historie);
-                                    kudandaza_form.show();
+            if ((cloture!=null && !cloture.compiled) | (context.is_dette)){
+                holder.btn_hist_options.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bounce));
+                        PopupMenu popup_menu = new PopupMenu(context, holder.btn_hist_options);
+                        popup_menu.inflate(R.menu.item_menu);
+                        popup_menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                int item_id = item.getItemId();
+                                if (item_id == R.id.action_item_edit) {
+                                    if (historie.quantite > 0) {
+                                        KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
+                                        kurangura_form.setEdition(historie);
+                                        kurangura_form.show();
+                                    } else {
+                                        KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
+                                        kudandaza_form.setEdition(historie);
+                                        kudandaza_form.show();
+                                    }
                                 }
+                                if (item_id == R.id.action_item_delete) {
+                                    new AlertDialog.Builder(context)
+                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                            .setTitle("Guhanagura")
+                                            .setMessage("Urakeneye vy'ukuri guhanagura?")
+                                            .setPositiveButton("Hanagura", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Toast.makeText(context, "vyahanaguwe ", Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                            .setNegativeButton("Reka", null)
+                                            .show();
+                                }
+                                return false;
                             }
-                            if(item_id == R.id.action_item_delete){
-                                new AlertDialog.Builder(context)
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .setTitle("Guhanagura")
-                                    .setMessage("Urakeneye vy'ukuri guhanagura?")
-                                    .setPositiveButton("Hanagura", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Toast.makeText(context, "vyahanaguwe ", Toast.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .setNegativeButton("Reka", null)
-                                    .show();
-                            }
-                            return false;
-                        }
-                    });
-                    popup_menu.show();
-                }
-            });
+                        });
+                        popup_menu.show();
+                    }
+                });
+            }else{
+                holder.btn_hist_options.setVisibility(View.GONE);
+            }
             context.addToTotals(historie);
         }
 

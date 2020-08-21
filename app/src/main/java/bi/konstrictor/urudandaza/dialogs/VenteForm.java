@@ -132,7 +132,6 @@ public class VenteForm extends Dialog {
         if(validateFields()) {
             progress_vente.setVisibility(View.VISIBLE);
             Personne personne = Personne.getClient(client, context);
-            Log.i("===== PERSONNE ===== ", personne.toString());
             for (ActionStock as : CART){
                 as.personne = personne;
                 Double a_payer = as.produit.prix*as.quantite;

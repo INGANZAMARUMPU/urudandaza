@@ -89,7 +89,6 @@ public class KuranguraForm extends Dialog {
     }
 
     private void init() {
-
         field_kurangura_qtt.addTextChangedListener(new OnTextChangeListener() {
             @Override
             public void textChanged(Editable s) {

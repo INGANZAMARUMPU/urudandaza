@@ -117,7 +117,6 @@ public class VenteActivity extends RefreshableActivity{
                 return false;
             }
         });
-
         return true;
     }
     @Override

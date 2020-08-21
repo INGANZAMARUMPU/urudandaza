@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_item_edit"
+        android:id="@+id/action_cloture"
         android:title="kumarira umusi"/>
     <item
-        android:id="@+id/action_item_delete"
+        android:id="@+id/action_filtre"
         android:title="filtrage"/>
 </menu>

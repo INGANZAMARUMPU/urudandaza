@@ -45,7 +45,6 @@ public class StockActivity extends RefreshableActivity{
         recycler_ibidandazwa.setAdapter(adaptateur);
         chargerStock();
     }
-
     private void chargerStock() {
         try {
             Dao dao_produits = new InkoranyaMakuru(this).getDaoProduit();

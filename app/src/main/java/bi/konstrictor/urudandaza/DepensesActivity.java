@@ -21,7 +21,6 @@ import bi.konstrictor.urudandaza.models.Depense;
 import bi.konstrictor.urudandaza.models.Depense;
 
 public class DepensesActivity extends RefreshableActivity {
-
     private ArrayList<Depense> depenses;
     private AdaptateurDepense adaptateur;
     private RecyclerView recycler_client;
