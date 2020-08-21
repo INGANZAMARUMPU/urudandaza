@@ -15,7 +15,7 @@
             android:label="@string/kugurisha"
             android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DepensesActivity"
+        <activity android:name=".LiquideActivity"
             android:label="@string/ayasohotse"
             android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />

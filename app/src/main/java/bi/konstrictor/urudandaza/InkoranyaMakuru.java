@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -16,7 +15,7 @@ import java.util.List;
 
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
-import bi.konstrictor.urudandaza.models.Depense;
+import bi.konstrictor.urudandaza.models.Liquide;
 import bi.konstrictor.urudandaza.models.Dette;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
@@ -36,8 +35,8 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public Dao<Personne, Integer> getDaoPersonne() throws SQLException {
         return getDao(Personne.class);
     }
-    public Dao<Depense, Integer> getDaoDepense() throws SQLException {
-        return getDao(Depense.class);
+    public Dao<Liquide, Integer> getDaoLiquide() throws SQLException {
+        return getDao(Liquide.class);
     }
     public Dao<Dette, Integer> getDaoDette() throws SQLException {
         return getDao(Dette.class);
@@ -59,7 +58,7 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Personne.class);
             TableUtils.createTableIfNotExists(connectionSource, ActionStock.class);
             TableUtils.createTableIfNotExists(connectionSource, Cloture.class);
-            TableUtils.createTableIfNotExists(connectionSource, Depense.class);
+            TableUtils.createTableIfNotExists(connectionSource, Liquide.class);
             TableUtils.createTableIfNotExists(connectionSource, ProxyAction.class);
             TableUtils.createTableIfNotExists(connectionSource, Dette.class);
             getDaoCloture().create(new Cloture());

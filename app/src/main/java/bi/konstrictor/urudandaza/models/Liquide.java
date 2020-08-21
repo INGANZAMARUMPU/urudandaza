@@ -3,25 +3,29 @@ package bi.konstrictor.urudandaza.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @DatabaseTable
-public class Depense {
+public class Liquide {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField
-    Date date;
+    public Date date;
     @DatabaseField
-    Double montant;
+    public Double montant;
     @DatabaseField
-    String motif;
+    public String motif;
 
-    public Depense() {
+    public Liquide() {
     }
-
-    public Depense(Double montant, String motif) {
+    public Liquide(Double montant, String motif) {
         this.montant = montant;
         this.motif = motif;
         this.date = new Date();
+    }
+    public String getDateFormated(){
+        SimpleDateFormat sdate = new SimpleDateFormat("dd - MM - yyyy ");
+        return sdate.format(this.date);
     }
 }

@@ -1,7 +1,6 @@
 package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -25,7 +24,6 @@ import java.util.HashMap;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.Depense;
 import bi.konstrictor.urudandaza.models.Personne;
 
 import static android.Manifest.permission.READ_CONTACTS;

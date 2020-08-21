@@ -13,34 +13,49 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gusohora amahera"
+            android:text="Ayandi mahera"
             android:textSize="24sp"
             android:textColor="#000"
             android:textAlignment="center"/>
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
-                android:id="@+id/field_depense_somme"
+                android:id="@+id/field_liquide_somme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="amahera asohotse"
+                android:hint="uko angana"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <RadioGroup
+            android:id="@+id/radio_group_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/radio_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Arinjiye"/>
+            <RadioButton
+                android:id="@+id/radio_out"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Arasohotse"
+                android:checked="true"/>
+        </RadioGroup>
         <EditText
-            android:id="@+id/field_depense_motif"
+            android:id="@+id/field_liquide_motif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="3"
-            android:hint="igituma asohotse"/>
+            android:hint="impamvu"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/btn_depense_delete"
+                android:id="@+id/btn_liquide_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="hanagura"
@@ -54,14 +69,14 @@
                 android:orientation="horizontal"
                 android:gravity="right">
                 <Button
-                    android:id="@+id/btn_depense_cancel"
+                    android:id="@+id/btn_liquide_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="reka"
                     android:textColor="#777"
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
                 <Button
-                    android:id="@+id/btn_depense_submit"
+                    android:id="@+id/btn_liquide_submit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sawa"

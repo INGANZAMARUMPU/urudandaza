@@ -295,7 +295,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Ayasohotse"
+                                        android:text="Ayandi"
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
@@ -303,7 +303,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="ayatwawe n'ibindi"
+                                        android:text="ayasohoste n'ayinjiye uko"
                                         android:textAlignment="center"
                                         android:textSize="6pt"
                                         android:lines="2"

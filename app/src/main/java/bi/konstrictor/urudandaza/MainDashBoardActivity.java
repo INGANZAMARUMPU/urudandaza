@@ -2,7 +2,6 @@ package bi.konstrictor.urudandaza;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -54,7 +53,7 @@ public class MainDashBoardActivity extends AppCompatActivity {
 
     public void startDepenses(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        Intent open_depenses = new Intent(MainDashBoardActivity.this, DepensesActivity.class);
+        Intent open_depenses = new Intent(MainDashBoardActivity.this, LiquideActivity.class);
         startActivity(open_depenses);
     }
 

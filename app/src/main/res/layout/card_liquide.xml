@@ -21,15 +21,15 @@
                         android:id="@+id/lbl_card_sortie_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="04 - 08 - 2020"
-                        android:textSize="10pt"
+                        android:text="00 - 00 - 2020"
+                        android:textSize="8pt"
                         android:layout_marginRight="5dp"/>
                     <TextView
                         android:id="@+id/lbl_card_sortie_somme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#339"
-                        android:text="30 000"
+                        android:text="00 000"
                         android:textSize="7pt"/>
                 </LinearLayout>
                 <TextView
@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#339"
-                    android:text="impembo y'umukozi"
+                    android:text="imvo"
                     android:textSize="14sp"
                     android:gravity="right"/>
             </LinearLayout>

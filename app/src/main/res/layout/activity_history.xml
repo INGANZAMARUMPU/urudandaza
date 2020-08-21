@@ -95,7 +95,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ayasigaye :"
+                            android:text="amadeni :"
                             android:textSize="6pt"/>
                     </LinearLayout>
                     <LinearLayout
@@ -146,7 +146,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ayasigaye :"
+                            android:text="amadeni :"
                             android:textSize="6pt"/>
                     </LinearLayout>
                     <LinearLayout
