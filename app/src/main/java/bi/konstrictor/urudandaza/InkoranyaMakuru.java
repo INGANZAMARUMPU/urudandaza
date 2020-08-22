@@ -64,47 +64,37 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             getDaoCloture().create(new Cloture());
             database.execSQL("CREATE TRIGGER insertion_stock " +
                     "AFTER INSERT ON actionstock FOR EACH ROW BEGIN " +
-                    "UPDATE produit SET quantite = quantite+NEW.quantite*rapport " +
-                        "WHERE id = NEW.produit_id AND NEW.quantite>0; " +
-                    "UPDATE produit SET quantite = quantite+NEW.quantite " +
-                        "WHERE id = NEW.produit_id AND NEW.quantite<0; " +
-                    "UPDATE cloture SET achat = achat+NEW.quantite*NEW.prix, payee_achat = payee_achat+NEW.payee " +
+                    "UPDATE produit SET quantite = quantite+NEW.quantite WHERE id = NEW.produit_id;" +
+                    "UPDATE cloture SET payee_achat=payee_achat+NEW.payee, achat=achat+NEW.total " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite>0; " +
-                    "UPDATE cloture SET vente = vente+NEW.quantite*NEW.prix, payee_vente = payee_vente+NEW.payee " +
+                    "UPDATE cloture SET vente=vente+NEW.total, payee_vente=payee_vente+NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0; " +
-                    "INSERT INTO proxyaction (produit_id, quantite, prix, payee, personne_id, motif, date, cloture_id) " +
-                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
+                    "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, motif, date, cloture_id) " +
+                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
                     "END;");
 
             database.execSQL("CREATE TRIGGER modification_stock " +
                     "AFTER UPDATE ON ActionStock FOR EACH ROW BEGIN " +
-                    "UPDATE Produit SET quantite = quantite-OLD.quantite*rapport+NEW.quantite*rapport " +
-                        "WHERE id = NEW.produit_id AND NEW.quantite>0; " +
-                    "UPDATE Produit SET quantite = quantite-OLD.quantite+NEW.quantite " +
-                        "WHERE id = NEW.produit_id AND NEW.quantite<0; " +
-                    "UPDATE cloture SET achat = achat-(OLD.quantite*OLD.prix)+(NEW.quantite*NEW.prix), " +
-                        "payee_achat = payee_achat-OLD.payee+NEW.payee " +
+                    "UPDATE Produit SET quantite = quantite-OLD.quantite+NEW.quantite WHERE id=NEW.produit_id; " +
+                    "UPDATE cloture SET " +
+                        "achat=achat-OLD.total+NEW.total, payee_achat=payee_achat-OLD.payee+NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite>0;  " +
-                    "UPDATE cloture SET vente = vente-(OLD.quantite*OLD.prix)+(NEW.quantite*NEW.prix), " +
-                        "payee_vente = payee_vente-OLD.payee+NEW.payee " +
+                    "UPDATE cloture SET " +
+                        "vente = vente-OLD.total+NEW.total, payee_vente = payee_vente-OLD.payee+NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0;  " +
                     "DELETE FROM proxyaction WHERE date = OLD.date; "+
-                    "INSERT INTO proxyaction (produit_id, quantite, prix, payee, personne_id, motif, date, cloture_id)" +
-                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, " +
+                    "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, motif, date, cloture_id)" +
+                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, " +
                         "NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
                     "END;");
 
             database.execSQL("create trigger suppression_stock " +
-                    "AFTER UPDATE ON ActionStock FOR EACH ROW BEGIN " +
-                    "UPDATE Produit SET quantite = quantite-OLD.quantite*produit.rapport " +
-                        "WHERE id = OLD.produit_id  AND OLD.quantite>0;  " +
+                    "AFTER DELETE ON ActionStock FOR EACH ROW BEGIN " +
                     "UPDATE Produit SET quantite = quantite-OLD.quantite " +
-                        "WHERE id = OLD.produit_id AND OLD.quantite<0; " +
-                    "UPDATE cloture SET achat = achat-(OLD.quantite*OLD.prix), " +
-                        "payee_achat = payee_achat-OLD.payee " +
+                        "WHERE id = OLD.produit_id; " +
+                    "UPDATE cloture SET achat = achat-OLD.total, payee_achat = payee_achat-OLD.payee " +
                         "WHERE cloture.id=OLD.cloture_id AND OLD.quantite>0; " +
-                    "UPDATE cloture SET vente = vente-(OLD.quantite*OLD.prix), " +
-                        "payee_vente = payee_vente-OLD.payee " +
+                    "UPDATE cloture SET vente = vente-OLD.total, payee_vente = payee_vente-OLD.payee " +
                         "WHERE cloture.id=OLD.cloture_id AND OLD.quantite<0; " +
                     "DELETE FROM proxyaction WHERE id = OLD.id; "+
                     "END;");
@@ -130,10 +120,10 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                 return getDaoCloture().createIfNotExists(new Cloture());
             }
         }catch (SQLException e){
-                Log.i("ERREUR", e.getMessage());
-                e.printStackTrace();
-                Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                return null;
+            Log.i("ERREUR", e.getMessage());
+            e.printStackTrace();
+            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+            return null;
         }
     }
 

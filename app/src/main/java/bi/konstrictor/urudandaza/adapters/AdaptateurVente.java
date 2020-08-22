@@ -54,7 +54,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         holder.lbl_card_vente.setText(produit.nom);
         holder.view.clearFocus();
         try {
-            Double qtt = context.getCartItem(produit).quantite;
+            Double qtt = context.getCartItem(produit).getQuantite();
             holder.field_vente_qtt.setText(qtt.toString());
         }catch (Exception e){
             holder.field_vente_qtt.setText("0");

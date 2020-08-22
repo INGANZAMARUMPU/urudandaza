@@ -155,17 +155,17 @@ public class VenteActivity extends RefreshableActivity{
         return null;
     }
     public void addToCart(ProxyAction stock){
-        if(stock.quantite<1){
+        if(stock.getQuantite()==1){
             removeFromCart(stock.produit);
             return;
         };
         ProxyAction old = getCartItem(stock.produit);
         if(old==null){
             CART.add(stock);
-            setMONTANT(MONTANT + stock.prix*stock.quantite);
+            setMONTANT(MONTANT + stock.getTotal());
         }else{
-            setMONTANT(MONTANT - old.prix*old.quantite + stock.prix*stock.quantite);
-            old.quantite = stock.quantite;
+            setMONTANT(MONTANT - old.getTotal() + stock.getTotal());
+            old.setQuantite(stock.getQuantite());
         }
     }
 
@@ -182,7 +182,7 @@ public class VenteActivity extends RefreshableActivity{
         for(ProxyAction as : CART){
             if(produit.id == as.produit.id){
                 CART.remove(as);
-                setMONTANT(MONTANT - as.prix*as.quantite);
+                setMONTANT(MONTANT - as.getTotal());
                 return;
             }
         }

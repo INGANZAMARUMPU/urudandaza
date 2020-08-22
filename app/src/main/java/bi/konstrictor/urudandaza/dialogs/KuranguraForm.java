@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -30,6 +31,8 @@ import bi.konstrictor.urudandaza.OnTextChangeListener;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Liquide;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
 
@@ -47,6 +50,7 @@ public class KuranguraForm extends Dialog {
     private Produit produit;
     private boolean edition = false;
     private boolean ideni = false;
+    private ActionStock action_stock;
 
     public KuranguraForm(final RefreshableActivity context, Produit produit) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -133,7 +137,7 @@ public class KuranguraForm extends Dialog {
             @Override
             public void textChanged(Editable s) {
                 if (field_kurangura_prix.hasFocus()) {
-                    String str_qtt = field_kurangura_total.getText().toString().trim();
+                    String str_qtt = field_kurangura_qtt.getText().toString().trim();
                     if ((!str_qtt.isEmpty()) && s.length()>0) {
                         Double quantity = Double.parseDouble(str_qtt);
                         Double prix = Double.parseDouble(s.toString());
@@ -170,32 +174,41 @@ public class KuranguraForm extends Dialog {
         }
     }
     public void build(){ show(); }
+    public void chargerPersonne(){
+        Personne personne = Personne.getClient(client, context);
+        if (personne==null){
+            ClientForm form = new ClientForm(context);
+            form.setPARENT_NAME_FIELD(field_kurangura_personne);
+            form.show();
+            progress_kurangura.setVisibility(View.GONE);
+        }
+    }
     public void submit(){
         if(validateFields()) {
+            Personne personne = null;
+            Cloture cloture = new InkoranyaMakuru(context).getLatestCloture();
             progress_kurangura.setVisibility(View.VISIBLE);
-            if (edition) {
-
+            double qtt = Double.parseDouble(kurangura_qtt);
+            double prix = Double.parseDouble(kurangura_prix);
+            ActionStock as = new ActionStock();
+            if(ideni){
+                personne = Personne.getClient(client, context);
+                if (personne==null){
+                    chargerPersonne();
+                    return;
+                }
+                as.ideniKurangura(produit, qtt, prix, personne, payee, null, cloture);
             } else {
-                double qtt = Double.parseDouble(kurangura_qtt);
-                double prix = Double.parseDouble(kurangura_prix);
-                InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+                as.kurangura(produit, qtt, prix, cloture);
+            }
+            if (edition) {
+                as.cloture = action_stock.cloture;
+                action_stock.update(context, as);
+                dismiss();
+            } else {
                 try {
-                    ActionStock action = new ActionStock();
-                    if(ideni){
-                        Personne personne = Personne.getClient(client, context);
-                        if (personne==null){
-                            ClientForm form = new ClientForm(context);
-                            form.setPARENT_NAME_FIELD(field_kurangura_personne);
-                            form.show();
-                            progress_kurangura.setVisibility(View.GONE);
-                            return;
-                        }
-                        action.ideniKurangura(produit, qtt, prix, personne, payee, null, inkoranyaMakuru.getLatestCloture());
-                    }else {
-                        action.kurangura(produit, qtt, prix, payee, inkoranyaMakuru.getLatestCloture());
-                    }
-                    Dao dao_action = inkoranyaMakuru.getDaoActionStock();
-                    dao_action.create(action);
+                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                    dao_action.create(as);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
                     dismiss();
                 } catch (SQLException e) {
@@ -240,10 +253,11 @@ public class KuranguraForm extends Dialog {
 
     public void setEdition(ActionStock as) {
         this.edition = true;
+        this.action_stock = as;
         lbl_kurangura_product.setText(as.produit.nom);
-        field_kurangura_qtt.setText(as.quantite.toString());
-        field_kurangura_prix.setText(as.prix.toString());
-        field_kurangura_total.setText(as.total().toString());
+        field_kurangura_qtt.setText(as.getQuantite().toString());
+        field_kurangura_prix.setText(as.getPrix().toString());
+        field_kurangura_total.setText(as.getAchatTotal().toString());
         field_kurangura_payee.setText(as.payee.toString());
         try {
             field_kurangura_personne.setText(as.personne.nom);

@@ -38,9 +38,9 @@ public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Personne client = clients.get(position);
         holder.lbl_card_client_name.setText(client.nom);
-        if((client.autres!=null) && (!client.autres.trim().isEmpty()))
+        if ((client.autres != null) && (!client.autres.trim().isEmpty()))
             holder.lbl_card_client_infos.setText(client.autres);
-        if((client.phone!=null) && (!client.phone.trim().isEmpty()))
+        if ((client.phone != null) && (!client.phone.trim().isEmpty()))
             holder.lbl_card_client_tel.setText(client.phone);
         holder.btn_card_client_edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,9 +67,10 @@ public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.View
     public int getItemCount() {
         return clients.size();
     }
+
     public void setData(ArrayList<Personne> produit) {
-            this.clients = produit;
-        }
+        this.clients = produit;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView lbl_card_client_name, lbl_card_client_tel, lbl_card_client_infos;

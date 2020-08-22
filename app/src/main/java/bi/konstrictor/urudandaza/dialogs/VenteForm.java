@@ -47,6 +47,7 @@ public class VenteForm extends Dialog {
     private boolean edition;
     private double payee;
     private String client;
+    private boolean ideni = false;
 
     public VenteForm(final VenteActivity context, ArrayList CART) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -99,7 +100,7 @@ public class VenteForm extends Dialog {
         });
         String confirmation = "";
         for(ActionStock as:CART){
-            confirmation += as.toString()+"\n";
+            confirmation += "- "+as.toString()+"\n";
         }
         lbl_vente_list.setText(confirmation);
         field_vente_payee.setText(context.getMONTANT().toString());
@@ -128,27 +129,40 @@ public class VenteForm extends Dialog {
         }
     }
     public void build(){ show(); }
+    public void chargerPersonne(){
+        Personne personne = Personne.getClient(client, context);
+        if (personne==null){
+            ClientForm form = new ClientForm(context);
+            form.setPARENT_NAME_FIELD(field_vente_client);
+            form.show();
+            progress_vente.setVisibility(View.GONE);
+        }
+    }
     public void submit(){
         if(validateFields()) {
             progress_vente.setVisibility(View.VISIBLE);
             Personne personne = Personne.getClient(client, context);
-            for (ActionStock as : CART){
-                as.personne = personne;
-                Double a_payer = as.produit.prix*as.quantite;
-                if (payee>=a_payer) {
-                    as.payee = a_payer;
-                    payee -= a_payer;
+            if(ideni){
+                personne = Personne.getClient(client, context);
+                if (personne==null){
+                    chargerPersonne();
+                    return;
+                }
+            }
+            InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+            for (ActionStock cart : CART){
+                ActionStock as = new ActionStock();
+                if (payee>=cart.getVenteTotal()) {
+                    as.ideniKudandaza(cart.produit, cart.getQuantite(), personne, cart.getVenteTotal(),null, inkoranyaMakuru.getLatestCloture());
+                    payee -= as.getVenteTotal();
                 } else {
-                    as.payee = payee;
+                    as.ideniKudandaza(cart.produit, cart.getQuantite(), personne, payee,null, inkoranyaMakuru.getLatestCloture());
                     payee = 0;
                 }
                 try {
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                    as.quantite = -as.quantite;
-                    Log.i("===== AS ===== ", as.toString());
                     dao_action.create(as);
                 } catch (SQLException e) {
-                    Log.i("===== ERREUR ==== ", e.getMessage());
                     e.printStackTrace();
                     Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
                     break;
@@ -167,6 +181,8 @@ public class VenteForm extends Dialog {
             if(client.isEmpty()) {
                 field_vente_client.setError("ko atarishe yose uzuza izina");
                 return false;
+            }else {
+                ideni = true;
             }
         }
         return true;

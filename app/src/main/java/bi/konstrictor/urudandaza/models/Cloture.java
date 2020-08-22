@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
@@ -14,7 +11,6 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 
@@ -55,7 +51,7 @@ public class Cloture implements Serializable {
                 "id=" + id +
                 ", date=" + date +
                 ", achat=" + achat +
-                ", vente=" + getVente() +
+                ", vente=" + vente +
                 ", reste_achat=" + getAchatReste() +
                 ", reste_vente=" + getVenteReste() +
                 ", compiled=" + compiled +

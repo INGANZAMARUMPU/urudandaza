@@ -121,6 +121,10 @@ public class DetailHistActivity extends RefreshableActivity {
 
     @Override
     public void refresh() {
+        lbl_det_hist_achat_tot.setText("0");
+        lbl_det_hist_achat_rest.setText("0");
+        lbl_det_hist_vente_tot.setText("0");
+        lbl_det_hist_vente_reste.setText("0");
         chargerStock();
     }
 }
