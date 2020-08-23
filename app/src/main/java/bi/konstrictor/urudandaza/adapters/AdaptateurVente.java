@@ -154,7 +154,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
     }
     private void addTocart(Produit produit, Double quantite) {
         ProxyAction as = new ProxyAction();
-        as.kudandaza(produit, quantite, new InkoranyaMakuru(context).getLatestCloture());
+        as.kudandaza(produit, quantite, null, null, new InkoranyaMakuru(context).getLatestCloture());
         context.addToCart(as);
     }
 

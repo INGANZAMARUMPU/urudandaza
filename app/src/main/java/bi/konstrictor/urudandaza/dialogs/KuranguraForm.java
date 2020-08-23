@@ -64,6 +64,7 @@ public class KuranguraForm extends Dialog {
         field_kurangura_total = findViewById(R.id.field_kurangura_total);
         field_kurangura_payee = findViewById(R.id.field_kurangura_payee);
         field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
+        field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
         lbl_kurangura_unite = findViewById(R.id.lbl_kurangura_unite);
         progress_kurangura = findViewById(R.id.progress_kurangura);
 
@@ -190,23 +191,20 @@ public class KuranguraForm extends Dialog {
             progress_kurangura.setVisibility(View.VISIBLE);
             double qtt = Double.parseDouble(kurangura_qtt);
             double prix = Double.parseDouble(kurangura_prix);
-            ActionStock as = new ActionStock();
             if(ideni){
                 personne = Personne.getClient(client, context);
                 if (personne==null){
                     chargerPersonne();
                     return;
                 }
-                as.ideniKurangura(produit, qtt, prix, personne, payee, null, cloture);
-            } else {
-                as.kurangura(produit, qtt, prix, cloture);
             }
             if (edition) {
-                as.cloture = action_stock.cloture;
-                action_stock.update(context, as);
+                action_stock.kurangura(produit, qtt, prix, personne, payee, null, cloture);
+                action_stock.update(context);
                 dismiss();
             } else {
                 try {
+                    ActionStock as = new ActionStock();
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(as);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();

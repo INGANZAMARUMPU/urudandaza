@@ -2,21 +2,27 @@ package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.Where;
@@ -40,14 +46,15 @@ public class VenteForm extends Dialog {
     private TextView lbl_vente_list;
     private AutoCompleteTextView field_vente_client;
     private EditText field_vente_payee;
+    private CheckBox check_vente_expired;
     private ProgressBar progress_vente;
     private String[] arrcontact;
-    final int PRIX=10, TOTAL=20;
     private ArrayList<ActionStock> CART;
     private boolean edition;
     private double payee;
     private String client;
     private boolean ideni = false;
+    private boolean expired;
 
     public VenteForm(final VenteActivity context, ArrayList CART) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -59,6 +66,7 @@ public class VenteForm extends Dialog {
         field_vente_client = findViewById(R.id.field_vente_client);
         progress_vente = findViewById(R.id.progress_vente);
         field_vente_payee = findViewById(R.id.field_vente_payee);
+        check_vente_expired = findViewById(R.id.check_vente_expired);
 
         Button btn_vente_submit = findViewById(R.id.btn_vente_submit);
         Button btn_vente_cancel = findViewById(R.id.btn_vente_cancel);
@@ -83,21 +91,7 @@ public class VenteForm extends Dialog {
 
         init();
     }
-
     private void init() {
-        field_vente_client.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    progress_vente.setVisibility(View.VISIBLE);
-                    loadClient();
-                    field_vente_client.setAdapter(new ArrayAdapter<String>(context,
-                            android.R.layout.simple_dropdown_item_1line, arrcontact));
-                    progress_vente.setVisibility(View.GONE);
-                    Toast.makeText(context, "Lecture des contacts",Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         String confirmation = "";
         for(ActionStock as:CART){
             confirmation += "- "+as.toString()+"\n";
@@ -114,6 +108,53 @@ public class VenteForm extends Dialog {
                 if(s.length()<1) field_vente_payee.setText("0");
             }
         });
+        field_vente_client.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    progress_vente.setVisibility(View.VISIBLE);
+                    loadClient();
+                    field_vente_client.setAdapter(new ArrayAdapter<String>(context,
+                            android.R.layout.simple_dropdown_item_1line, arrcontact));
+                    progress_vente.setVisibility(View.GONE);
+                    Toast.makeText(context, "Lecture des contacts",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        check_vente_expired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check_vente_expired.isChecked()){
+                    new AlertDialog.Builder(context)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Ivyononekanye")
+                            .setMessage("uremeje vy'ukuri ko ivyo ari ivyononekaye?")
+                            .setPositiveButton("Ego", new OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    setExpired(true);
+                                }
+                            })
+                            .setNegativeButton("Oya", null)
+                            .show();
+                } else{
+                    setExpired(false);
+                }
+            }
+        });
+    }
+
+    private void setExpired(boolean expired) {
+        this.expired = expired;
+        if (expired){
+            field_vente_client.setText("");
+            field_vente_payee.setText("0");
+            field_vente_client.setEnabled(false);
+            field_vente_payee.setEnabled(false);
+        } else {
+            field_vente_client.setEnabled(true);
+            field_vente_payee.setEnabled(true);
+        }
     }
 
     private void loadClient() {
@@ -128,7 +169,6 @@ public class VenteForm extends Dialog {
             Toast.makeText(context, "Erreur de lecture des contacts",Toast.LENGTH_LONG).show();
         }
     }
-    public void build(){ show(); }
     public void chargerPersonne(){
         Personne personne = Personne.getClient(client, context);
         if (personne==null){
@@ -139,8 +179,36 @@ public class VenteForm extends Dialog {
         }
     }
     public void submit(){
+        progress_vente.setVisibility(View.VISIBLE);
+        if (expired){
+            performExpiration();
+        }else{
+            performSubmition();
+        }
+        progress_vente.setVisibility(View.GONE);
+        dismiss();
+    }
+    private void performExpiration() {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        for (ActionStock cart : CART){
+            ActionStock as = new ActionStock();
+            as.expiration(cart.produit, cart.getQuantite(), inkoranyaMakuru.getLatestCloture());
+            try {
+                Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                dao_action.create(as);
+                context.refresh();
+                Toast.makeText(context, "sawa", Toast.LENGTH_LONG).show();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+                break;
+            }
+        }
+        context.refresh();
+        Toast.makeText(context, "Vyakozwe", Toast.LENGTH_LONG).show();
+    }
+    private void performSubmition() {
         if(validateFields()) {
-            progress_vente.setVisibility(View.VISIBLE);
             Personne personne = Personne.getClient(client, context);
             if(ideni){
                 personne = Personne.getClient(client, context);
@@ -153,10 +221,10 @@ public class VenteForm extends Dialog {
             for (ActionStock cart : CART){
                 ActionStock as = new ActionStock();
                 if (payee>=cart.getVenteTotal()) {
-                    as.ideniKudandaza(cart.produit, cart.getQuantite(), personne, cart.getVenteTotal(),null, inkoranyaMakuru.getLatestCloture());
+                    as.kudandaza(cart.produit, cart.getQuantite(), personne, cart.getVenteTotal(), inkoranyaMakuru.getLatestCloture());
                     payee -= as.getVenteTotal();
                 } else {
-                    as.ideniKudandaza(cart.produit, cart.getQuantite(), personne, payee,null, inkoranyaMakuru.getLatestCloture());
+                    as.kudandaza(cart.produit, cart.getQuantite(), personne, payee, inkoranyaMakuru.getLatestCloture());
                     payee = 0;
                 }
                 try {
@@ -168,12 +236,11 @@ public class VenteForm extends Dialog {
                     break;
                 }
             }
-            progress_vente.setVisibility(View.GONE);
-            dismiss();
             context.refresh();
             Toast.makeText(context, "Vyaguzwe", Toast.LENGTH_LONG).show();
         }
     }
+
     private Boolean validateFields() {
         payee = Double.parseDouble(field_vente_payee.getText().toString());
         client = field_vente_client.getText().toString().trim();
@@ -187,4 +254,5 @@ public class VenteForm extends Dialog {
         }
         return true;
     }
+    public void build(){ show(); }
 }

@@ -9,16 +9,21 @@ import android.database.Cursor;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -41,6 +46,7 @@ public class KudandazaForm extends Dialog {
     private RefreshableActivity context;
     private TextView lbl_kudandaza_product, field_kudandaza_prix, field_kudandaza_total,
             field_kudandaza_qtt, field_kudandaza_payee, lbl_kudandaza_unite;
+    private CheckBox check_kudandaza_expired;
     private AutoCompleteTextView field_kudandaza_personne;
     private String kudandaza_prix, kudandaza_qtt, client, kudandaza_payee;
     private ProgressBar progress_kudandaza;
@@ -50,6 +56,7 @@ public class KudandazaForm extends Dialog {
     private boolean edition = false;
     private boolean ideni = false;
     private ActionStock action_stock;
+    private boolean expired;
 
     public KudandazaForm(final RefreshableActivity context, Produit produit) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -63,6 +70,7 @@ public class KudandazaForm extends Dialog {
         field_kudandaza_total = findViewById(R.id.field_kudandaza_total);
         field_kudandaza_payee = findViewById(R.id.field_kudandaza_payee);
         field_kudandaza_personne = findViewById(R.id.field_kudandaza_personne);
+        check_kudandaza_expired = findViewById(R.id.check_kudandaza_expired);
         lbl_kudandaza_unite = findViewById(R.id.lbl_kudandaza_unite);
         progress_kudandaza = findViewById(R.id.progress_kudandaza);
 
@@ -90,7 +98,6 @@ public class KudandazaForm extends Dialog {
         });
         init();
     }
-
     private void init() {
         field_kudandaza_qtt.addTextChangedListener(new OnTextChangeListener() {
             @Override
@@ -159,6 +166,42 @@ public class KudandazaForm extends Dialog {
                 }
             }
         });
+        check_kudandaza_expired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check_kudandaza_expired.isChecked()){
+                    new AlertDialog.Builder(context)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Ivyononekanye")
+                            .setMessage("uremeje vy'ukuri ko ivyo ari ivyononekaye?")
+                            .setPositiveButton("Ego", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    setExpired(true);
+                                }
+                            })
+                            .setNegativeButton("Oya", null)
+                            .show();
+                }else{
+                    setExpired(false);
+                }
+            }
+        });
+    }
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+        if (expired){
+            field_kudandaza_payee.setText("0");
+            field_kudandaza_personne.setText("");
+            field_kudandaza_total.setText("0");
+            field_kudandaza_payee.setEnabled(false);
+            field_kudandaza_personne.setEnabled(false);
+            field_kudandaza_total.setEnabled(false);
+        }else{
+            field_kudandaza_payee.setEnabled(true);
+            field_kudandaza_personne.setEnabled(true);
+            field_kudandaza_total.setEnabled(true);
+        }
     }
     private void loadClient() {
         try {
@@ -183,33 +226,47 @@ public class KudandazaForm extends Dialog {
         }
     }
     public void submit(){
+        progress_kudandaza.setVisibility(View.VISIBLE);
+        if (expired){
+            performExpiration();
+        }else{
+            performSubmition();
+        }
+        progress_kudandaza.setVisibility(View.GONE);
+        dismiss();
+    }
+    private void performExpiration() {
+        getValues();
+        double qtt = Double.parseDouble(kudandaza_qtt);
+        double prix = Double.parseDouble(kudandaza_prix);
+        action_stock.produit.prix = prix;
+        action_stock.expiration(action_stock.produit, qtt, action_stock.cloture);
+        action_stock.update(context);
+        context.refresh();
+    }
+    private void performSubmition() {
         if(validateFields()) {
             Personne personne = null;
             InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             progress_kudandaza.setVisibility(View.VISIBLE);
             double qtt = Double.parseDouble(kudandaza_qtt);
             double prix = Double.parseDouble(kudandaza_prix);
-            ActionStock as = new ActionStock();
-            if(ideni){
+            produit.prix = prix;
+            if(ideni) {
                 personne = Personne.getClient(client, context);
-                if (personne==null){
+                if (personne == null) {
                     chargerPersonne();
                     return;
                 }
-                as.ideniKudandaza(produit, qtt, personne, payee, null, inkoranyaMakuru.getLatestCloture());
-            } else {
-                as.kudandaza(produit, qtt, inkoranyaMakuru.getLatestCloture());
             }
             if (edition) {
-                as.cloture = action_stock.cloture;
-                action_stock.update(context, as);
-                dismiss();
+                action_stock.kudandaza(produit, qtt, personne, payee, inkoranyaMakuru.getLatestCloture());
+                action_stock.update(context);
             } else {
                 try {
+                    ActionStock as = new ActionStock();
                     Dao dao_action = inkoranyaMakuru.getDaoActionStock();
                     dao_action.create(as);
-                    Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
-                    dismiss();
                 } catch (SQLException e) {
                     Log.i("ERREUR", e.getMessage());
                     e.printStackTrace();
@@ -217,14 +274,17 @@ public class KudandazaForm extends Dialog {
                 }
             }
             context.refresh();
-            progress_kudandaza.setVisibility(View.GONE);
         }
+        Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
     }
-    private Boolean validateFields() {
+    private void getValues(){
         kudandaza_qtt = field_kudandaza_qtt.getText().toString().trim();
         kudandaza_prix = field_kudandaza_prix.getText().toString().trim();
         kudandaza_payee = field_kudandaza_payee.getText().toString().trim();
         client = field_kudandaza_personne.getText().toString().trim();
+    }
+    private Boolean validateFields() {
+        getValues();
         if(kudandaza_prix.isEmpty()){
             field_kudandaza_prix.setError("uzuza ngaha");
             return false;
@@ -253,11 +313,13 @@ public class KudandazaForm extends Dialog {
     public void setEdition(ActionStock as) {
         this.edition = true;
         this.action_stock = as;
+        expired = as.perimee;
         Double qtt = Math.abs(as.getQuantite());
         lbl_kudandaza_product.setText(as.produit.nom);
         field_kudandaza_qtt.setText(qtt.toString());
         field_kudandaza_prix.setText(as.getPrix().toString());
         field_kudandaza_total.setText(as.getAchatTotal().toString());
+        check_kudandaza_expired.setChecked(as.perimee);
         field_kudandaza_payee.setText(as.payee.toString());
         try {
             field_kudandaza_personne.setText(as.personne.nom);

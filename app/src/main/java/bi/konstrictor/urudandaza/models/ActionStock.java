@@ -32,36 +32,28 @@ public class ActionStock {
     public Personne personne;
     @DatabaseField
     public String motif;
-    @DatabaseField
-    public Date date;
     @DatabaseField(canBeNull=false,foreign=true, foreignColumnName="id")
     public Cloture cloture;
+    @DatabaseField
+    public Date date;
+    @DatabaseField(defaultValue = "0")
+    public Boolean perimee=false;
     public ActionStock() { }
 
-    public void ideniKurangura(Produit produit, Double quantite, Double prix, Personne personne, Double payee, String motif, Cloture cloture) {
+    public void kurangura(Produit produit, Double quantite, Double prix, Personne personne, Double payee, String motif, Cloture cloture) {
         this.produit = produit;
         setQuantite(quantite);
         setPrix(prix);
-        this.payee = 0.;
+        this.payee = payee;
         this.personne = personne;
         this.motif = motif;
         this.date = new Date();
         this.cloture = cloture;
     }
-    public void ideniKudandaza(Produit produit, Double quantite, Personne personne, Double payee,String motif, Cloture cloture) {
-        ideniKurangura(produit, -Math.abs(quantite), produit.prix, personne, payee, motif, cloture);
+    public void kudandaza(Produit produit, Double quantite, Personne personne, Double payee,Cloture cloture) {
+        kurangura(produit, -Math.abs(quantite), produit.prix, personne, payee, null, cloture);
     }
-    public void kurangura(Produit produit, Double quantite, @Nullable Double prix, Cloture cloture) {
-        this.produit = produit;
-        setQuantite(quantite);
-        setPrix(prix);
-        this.payee = total;
-        this.date = new Date();
-        this.cloture = cloture;
-    }
-    public void kudandaza(Produit produit, Double quantite, Cloture cloture) {
-        kurangura(produit, -Math.abs(quantite), produit.prix,  cloture);
-    }
+
     public String getDateFormated(){
         SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy ");
         return sdate.format(this.date);
@@ -108,15 +100,16 @@ public class ActionStock {
     public String toString() {
         return Math.abs(getQuantite()) +" " + produit.nom + " x " + prix + " : " + getTotal();
     }
-    public void update(Context context, ActionStock as){
+    public void update(Context context){
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
             UpdateBuilder<ActionStock, Integer> update = inkoranyaMakuru.getDaoActionStock().updateBuilder();
             update.where().eq("id", this.id);
-            update.updateColumnValue("quantite" , as.quantite);
-            update.updateColumnValue("prix" , as.prix);
-            update.updateColumnValue("payee" , as.payee);
-            update.updateColumnValue("total" , as.total);
+            update.updateColumnValue("quantite" , this.quantite);
+            update.updateColumnValue("prix" , this.prix);
+            update.updateColumnValue("payee" , this.payee);
+            update.updateColumnValue("total" , this.total);
+            update.updateColumnValue("perimee" , this.perimee);
             if(personne!=null) update.updateColumnValue("personne_id" , personne.id);
             update.update();
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
@@ -124,5 +117,15 @@ public class ActionStock {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+    public void expiration(Produit produit, Double quantite, Cloture cloture) {
+        this.produit = produit;
+        this.quantite = -Math.abs(quantite);
+        this.cloture = cloture;
+        this.total = 0.;
+        this.prix = produit.prix;
+        this.payee = 0.;
+        this.date = new Date();
+        perimee = true;
     }
 }

@@ -69,8 +69,10 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite>0; " +
                     "UPDATE cloture SET vente=vente+NEW.total, payee_vente=payee_vente+NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0; " +
-                    "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, motif, date, cloture_id) " +
-                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
+                    "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, " +
+                            "motif, date, cloture_id, perimee) " +
+                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, NEW.payee, " +
+                            "NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id, NEW.perimee); "+
                     "END;");
 
             database.execSQL("CREATE TRIGGER modification_stock " +
@@ -83,9 +85,10 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                         "vente = vente-OLD.total+NEW.total, payee_vente = payee_vente-OLD.payee+NEW.payee " +
                         "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0;  " +
                     "DELETE FROM proxyaction WHERE date = OLD.date; "+
-                    "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, motif, date, cloture_id)" +
-                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, " +
-                        "NEW.payee, NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id); "+
+                    "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, " +
+                            "motif, date, cloture_id, perimee)" +
+                        "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, NEW.payee, " +
+                            "NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id, NEW.perimee); "+
                     "END;");
 
             database.execSQL("create trigger suppression_stock " +

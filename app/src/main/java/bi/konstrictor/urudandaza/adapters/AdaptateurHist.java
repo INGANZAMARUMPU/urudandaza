@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -48,8 +49,8 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ActionStock historie = histories.get(position);
-        Double reste = historie.getTotal() - historie.payee;
-        final Boolean is_vente = historie.getQuantite()<0;
+        Double reste = historie.perimee ? 0 : historie.getTotal() - historie.payee;
+        final Boolean is_achat = historie.getQuantite()>0 && !historie.perimee;
         Double qtt = Math.abs(historie.getQuantite());
         holder.lbl_hist_product.setText(historie.produit.nom);
         holder.lbl_hist_date.setText(historie.getDateFormated());
@@ -58,12 +59,15 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         holder.lbl_hist_tot.setText(historie.getTotal().toString());
         holder.lbl_hist_payee.setText(historie.payee.toString());
         holder.lbl_hist_reste.setText(reste.toString());
-        if(is_vente){
-            int rouge = context.getResources().getColor(R.color.colorRed);
-            if (reste>0) holder.lbl_hist_reste.setTextColor(rouge);
-        }else {
-            int bleu = context.getResources().getColor(R.color.colorBlue);
-            holder.lbl_hist_product.setTextColor(bleu);
+        int rouge = context.getResources().getColor(R.color.colorRed);
+        if (reste>0) holder.lbl_hist_reste.setTextColor(rouge);
+        if (historie.perimee){
+            int lightRed = context.getResources().getColor(R.color.lightRed);
+            holder.card_hist.setBackgroundColor(lightRed);
+        }
+        if (is_achat){
+            int lightBlue = context.getResources().getColor(R.color.lightBlue);
+            holder.card_hist.setBackgroundColor(lightBlue);
         }
         if ((cloture!=null && !cloture.compiled) | (context.is_dette)){
             holder.btn_hist_options.setOnClickListener(new View.OnClickListener() {
@@ -77,14 +81,14 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                         public boolean onMenuItemClick(MenuItem item) {
                             int item_id = item.getItemId();
                             if (item_id == R.id.action_item_edit) {
-                                if (is_vente) {
-                                    KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
-                                    kudandaza_form.setEdition(historie);
-                                    kudandaza_form.show();
-                                } else {
+                                if (is_achat) {
                                     KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
                                     kurangura_form.setEdition(historie);
                                     kurangura_form.show();
+                                } else {
+                                    KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
+                                    kudandaza_form.setEdition(historie);
+                                    kudandaza_form.show();
                                 }
                             }
                             if (item_id == R.id.action_item_delete) {
@@ -125,6 +129,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView lbl_hist_product, lbl_hist_date, lbl_hist_qtt, lbl_hist_price,
                 lbl_hist_tot, lbl_hist_payee, lbl_hist_reste, btn_hist_options;
+        CardView card_hist;
         public View view;
 
         public ViewHolder(final View itemView) {
@@ -138,6 +143,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             lbl_hist_payee = itemView.findViewById(R.id.lbl_hist_payee);
             lbl_hist_reste = itemView.findViewById(R.id.lbl_hist_reste);
             btn_hist_options = itemView.findViewById(R.id.btn_hist_options);
+            card_hist = itemView.findViewById(R.id.card_hist);
         }
     }
 }

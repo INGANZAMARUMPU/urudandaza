@@ -83,6 +83,11 @@
                         android:maxLines="1"
                         android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
+                <CheckBox
+                    android:id="@+id/check_vente_expired"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ni ivyononekaye"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
