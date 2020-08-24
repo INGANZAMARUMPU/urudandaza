@@ -49,6 +49,7 @@ public class ActionStock {
         this.motif = motif;
         this.date = new Date();
         this.cloture = cloture;
+        this.perimee = false;
     }
     public void kudandaza(Produit produit, Double quantite, Personne personne, Double payee,Cloture cloture) {
         kurangura(produit, -Math.abs(quantite), produit.prix, personne, payee, null, cloture);
@@ -121,9 +122,9 @@ public class ActionStock {
     public void expiration(Produit produit, Double quantite, Cloture cloture) {
         this.produit = produit;
         this.quantite = -Math.abs(quantite);
-        this.cloture = cloture;
-        this.total = 0.;
         this.prix = produit.prix;
+        this.cloture = cloture;
+        makeTotal();
         this.payee = 0.;
         this.date = new Date();
         perimee = true;

@@ -60,28 +60,24 @@
                             android:onClick="startStock"
                             android:layout_margin="1dp"
                             app:cardElevation="0dp">
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_vert"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_produit" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -89,7 +85,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -120,21 +115,18 @@
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_rouge"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_balance" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -142,7 +134,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -173,21 +164,18 @@
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_slategrey"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_list" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -195,7 +183,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -208,58 +195,6 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
                     </androidx.cardview.widget.CardView>
-<!--                    <androidx.cardview.widget.CardView-->
-<!--                        android:layout_width="112dp"-->
-<!--                        android:layout_height="142dp"-->
-<!--                        android:layout_margin="5dp"-->
-<!--                        app:cardBackgroundColor="#ffa000">-->
-<!--                        <androidx.cardview.widget.CardView-->
-<!--                            android:layout_width="110dp"-->
-<!--                            android:layout_height="140dp"-->
-<!--                            android:layout_margin="1dp"-->
-<!--                            app:cardElevation="0dp"-->
-<!--                            android:onClick="startHistory">-->
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:layout_margin="5dp"-->
-<!--                                android:gravity="center_horizontal"-->
-<!--                                android:orientation="vertical">-->
-
-<!--                                <ImageView-->
-<!--                                    android:layout_width="70dp"-->
-<!--                                    android:layout_height="70dp"-->
-<!--                                    android:background="@drawable/cercle_jaune"-->
-<!--                                    android:padding="15dp"-->
-<!--                                    android:src="@drawable/ic_payment" />-->
-
-<!--                                <LinearLayout-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:gravity="center_vertical"-->
-<!--                                    android:orientation="vertical">-->
-
-<!--                                    <TextView-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:text="Amadeni"-->
-<!--                                        android:textAlignment="center"-->
-<!--                                        android:textStyle="bold"-->
-<!--                                        android:textSize="7pt" />-->
-
-<!--                                    <TextView-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:text="kuriha no kurihwa"-->
-<!--                                        android:textAlignment="center"-->
-<!--                                        android:textSize="6pt"-->
-<!--                                        android:lines="2"-->
-<!--                                        android:ellipsize="end"/>-->
-<!--                                </LinearLayout>-->
-<!--                            </LinearLayout>-->
-<!--                        </androidx.cardview.widget.CardView>-->
-<!--                    </androidx.cardview.widget.CardView>-->
                     <androidx.cardview.widget.CardView
                         android:layout_width="112dp"
                         android:layout_height="142dp"
@@ -277,21 +212,18 @@
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_jaune"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_out" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -299,7 +231,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -329,21 +260,18 @@
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_violet"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_people" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -351,7 +279,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -368,7 +295,8 @@
                         android:layout_width="112dp"
                         android:layout_height="142dp"
                         android:layout_margin="5dp"
-                        app:cardBackgroundColor="#117380">
+                        app:cardBackgroundColor="#117380"
+                        android:visibility="gone">
                         <androidx.cardview.widget.CardView
                             android:layout_width="110dp"
                             android:layout_height="140dp"
@@ -380,21 +308,18 @@
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_bleu"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_information" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -402,7 +327,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -419,8 +343,8 @@
                         android:layout_width="112dp"
                         android:layout_height="142dp"
                         android:layout_margin="5dp"
+                        android:visibility="gone"
                         app:cardBackgroundColor="#ff4081">
-
                         <androidx.cardview.widget.CardView
                             android:layout_width="110dp"
                             android:layout_height="140dp"
@@ -433,21 +357,18 @@
                                 android:layout_margin="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
-
                                 <ImageView
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_rouge"
                                     android:padding="15dp"
                                     android:src="@drawable/ic_close" />
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:orientation="vertical">
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
@@ -455,7 +376,6 @@
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />
-
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
