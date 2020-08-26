@@ -15,7 +15,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
     public void nextActivity(View v){
-        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
         Intent i=new Intent(LoginActivity.this,
                 MainDashBoardActivity.class);
         startActivity(i);

@@ -205,6 +205,7 @@ public class KuranguraForm extends Dialog {
             } else {
                 try {
                     ActionStock as = new ActionStock();
+                    as.kurangura(produit, qtt, prix, personne, payee, null, cloture);
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(as);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();

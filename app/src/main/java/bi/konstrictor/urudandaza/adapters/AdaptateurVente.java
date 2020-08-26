@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,6 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
             @Override
             public void onClick(View v) {
                 holder.view.requestFocus();
-                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_zoomin));
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
                 if(qtt+1<=produit.quantite){
                     qtt++;
@@ -77,7 +77,6 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
             @Override
             public void onClick(View v) {
                 holder.view.requestFocus();
-                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_zoomout));
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
                 if(qtt>0){
                     qtt--;

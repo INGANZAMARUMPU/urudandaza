@@ -190,7 +190,6 @@ public class VenteActivity extends RefreshableActivity{
 
     public void vendre(View view) {
         if(MONTANT>0) {
-            view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
             VenteForm kurangura_form = new VenteForm(this, CART);
             kurangura_form.show();
         }
