@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -39,28 +42,37 @@ public class ClotureActivity extends RefreshableActivity {
     public Double achat_tot=0., achat_rest=0., vente_tot=0., vente_reste=0.;
     public PageAdapter calculations_adapter;
     public ViewPager view_pager_totals;
-    public TableLayout tab_layout_totals;
-    public ESFragment es_fragment = new ESFragment();
-    public FinalFragment final_fragment = new FinalFragment();
-    public TotalsFragment totals_fragment = new TotalsFragment();
+    public TabLayout tab_layout_totals;
+    public ESFragment es_fragment;
+    public FinalFragment final_fragment;
+    public TotalsFragment totals_fragment;
+    private FrameLayout frame_totals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         Toolbar toolbar = findViewById(R.id.history_toolbar);
+
         recycler_history = findViewById(R.id.recycler_history);
         view_pager_totals = findViewById(R.id.view_pager_totals);
         tab_layout_totals = findViewById(R.id.tab_layout_totals);
+        frame_totals = findViewById(R.id.frame_totals);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         calculations_adapter = new PageAdapter(
                 getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
                 this);
         clotures = new ArrayList<>();
         adaptateur = new AdaptateurCloture(ClotureActivity.this, clotures);
+        view_pager_totals.setAdapter(calculations_adapter);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        totals_fragment = (TotalsFragment) calculations_adapter.getItem(0);
+        es_fragment = (ESFragment) calculations_adapter.getItem(1);
+        final_fragment = (FinalFragment) calculations_adapter.getItem(2);
 
         recycler_history.setLayoutManager(new GridLayoutManager(this, 1));
 //        recycler_history.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
