@@ -3,6 +3,7 @@ package bi.konstrictor.urudandaza.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +19,13 @@ import bi.konstrictor.urudandaza.R;
  */
 public class TotalsFragment extends Fragment {
 
+    private final ClotureActivity context;
     public TextView lbl_hist_achat_tot, lbl_hist_achat_rest, lbl_hist_vente_tot, lbl_hist_vente_reste;
     private View view;
 
-    public TotalsFragment() {
+    public TotalsFragment(ClotureActivity context) {
         super();
+        this.context = context;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +35,34 @@ public class TotalsFragment extends Fragment {
         lbl_hist_vente_tot = view.findViewById(R.id.lbl_hist_vente_tot);
         lbl_hist_vente_reste = view.findViewById(R.id.lbl_hist_vente_reste);
 
+        watch();
         return view;
+    }
+
+    private void watch() {
+        context.achat_tot.observe(context, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                lbl_hist_achat_tot.setText(aDouble.toString());
+            }
+        });
+        context.achat_rest.observe(context, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                lbl_hist_achat_rest.setText(aDouble.toString());
+            }
+        });
+        context.vente_tot.observe(context, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                lbl_hist_vente_tot.setText(aDouble.toString());
+            }
+        });
+        context.vente_reste.observe(context, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                lbl_hist_vente_reste.setText(aDouble.toString());
+            }
+        });
     }
 }

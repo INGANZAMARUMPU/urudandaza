@@ -46,9 +46,9 @@
             android:id="@+id/tab_layout_totals"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@drawable/swipe_states_colors"
+            app:tabBackground="@drawable/swipe_states_colors"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:tabMaxWidth="10dp"/>
+            app:tabMaxWidth="10dp" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

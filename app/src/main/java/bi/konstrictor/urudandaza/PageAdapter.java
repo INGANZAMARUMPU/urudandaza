@@ -16,9 +16,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     public PageAdapter(FragmentManager fm, int behavior, ClotureActivity context) {
         super(fm, behavior);
-        this.es_fragment = context.es_fragment;
-        this.final_fragment = context.final_fragment;
-        this.totals_fragment = context.totals_fragment;
+        this.es_fragment = new ESFragment(context);
+        this.final_fragment = new FinalFragment(context);
+        this.totals_fragment = new TotalsFragment(context);
     }
     @Override
     public Fragment getItem(int position) {

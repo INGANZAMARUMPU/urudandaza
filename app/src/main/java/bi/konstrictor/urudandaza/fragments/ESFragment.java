@@ -15,10 +15,12 @@ import bi.konstrictor.urudandaza.R;
  * A simple {@link Fragment} subclass.
  */
 public class ESFragment extends Fragment {
+    private final ClotureActivity context;
     private View view;
 
-    public ESFragment() {
+    public ESFragment(ClotureActivity context) {
         super();
+        this.context = context;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

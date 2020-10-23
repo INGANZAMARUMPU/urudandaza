@@ -82,7 +82,6 @@ public class ProductForm extends Dialog {
                     update.updateColumnValue("unite_sortant" , field_product_unite_out.getText());
                     update.updateColumnValue("rapport" , field_product_unit_rapport.getText());
                     update.update();
-                    Log.i("=== PRODUCT UPDATE ===", update.toString());
                     dismiss();
                     context.refresh();
                 } catch (SQLException e) {
