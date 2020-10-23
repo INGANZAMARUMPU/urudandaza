@@ -82,6 +82,8 @@ public class ClientForm extends Dialog {
                     update.updateColumnValue("phone" , field_client_tel.getText());
                     update.updateColumnValue("autres" , field_client_autres.getText());
                     update.update();
+                    context.refresh();
+                    dismiss();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -92,8 +94,9 @@ public class ClientForm extends Dialog {
                             field_client_name.getText().toString(),
                             field_client_tel.getText().toString(),
                             field_client_autres.getText().toString()));
-                    if(PARENT_NAME_FIELD == null) context.refresh();
-                    else PARENT_NAME_FIELD.setText(field_client_name.getText());
+//                    if(PARENT_NAME_FIELD == null) context.refresh();
+//                    else
+                        PARENT_NAME_FIELD.setText(field_client_name.getText());
                     dismiss();
                 } catch (SQLException e) {
                     Log.i("ERREUR", e.getMessage());
@@ -101,8 +104,6 @@ public class ClientForm extends Dialog {
                     Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
                 }
             }
-            context.refresh();
-            dismiss();
         }
     }
 
