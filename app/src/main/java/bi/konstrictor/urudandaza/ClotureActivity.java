@@ -46,6 +46,7 @@ public class ClotureActivity extends RefreshableActivity {
     public MutableLiveData<Double> vente_reste = new MutableLiveData<>();
     public PageAdapter calculations_adapter;
     public ViewPager view_pager_totals;
+    private TabLayout tab_layout_totals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class ClotureActivity extends RefreshableActivity {
 
         recycler_history = findViewById(R.id.recycler_history);
         view_pager_totals = findViewById(R.id.view_pager_totals);
+        tab_layout_totals = findViewById(R.id.tab_layout_totals);
 
         achat_tot.setValue(0.);
         achat_rest.setValue(0.);
@@ -71,6 +73,7 @@ public class ClotureActivity extends RefreshableActivity {
         adaptateur = new AdaptateurCloture(ClotureActivity.this, clotures);
         view_pager_totals.setAdapter(calculations_adapter);
         view_pager_totals.setOffscreenPageLimit(3);
+        tab_layout_totals.setupWithViewPager(view_pager_totals);
 
 
         recycler_history.setLayoutManager(new GridLayoutManager(this, 1));

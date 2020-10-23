@@ -49,6 +49,7 @@
             app:tabBackground="@drawable/swipe_states_colors"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:tabMaxWidth="10dp" />
+            app:tabMaxWidth="10dp">
+        </com.google.android.material.tabs.TabLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
