@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"/>
         </ScrollView>
         <FrameLayout
+            android:id="@+id/frame_totals"
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:background="#555" />
@@ -45,9 +46,10 @@
             android:id="@+id/tab_layout_totals"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@drawable/swipe_states_colors"
+            app:tabBackground="@drawable/swipe_states_colors"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:tabMaxWidth="10dp"/>
+            app:tabMaxWidth="10dp">
+        </com.google.android.material.tabs.TabLayout>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

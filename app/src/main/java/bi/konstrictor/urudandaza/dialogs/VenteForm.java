@@ -186,7 +186,6 @@ public class VenteForm extends Dialog {
             performSubmition();
         }
         progress_vente.setVisibility(View.GONE);
-        dismiss();
     }
     private void performExpiration() {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
@@ -198,6 +197,7 @@ public class VenteForm extends Dialog {
                 dao_action.create(as);
                 context.refresh();
                 Toast.makeText(context, "sawa", Toast.LENGTH_LONG).show();
+                dismiss();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
@@ -230,6 +230,7 @@ public class VenteForm extends Dialog {
                 try {
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(as);
+                    dismiss();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
@@ -246,10 +247,9 @@ public class VenteForm extends Dialog {
         client = field_vente_client.getText().toString().trim();
         if(payee<context.getMONTANT()){
             if(client.isEmpty()) {
+                ideni = true;
                 field_vente_client.setError("ko atarishe yose uzuza izina");
                 return false;
-            }else {
-                ideni = true;
             }
         }
         return true;

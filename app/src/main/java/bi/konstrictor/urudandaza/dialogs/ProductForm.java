@@ -1,7 +1,6 @@
 package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +15,12 @@ import java.sql.SQLException;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.models.Personne;
+import bi.konstrictor.urudandaza.StockActivity;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class ProductForm extends Dialog {
 
-    Context context;
+    StockActivity context;
     private TextView field_product_name, field_product_unite_in, field_product_unite_out,
             field_product_unit_rapport;
     private ProgressBar progress_product;
@@ -31,7 +30,7 @@ public class ProductForm extends Dialog {
     public Boolean something_changed = false;
     private Produit produit;
 
-    public ProductForm(Context context) {
+    public ProductForm(StockActivity context) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
         setContentView(R.layout.form_product);
         this.context = context;
@@ -77,12 +76,14 @@ public class ProductForm extends Dialog {
             if (edition) {
                 try {
                     UpdateBuilder<Produit, Integer> update = inkoranyaMakuru.getDaoProduit().updateBuilder();
-                    update.where().eq("nom", produit.nom);
+                    update.where().eq("id", produit.id);
                     update.updateColumnValue("nom" , field_product_name.getText());
                     update.updateColumnValue("unite_entrant" , field_product_unite_in.getText());
                     update.updateColumnValue("unite_sortant" , field_product_unite_out.getText());
                     update.updateColumnValue("rapport" , field_product_unit_rapport.getText());
                     update.update();
+                    dismiss();
+                    context.refresh();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

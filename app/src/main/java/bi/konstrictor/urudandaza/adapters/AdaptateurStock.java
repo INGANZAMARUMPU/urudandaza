@@ -20,7 +20,7 @@ import bi.konstrictor.urudandaza.models.Produit;
 
 public class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
 
-        private RefreshableActivity context;
+        private StockActivity context;
         private ArrayList<Produit> produits;
 
         public AdaptateurStock(StockActivity context, ArrayList<Produit> produits) {
