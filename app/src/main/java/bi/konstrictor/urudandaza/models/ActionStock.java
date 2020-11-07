@@ -40,9 +40,9 @@ public class ActionStock {
     public Boolean perimee=false;
     public ActionStock() { }
 
-    public void kurangura(Produit produit, Double quantite, Double prix, Personne personne, Double payee, String motif, Cloture cloture) {
+    public void kurangura(Produit produit, Double quantite, Double suppl, Double prix, Personne personne, Double payee, String motif, Cloture cloture) {
         this.produit = produit;
-        setQuantite(quantite);
+        setQuantite(quantite, suppl);
         setPrix(prix);
         this.payee = payee;
         this.personne = personne;
@@ -52,7 +52,7 @@ public class ActionStock {
         this.perimee = false;
     }
     public void kudandaza(Produit produit, Double quantite, Personne personne, Double payee,Cloture cloture) {
-        kurangura(produit, -Math.abs(quantite), produit.prix, personne, payee, null, cloture);
+        kurangura(produit, -Math.abs(quantite), 0.0, produit.prix, personne, payee, null, cloture);
     }
 
     public String getDateFormated(){
@@ -92,8 +92,17 @@ public class ActionStock {
         if (quantite>0) return quantite/produit.rapport;
         return quantite;
     }
+    public void setQuantite(Double quantite, Double supl) {
+        if (quantite>0) {
+            quantite = quantite*produit.rapport+supl;
+        }
+        this.quantite=quantite;
+        makeTotal();
+    }
     public void setQuantite(Double quantite) {
-        if (quantite>0) quantite*=produit.rapport;
+        if (quantite>0) {
+            quantite = quantite*produit.rapport;
+        }
         this.quantite=quantite;
         makeTotal();
     }

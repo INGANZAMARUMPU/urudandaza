@@ -42,8 +42,9 @@ public class KuranguraForm extends Dialog {
     private RefreshableActivity context;
     private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,
             field_kurangura_qtt, field_kurangura_payee, lbl_kurangura_unite;
+    private TextView field_kurangura_qtt_supl, lbl_kurangura_unite_sortant;
     private AutoCompleteTextView field_kurangura_personne;
-    private String kurangura_prix, kurangura_qtt, client, kurangura_payee;
+    private String kurangura_prix, kurangura_qtt, client, kurangura_payee, kurangura_qtt_suppl;
     private ProgressBar progress_kurangura;
     private String[] arrcontact;
     private double payee, a_payer;
@@ -60,12 +61,14 @@ public class KuranguraForm extends Dialog {
 
         lbl_kurangura_product = findViewById(R.id.lbl_kurangura_product);
         field_kurangura_qtt = findViewById(R.id.field_kurangura_qtt);
+        field_kurangura_qtt_supl = findViewById(R.id.field_kurangura_qtt_supl);
         field_kurangura_prix = findViewById(R.id.field_kurangura_prix);
         field_kurangura_total = findViewById(R.id.field_kurangura_total);
         field_kurangura_payee = findViewById(R.id.field_kurangura_payee);
         field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
         field_kurangura_personne = findViewById(R.id.field_kurangura_personne);
         lbl_kurangura_unite = findViewById(R.id.lbl_kurangura_unite);
+        lbl_kurangura_unite_sortant = findViewById(R.id.lbl_kurangura_unite_sortant);
         progress_kurangura = findViewById(R.id.progress_kurangura);
 
         Button btn_kurangura_submit = findViewById(R.id.btn_kurangura_submit);
@@ -190,6 +193,7 @@ public class KuranguraForm extends Dialog {
             Cloture cloture = new InkoranyaMakuru(context).getLatestCloture();
             progress_kurangura.setVisibility(View.VISIBLE);
             double qtt = Double.parseDouble(kurangura_qtt);
+            double qtt_suppl = Double.parseDouble(kurangura_qtt_suppl);
             double prix = Double.parseDouble(kurangura_prix);
             if(ideni){
                 personne = Personne.getClient(client, context);
@@ -199,13 +203,13 @@ public class KuranguraForm extends Dialog {
                 }
             }
             if (edition) {
-                action_stock.kurangura(produit, qtt, prix, personne, payee, null, cloture);
+                action_stock.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
                 action_stock.update(context);
                 dismiss();
             } else {
                 try {
                     ActionStock as = new ActionStock();
-                    as.kurangura(produit, qtt, prix, personne, payee, null, cloture);
+                    as.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(as);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
@@ -222,6 +226,7 @@ public class KuranguraForm extends Dialog {
     }
     private Boolean validateFields() {
         kurangura_qtt = field_kurangura_qtt.getText().toString().trim();
+        kurangura_qtt_suppl = field_kurangura_qtt_supl.getText().toString().trim();
         kurangura_prix = field_kurangura_prix.getText().toString().trim();
         kurangura_payee = field_kurangura_payee.getText().toString().trim();
         client = field_kurangura_personne.getText().toString().trim();
@@ -232,6 +237,9 @@ public class KuranguraForm extends Dialog {
         if(kurangura_qtt.isEmpty()){
             field_kurangura_qtt.setError("uzuza ngaha");
             return false;
+        }
+        if(kurangura_qtt_suppl.isEmpty()){
+            field_kurangura_qtt.setText(0);
         }
         if(kurangura_payee.isEmpty()){
             field_kurangura_payee.setError("uzuza ngaha");
@@ -253,6 +261,7 @@ public class KuranguraForm extends Dialog {
     public void setEdition(ActionStock as) {
         this.edition = true;
         this.action_stock = as;
+        field_kurangura_qtt_supl.setVisibility(View.GONE);
         lbl_kurangura_product.setText(as.produit.nom);
         field_kurangura_qtt.setText(as.getQuantite().toString());
         field_kurangura_prix.setText(as.getPrix().toString());

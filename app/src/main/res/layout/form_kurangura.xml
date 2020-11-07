@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
-                        <AutoCompleteTextView
+                        <EditText
                             android:id="@+id/field_kurangura_qtt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -60,7 +60,31 @@
                         android:id="@+id/lbl_kurangura_unite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="kg"
+                        android:text="douzaines"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/field_kurangura_qtt_supl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="igitigiri*"
+                            android:text="0"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:maxLines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:id="@+id/lbl_kurangura_unite_sortant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="pieces"
                         android:textSize="20sp"/>
                 </LinearLayout>
                 <com.google.android.material.textfield.TextInputLayout
