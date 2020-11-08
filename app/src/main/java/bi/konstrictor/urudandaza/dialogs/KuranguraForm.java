@@ -41,8 +41,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class KuranguraForm extends Dialog {
     private RefreshableActivity context;
     private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,
-            field_kurangura_qtt, field_kurangura_payee, lbl_kurangura_unite;
-    private TextView field_kurangura_qtt_supl, lbl_kurangura_unite_sortant;
+            field_kurangura_qtt, field_kurangura_payee, lbl_kurangura_unite,
+            field_kurangura_qtt_supl, lbl_kurangura_unite_sortant;
     private AutoCompleteTextView field_kurangura_personne;
     private String kurangura_prix, kurangura_qtt, client, kurangura_payee, kurangura_qtt_suppl;
     private Double quantite;
@@ -276,9 +276,9 @@ public class KuranguraForm extends Dialog {
     public void setEdition(ActionStock as) {
         this.edition = true;
         this.action_stock = as;
-        field_kurangura_qtt_supl.setText(as.getQuantiteSuppl());
+        field_kurangura_qtt_supl.setText(Integer.toString(as.getQuantiteSuppl()));
         lbl_kurangura_product.setText(as.produit.nom);
-        field_kurangura_qtt.setText(as.getQuantite().toString());
+        field_kurangura_qtt.setText(Integer.toString(as.getQuantite().intValue()));
         field_kurangura_prix.setText(as.getPrix().toString());
         field_kurangura_total.setText(as.getAchatTotal().toString());
         field_kurangura_payee.setText(as.payee.toString());
