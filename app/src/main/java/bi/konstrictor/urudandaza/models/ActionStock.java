@@ -89,8 +89,18 @@ public class ActionStock {
         return this.getAchatTotal()-payee;
     }
     public Double getQuantite() {
-        if (quantite>0) return quantite/produit.rapport;
+        if (quantite>0) {
+            Double unite = quantite/produit.rapport;
+            return (double) unite.intValue();
+        }
         return quantite;
+    }
+    public Integer getQuantiteSuppl() {
+        if (quantite>0) {
+            Double suppl = quantite%produit.rapport;
+            return suppl.intValue();
+        }
+        return 0;
     }
     public void setQuantite(Double quantite, Double supl) {
         if (quantite>0) {
