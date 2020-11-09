@@ -145,4 +145,8 @@ public class ActionStock {
         this.date = new Date();
         perimee = true;
     }
+
+    public boolean isAchat() {
+        return getQuantite()>0 && !perimee;
+    }
 }

@@ -1,15 +1,11 @@
 package bi.konstrictor.urudandaza.adapters;
 
 import android.content.DialogInterface;
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +20,6 @@ import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
-import bi.konstrictor.urudandaza.dialogs.VenteForm;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
@@ -50,7 +45,6 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ActionStock historie = histories.get(position);
         Double reste = historie.perimee ? 0 : historie.getTotal() - historie.payee;
-        final Boolean is_achat = historie.getQuantite()>0 && !historie.perimee;
         Double qtt = Math.abs(historie.getQuantite());
         holder.lbl_hist_product.setText(historie.produit.nom);
         holder.lbl_hist_date.setText(historie.getDateFormated());
@@ -65,11 +59,18 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             int lightRed = context.getResources().getColor(R.color.lightRed);
             holder.card_hist.setBackgroundColor(lightRed);
         }
-        if (is_achat){
+        if (historie.isAchat()){
             int lightBlue = context.getResources().getColor(R.color.lightBlue);
             holder.card_hist.setBackgroundColor(lightBlue);
         }
         if ((cloture!=null && !cloture.compiled) | (context.is_dette)){
+            holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    editItem(historie);
+                    return false;
+                }
+            });
             holder.btn_hist_options.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -81,15 +82,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                         public boolean onMenuItemClick(MenuItem item) {
                             int item_id = item.getItemId();
                             if (item_id == R.id.action_item_edit) {
-                                if (is_achat) {
-                                    KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
-                                    kurangura_form.setEdition(historie);
-                                    kurangura_form.show();
-                                } else {
-                                    KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
-                                    kudandaza_form.setEdition(historie);
-                                    kudandaza_form.show();
-                                }
+                                editItem(historie);
                             }
                             if (item_id == R.id.action_item_delete) {
                                 new AlertDialog.Builder(context)
@@ -116,7 +109,17 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         }
         context.addToTotals(historie);
     }
-
+    private void editItem(ActionStock historie) {
+        if (historie.isAchat()) {
+            KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
+            kurangura_form.setEdition(historie);
+            kurangura_form.show();
+        } else {
+            KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
+            kudandaza_form.setEdition(historie);
+            kudandaza_form.show();
+        }
+    }
     @Override
     public int getItemCount() {
         return histories.size();
