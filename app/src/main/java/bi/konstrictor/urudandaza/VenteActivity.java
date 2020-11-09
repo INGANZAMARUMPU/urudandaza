@@ -87,7 +87,7 @@ public class VenteActivity extends RefreshableActivity{
     private void chargerStock() {
         try {
             Dao dao_stocks = new InkoranyaMakuru(this).getDaoProduit();
-            produits = (ArrayList<Produit>) dao_stocks.queryForAll();
+            produits = (ArrayList<Produit>) dao_stocks.queryBuilder().orderBy("nom", true).query();
 //            stocks.addAll(stocks);
             adaptateur.setData(produits);
             adaptateur.notifyDataSetChanged();

@@ -10,11 +10,11 @@
     <item
         android:id="@+id/action_number_format"
         android:icon="@drawable/ic_float"
-        app:showAsAction="always|collapseActionView"
+        app:showAsAction="never"
         android:title="ibigaburika"/>
     <item
         android:id="@+id/action_annuler_vente"
         android:icon="@drawable/ic_refresh"
-        app:showAsAction="ifRoom|collapseActionView"
-        android:title="kureka"/>
+        app:showAsAction="never"
+        android:title="actualiser"/>
 </menu>
