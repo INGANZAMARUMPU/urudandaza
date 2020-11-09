@@ -51,7 +51,7 @@ public class KudandazaForm extends Dialog {
     private String kudandaza_prix, kudandaza_qtt, client, kudandaza_payee;
     private ProgressBar progress_kudandaza;
     private String[] arrcontact;
-    private double payee, a_payer;
+    private Double payee, a_payer;
     private Produit produit;
     private boolean edition = false;
     private boolean ideni = false;
@@ -299,12 +299,12 @@ public class KudandazaForm extends Dialog {
         }
         a_payer = Double.parseDouble(kudandaza_prix)*Double.parseDouble(kudandaza_qtt);
         payee = Double.parseDouble(kudandaza_payee);
+        Log.i("==== KUDANDAZA ====", a_payer.toString()+" "+payee.toString());
         if(payee<a_payer){
+            ideni = true;
             if(client.isEmpty()) {
                 field_kudandaza_personne.setError("ko atarishe yose uzuza izina");
                 return false;
-            } else {
-                ideni = true;
             }
         }
         return true;
@@ -318,7 +318,7 @@ public class KudandazaForm extends Dialog {
         lbl_kudandaza_product.setText(as.produit.nom);
         field_kudandaza_qtt.setText(qtt.toString());
         field_kudandaza_prix.setText(as.getPrix().toString());
-        field_kudandaza_total.setText(as.getAchatTotal().toString());
+        field_kudandaza_total.setText(as.getVenteTotal().toString());
         check_kudandaza_expired.setChecked(as.perimee);
         field_kudandaza_payee.setText(as.payee.toString());
         try {

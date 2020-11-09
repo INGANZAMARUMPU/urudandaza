@@ -246,8 +246,8 @@ public class VenteForm extends Dialog {
         payee = Double.parseDouble(field_vente_payee.getText().toString());
         client = field_vente_client.getText().toString().trim();
         if(payee<context.getMONTANT()){
+            ideni = true;
             if(client.isEmpty()) {
-                ideni = true;
                 field_vente_client.setError("ko atarishe yose uzuza izina");
                 return false;
             }

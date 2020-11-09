@@ -263,11 +263,10 @@ public class KuranguraForm extends Dialog {
         a_payer = Double.parseDouble(kurangura_prix)*Double.parseDouble(kurangura_qtt);
         payee = Double.parseDouble(kurangura_payee);
         if(payee<a_payer){
+            ideni = true;
             if(client.isEmpty()) {
                 field_kurangura_personne.setError("ko atarishe yose uzuza izina");
                 return false;
-            } else {
-                ideni = true;
             }
         }
         return true;
