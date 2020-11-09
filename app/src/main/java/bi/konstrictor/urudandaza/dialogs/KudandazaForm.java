@@ -232,8 +232,6 @@ public class KudandazaForm extends Dialog {
         }else{
             performSubmition();
         }
-        progress_kudandaza.setVisibility(View.GONE);
-        dismiss();
     }
     private void performExpiration() {
         getValues();
@@ -243,6 +241,8 @@ public class KudandazaForm extends Dialog {
         action_stock.expiration(action_stock.produit, qtt, action_stock.cloture);
         action_stock.update(context);
         context.refresh();
+        progress_kudandaza.setVisibility(View.GONE);
+        dismiss();
     }
     private void performSubmition() {
         if(validateFields()) {
@@ -273,9 +273,11 @@ public class KudandazaForm extends Dialog {
                     Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
                 }
             }
+            dismiss();
             context.refresh();
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        progress_kudandaza.setVisibility(View.GONE);
     }
     private void getValues(){
         kudandaza_qtt = field_kudandaza_qtt.getText().toString().trim();
@@ -299,7 +301,7 @@ public class KudandazaForm extends Dialog {
         }
         a_payer = Double.parseDouble(kudandaza_prix)*Double.parseDouble(kudandaza_qtt);
         payee = Double.parseDouble(kudandaza_payee);
-        Log.i("==== KUDANDAZA ====", a_payer.toString()+" "+payee.toString());
+        Log.i("==== KUDANDAZA ====", edition+" "+a_payer.toString()+" "+payee.toString());
         if(payee<a_payer){
             ideni = true;
             if(client.isEmpty()) {
