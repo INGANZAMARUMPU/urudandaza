@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
+import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
@@ -72,6 +73,10 @@ public class DetailHistActivity extends RefreshableActivity {
             getMenuInflater().inflate(R.menu.cloture_menu, menu);
             return true;
         }
+        if (is_dette) {
+            getMenuInflater().inflate(R.menu.pay_menu, menu);
+            return true;
+        }
         return false;
     }
     @Override
@@ -96,6 +101,14 @@ public class DetailHistActivity extends RefreshableActivity {
                     .setNegativeButton("Reka", null)
                     .show();
         }else if(id == R.id.action_filtre){
+        }else if(id == R.id.action_pay){
+            Double montant=0.;
+            for (ActionStock as:produits){
+                montant += as.getTotal();
+            }
+            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, produits, montant);
+            kurangura_form.setEdition(true, produits.get(0).personne);
+            kurangura_form.show();
         }
         return super.onOptionsItemSelected(item);
     }

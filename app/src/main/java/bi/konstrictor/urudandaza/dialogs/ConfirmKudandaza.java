@@ -230,7 +230,8 @@ public class ConfirmKudandaza extends Dialog {
                     payee = 0.;
                 }
                 if (edition){
-                    as.update(context);
+                    cart.payee = as.payee;
+                    cart.update(context);
                 }else {
                     try {
                         Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
@@ -243,6 +244,7 @@ public class ConfirmKudandaza extends Dialog {
                     }
                 }
             }
+            dismiss();
             context.refresh();
             Toast.makeText(context, "Vyaguzwe", Toast.LENGTH_LONG).show();
         }
@@ -260,8 +262,9 @@ public class ConfirmKudandaza extends Dialog {
         }
         return true;
     }
-    public void setEdition(boolean edition) {
+    public void setEdition(boolean edition, Personne personne) {
         this.edition = edition;
+        field_vente_client.setText(personne.nom);
     }
     public void build(){ show(); }
 }

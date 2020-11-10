@@ -57,7 +57,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ayarishwe :"
+                        android:text="yose hamwe :"
                         android:gravity="fill"
                         android:textSize="6pt"/>
                     <TextView
@@ -108,7 +108,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ayarishwe :"
+                        android:text="yose hamwe :"
                         android:gravity="fill"
                         android:textSize="6pt"/>
                     <TextView
