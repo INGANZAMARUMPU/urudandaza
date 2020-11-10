@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.ColumnArg;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,7 +32,9 @@ public class DetailHistActivity extends RefreshableActivity {
     RecyclerView recycler_history;
     ArrayList<ActionStock> produits;
     TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
+    private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
     private AdaptateurHist adaptateur;
+
     private String filtre, valeur;
     public Cloture cloture = null;
 
@@ -96,21 +100,34 @@ public class DetailHistActivity extends RefreshableActivity {
         return super.onOptionsItemSelected(item);
     }
     public void addToTotals(ActionStock history) {
-        Double achat_tot = Double.parseDouble(lbl_det_hist_achat_tot.getText().toString())+history.getAchatTotal();
-        Double achat_rest = Double.parseDouble(lbl_det_hist_achat_rest.getText().toString())+history.getAchatReste();
-        Double vente_tot = Double.parseDouble(lbl_det_hist_vente_tot.getText().toString())+history.getVenteTotal();
-        Double vente_reste = Double.parseDouble(lbl_det_hist_vente_reste.getText().toString())+history.getVenteReste();
-
+        setAchat_tot(achat_tot +history.getAchatTotal());
+        setAchat_rest(achat_rest+history.getAchatReste());
+        setVente_tot(vente_tot+history.getVenteTotal());
+        setVente_reste(vente_reste+history.getVenteReste());
+    }
+    public void setAchat_tot(Double achat_tot) {
+        this.achat_tot = achat_tot;
         lbl_det_hist_achat_tot.setText(achat_tot.toString());
+    }
+    public void setAchat_rest(Double achat_rest) {
+        this.achat_rest = achat_rest;
         lbl_det_hist_achat_rest.setText(achat_rest.toString());
+    }
+    public void setVente_tot(Double vente_tot) {
+        this.vente_tot = vente_tot;
         lbl_det_hist_vente_tot.setText(vente_tot.toString());
+    }
+    public void setVente_reste(Double vente_reste) {
+        this.vente_reste = vente_reste;
         lbl_det_hist_vente_reste.setText(vente_reste.toString());
     }
-
     private void chargerStock() {
         try {
             Dao dao_as = new InkoranyaMakuru(this).getDaoActionStock();
-            produits = (ArrayList<ActionStock>) dao_as.queryBuilder().where().eq(filtre,valeur).query();
+            Where where = dao_as.queryBuilder().where().eq(filtre, valeur);
+            if (is_dette)
+                where = where.and().ne("total", new ColumnArg("payee"));
+            produits = (ArrayList<ActionStock>) where.query();
 //            produits.addAll(produits);
             adaptateur.setData(produits);
             adaptateur.notifyDataSetChanged();

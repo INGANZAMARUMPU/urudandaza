@@ -73,7 +73,7 @@ public class ActionStock {
         makeTotal();
     }
     public Double getAchatTotal() {
-        if (getQuantite()>0) return total;
+        if (quantite>0) return total;
         return 0.;
     }
     public Double getVenteTotal() {
@@ -148,5 +148,9 @@ public class ActionStock {
 
     public boolean isAchat() {
         return quantite>0 && !perimee;
+    }
+
+    public boolean isDette() {
+        return payee!=total;
     }
 }
