@@ -2,19 +2,9 @@ package bi.konstrictor.urudandaza;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.TableLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -29,9 +19,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurCloture;
-import bi.konstrictor.urudandaza.fragments.ESFragment;
-import bi.konstrictor.urudandaza.fragments.FinalFragment;
-import bi.konstrictor.urudandaza.fragments.TotalsFragment;
 import bi.konstrictor.urudandaza.models.Cloture;
 
 public class ClotureActivity extends RefreshableActivity {
@@ -94,22 +81,22 @@ public class ClotureActivity extends RefreshableActivity {
         }
     }
     public void increaseAchatTot(Double achat_tot) {
-        this.achat_tot.setValue(achat_tot);
+        this.achat_tot.setValue(this.achat_tot.getValue()+achat_tot);
 //        totals_fragment.lbl_hist_achat_tot.setText(this.achat_tot.toString());
     }
 
     public void increaseAchatRest(Double achat_rest) {
-        this.achat_rest.setValue(achat_rest);
+        this.achat_rest.setValue(this.achat_rest.getValue()+achat_rest);
 //        totals_fragment.lbl_hist_achat_rest.setText(this.achat_rest.toString());
     }
 
     public void increaseVenteTot(Double vente_tot) {
-        this.vente_tot.setValue(Math.abs(vente_tot));
+        this.vente_tot.setValue(this.vente_tot.getValue()+Math.abs(vente_tot));
 //        totals_fragment.lbl_hist_vente_tot.setText(this.vente_tot.toString());
     }
 
     public void increaseVenteReste(Double vente_reste) {
-        this.vente_reste.setValue(vente_reste);
+        this.vente_reste.setValue(this.vente_reste.getValue()+vente_reste);
 //        totals_fragment.lbl_hist_vente_reste.setText(this.vente_reste.toString());
     }
     @Override
