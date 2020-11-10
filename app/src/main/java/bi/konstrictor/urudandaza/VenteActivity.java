@@ -158,11 +158,6 @@ public class VenteActivity extends RefreshableActivity{
         this.MONTANT = MONTANT;
         lbl_vente_total.setText(this.MONTANT.toString());
     }
-
-    public Double getMONTANT() {
-        return MONTANT;
-    }
-
     public void removeFromCart(Produit produit){
         for(ProxyAction as : CART){
             if(produit.id == as.produit.id){
@@ -175,7 +170,7 @@ public class VenteActivity extends RefreshableActivity{
 
     public void vendre(View view) {
         if(MONTANT>0) {
-            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, CART);
+            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, CART, MONTANT);
             kurangura_form.show();
         }
     }

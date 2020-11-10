@@ -42,7 +42,7 @@ import bi.konstrictor.urudandaza.models.Produit;
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class ConfirmKudandaza extends Dialog {
-    private VenteActivity context;
+    private RefreshableActivity context;
     private TextView lbl_vente_list;
     private AutoCompleteTextView field_vente_client;
     private EditText field_vente_payee;
@@ -50,17 +50,18 @@ public class ConfirmKudandaza extends Dialog {
     private ProgressBar progress_vente;
     private String[] arrcontact;
     private ArrayList<ActionStock> CART;
-    private boolean edition;
-    private double payee;
+    private boolean edition = false;
+    private Double payee, montant;
     private String client;
     private boolean ideni = false;
     private boolean expired;
 
-    public ConfirmKudandaza(final VenteActivity context, ArrayList CART) {
+    public ConfirmKudandaza(final RefreshableActivity context, ArrayList CART, Double montant) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
         setContentView(R.layout.form_vente);
         this.context = context;
         this.CART = CART;
+        this.montant = montant;
 
         lbl_vente_list = findViewById(R.id.lbl_vente_list);
         field_vente_client = findViewById(R.id.field_vente_client);
@@ -97,7 +98,7 @@ public class ConfirmKudandaza extends Dialog {
             confirmation += "- "+as.toString()+"\n";
         }
         lbl_vente_list.setText(confirmation);
-        field_vente_payee.setText(context.getMONTANT().toString());
+        field_vente_payee.setText(montant.toString());
         field_vente_payee.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -226,16 +227,20 @@ public class ConfirmKudandaza extends Dialog {
                     payee -= as.getVenteTotal();
                 } else {
                     as.kudandaza(cart.produit, cart.getQuantite(), personne, payee, inkoranyaMakuru.getLatestCloture());
-                    payee = 0;
+                    payee = 0.;
                 }
-                try {
-                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                    dao_action.create(as);
-                    dismiss();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                    break;
+                if (edition){
+                    as.update(context);
+                }else {
+                    try {
+                        Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                        dao_action.create(as);
+                        dismiss();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+                        break;
+                    }
                 }
             }
             context.refresh();
@@ -246,7 +251,7 @@ public class ConfirmKudandaza extends Dialog {
     private Boolean validateFields() {
         payee = Double.parseDouble(field_vente_payee.getText().toString());
         client = field_vente_client.getText().toString().trim();
-        if(payee<context.getMONTANT()){
+        if(payee<montant){
             ideni = true;
             if(client.isEmpty()) {
                 field_vente_client.setError("ko atarishe yose uzuza izina");
@@ -254,6 +259,9 @@ public class ConfirmKudandaza extends Dialog {
             }
         }
         return true;
+    }
+    public void setEdition(boolean edition) {
+        this.edition = edition;
     }
     public void build(){ show(); }
 }
