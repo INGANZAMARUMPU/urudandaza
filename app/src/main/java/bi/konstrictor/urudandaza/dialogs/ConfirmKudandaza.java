@@ -41,7 +41,7 @@ import bi.konstrictor.urudandaza.models.Produit;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class VenteForm extends Dialog {
+public class ConfirmKudandaza extends Dialog {
     private VenteActivity context;
     private TextView lbl_vente_list;
     private AutoCompleteTextView field_vente_client;
@@ -56,7 +56,7 @@ public class VenteForm extends Dialog {
     private boolean ideni = false;
     private boolean expired;
 
-    public VenteForm(final VenteActivity context, ArrayList CART) {
+    public ConfirmKudandaza(final VenteActivity context, ArrayList CART) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
         setContentView(R.layout.form_vente);
         this.context = context;
@@ -219,9 +219,10 @@ public class VenteForm extends Dialog {
             }
             InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             for (ActionStock cart : CART){
+                double total = cart.getQuantite()*cart.produit.prix;
                 ActionStock as = new ActionStock();
-                if (payee>=cart.getVenteTotal()) {
-                    as.kudandaza(cart.produit, cart.getQuantite(), personne, cart.getVenteTotal(), inkoranyaMakuru.getLatestCloture());
+                if (payee >= total) {
+                    as.kudandaza(cart.produit, cart.getQuantite(), personne, total, inkoranyaMakuru.getLatestCloture());
                     payee -= as.getVenteTotal();
                 } else {
                     as.kudandaza(cart.produit, cart.getQuantite(), personne, payee, inkoranyaMakuru.getLatestCloture());

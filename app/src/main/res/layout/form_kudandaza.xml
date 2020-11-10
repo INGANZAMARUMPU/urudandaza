@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="dialogs.KuranguraForm">
+    tools:context=".dialogs.KudandazaForm">
     <ProgressBar
         android:id="@+id/progress_kudandaza"
         android:layout_width="wrap_content"

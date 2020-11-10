@@ -77,7 +77,7 @@ public class ActionStock {
         return 0.;
     }
     public Double getVenteTotal() {
-        if (getQuantite()<0) return total;
+        if (quantite<0) return Math.abs(quantite*produit.prix);
         return 0.;
     }
     public Double getVenteReste() {
@@ -90,7 +90,7 @@ public class ActionStock {
     }
     public Double getQuantite() {
         if (quantite>0) return quantite/produit.rapport;
-        return quantite;
+        return Math.abs(quantite);
     }
     public Integer getQuantiteSuppl() {
         if (quantite>0) {
@@ -147,6 +147,6 @@ public class ActionStock {
     }
 
     public boolean isAchat() {
-        return getQuantite()>0 && !perimee;
+        return quantite>0 && !perimee;
     }
 }

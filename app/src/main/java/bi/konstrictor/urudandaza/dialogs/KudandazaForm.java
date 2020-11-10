@@ -260,11 +260,12 @@ public class KudandazaForm extends Dialog {
                 }
             }
             if (edition) {
-                action_stock.kudandaza(produit, qtt, personne, payee, inkoranyaMakuru.getLatestCloture());
+                action_stock.kudandaza(produit, qtt, personne, payee, null);
                 action_stock.update(context);
             } else {
                 try {
                     ActionStock as = new ActionStock();
+                    as.kudandaza(produit, qtt, personne, payee, inkoranyaMakuru.getLatestCloture());
                     Dao dao_action = inkoranyaMakuru.getDaoActionStock();
                     dao_action.create(as);
                 } catch (SQLException e) {
@@ -301,7 +302,6 @@ public class KudandazaForm extends Dialog {
         }
         a_payer = Double.parseDouble(kudandaza_prix)*Double.parseDouble(kudandaza_qtt);
         payee = Double.parseDouble(kudandaza_payee);
-        Log.i("==== KUDANDAZA ====", edition+" "+a_payer.toString()+" "+payee.toString());
         if(payee<a_payer){
             ideni = true;
             if(client.isEmpty()) {

@@ -1,30 +1,19 @@
 package bi.konstrictor.urudandaza;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.flexbox.AlignContent;
-import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -35,11 +24,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
-import bi.konstrictor.urudandaza.dialogs.VenteForm;
+import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.models.ProxyAction;
 import bi.konstrictor.urudandaza.models.Produit;
-
-import static android.util.TypedValue.COMPLEX_UNIT_PT;
 
 public class VenteActivity extends RefreshableActivity{
 
@@ -71,8 +58,8 @@ public class VenteActivity extends RefreshableActivity{
 
 //        recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 3));
         FlexboxLayoutManager layout = new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP);
-        layout.setJustifyContent(JustifyContent.SPACE_AROUND);
-//        layout.setAlignItems(AlignItems.BASELINE);
+        layout.setJustifyContent(JustifyContent.SPACE_EVENLY);
+//        layout.setAlignItems(AlignItems.STRETCH);
         recycler_ibidandazwa.setLayoutManager(layout);
         produits = new ArrayList<>();
         adaptateur = new AdaptateurVente(VenteActivity.this, produits);
@@ -155,17 +142,15 @@ public class VenteActivity extends RefreshableActivity{
         return null;
     }
     public void addToCart(ProxyAction stock){
-        if(stock.getQuantite()==1){
-            removeFromCart(stock.produit);
-            return;
-        };
         ProxyAction old = getCartItem(stock.produit);
-        if(old==null){
-            CART.add(stock);
-            setMONTANT(MONTANT + stock.getTotal());
-        }else{
-            setMONTANT(MONTANT - old.getTotal() + stock.getTotal());
-            old.setQuantite(stock.getQuantite());
+        if (stock.getQuantite()>0) {
+            if(old==null){
+                CART.add(stock);
+                setMONTANT(MONTANT + stock.getTotal());
+            }else{
+                setMONTANT(MONTANT - old.getTotal() + stock.getTotal());
+                old.setQuantite(stock.getQuantite());
+            }
         }
     }
 
@@ -190,7 +175,7 @@ public class VenteActivity extends RefreshableActivity{
 
     public void vendre(View view) {
         if(MONTANT>0) {
-            VenteForm kurangura_form = new VenteForm(this, CART);
+            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, CART);
             kurangura_form.show();
         }
     }
