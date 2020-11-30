@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
@@ -43,6 +44,7 @@ public class KuranguraForm extends Dialog {
     private TextView lbl_kurangura_product, field_kurangura_prix, field_kurangura_total,
             field_kurangura_qtt, field_kurangura_payee, lbl_kurangura_unite,
             field_kurangura_qtt_supl, lbl_kurangura_unite_sortant;
+    private TextInputLayout layout_kurangura_prix;
     private AutoCompleteTextView field_kurangura_personne;
     private String kurangura_prix, kurangura_qtt, client, kurangura_payee, kurangura_qtt_suppl;
     private Double quantite;
@@ -71,6 +73,7 @@ public class KuranguraForm extends Dialog {
         lbl_kurangura_unite = findViewById(R.id.lbl_kurangura_unite);
         lbl_kurangura_unite_sortant = findViewById(R.id.lbl_kurangura_unite_sortant);
         progress_kurangura = findViewById(R.id.progress_kurangura);
+        layout_kurangura_prix = findViewById(R.id.layout_kurangura_prix);
 
         Button btn_kurangura_submit = findViewById(R.id.btn_kurangura_submit);
         Button btn_kurangura_cancel = findViewById(R.id.btn_kurangura_cancel);
@@ -79,10 +82,10 @@ public class KuranguraForm extends Dialog {
         lbl_kurangura_product.setText(produit.nom);
         lbl_kurangura_unite.setText(produit.unite_entrant);
         if (produit.rapport==1)
-            lbl_kurangura_unite_sortant.setVisibility(View.GONE);
+            field_kurangura_qtt_supl.setEnabled(false);
         else
             lbl_kurangura_unite_sortant.setText(produit.unite_sortant);
-        field_kurangura_prix.setHint("igiciro ca "+produit.unite_entrant+" imwe");
+        layout_kurangura_prix.setHint("igiciro ca "+produit.unite_entrant+" imwe");
         btn_kurangura_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
