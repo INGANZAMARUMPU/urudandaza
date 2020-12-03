@@ -63,7 +63,6 @@ public class DettesActivity extends RefreshableActivity {
 //        view_pager_totals.setOffscreenPageLimit(3);
 //        tab_layout_totals.setupWithViewPager(view_pager_totals);
 //
-//
 //        recycler_history.setLayoutManager(new GridLayoutManager(this, 1));
 //        recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
 //        recycler_history.setAdapter(adaptateur);

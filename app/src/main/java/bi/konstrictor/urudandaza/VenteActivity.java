@@ -77,7 +77,6 @@ public class VenteActivity extends RefreshableActivity{
             produits = (ArrayList<Produit>) dao_stocks.queryBuilder().orderBy("nom", true).query();
 //            stocks.addAll(stocks);
             adaptateur.setData(produits);
-            adaptateur.notifyDataSetChanged();
         } catch (SQLException e) {
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
         }
@@ -92,15 +91,25 @@ public class VenteActivity extends RefreshableActivity{
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(VenteActivity.this, "ubushakashatsi...", Toast.LENGTH_SHORT).show();
-                if( ! searchView.isIconified()) {
-                    searchView.setIconified(true);
-                }
-                action_search.collapseActionView();
+                adaptateur.setData(produits);
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String s) {
+                ArrayList<Produit> result = new ArrayList<>();
+                for (Produit p : produits){
+                    if(p.nom.toLowerCase().contains(s.toLowerCase())){
+                        result.add(p);
+                    }
+                }
+                adaptateur.setData(result);
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adaptateur.setData(produits);
                 return false;
             }
         });

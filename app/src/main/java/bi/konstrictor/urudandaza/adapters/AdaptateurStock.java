@@ -67,6 +67,14 @@ public class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHo
                     kurangura_form.show();
                 }
             });
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.bounce));
+                    KuranguraForm kurangura_form = new KuranguraForm(context, produit);
+                    kurangura_form.show();
+                }
+            });
         }
 
         @Override

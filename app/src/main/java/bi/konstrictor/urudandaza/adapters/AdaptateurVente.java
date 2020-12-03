@@ -164,6 +164,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
 
         public void setData(ArrayList<Produit> produit) {
             this.stocks = produit;
+            notifyDataSetChanged();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
