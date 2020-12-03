@@ -16,7 +16,7 @@ import java.util.List;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.Liquide;
-import bi.konstrictor.urudandaza.models.Dette;
+import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
 import bi.konstrictor.urudandaza.models.ProxyAction;
@@ -38,8 +38,8 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public Dao<Liquide, Integer> getDaoLiquide() throws SQLException {
         return getDao(Liquide.class);
     }
-    public Dao<Dette, Integer> getDaoDette() throws SQLException {
-        return getDao(Dette.class);
+    public Dao<Remboursement, Integer> getDaoDette() throws SQLException {
+        return getDao(Remboursement.class);
     }
     public Dao<ProxyAction, Integer> getDaoProxy() throws SQLException {
         return getDao(ProxyAction.class);
@@ -60,7 +60,7 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Cloture.class);
             TableUtils.createTableIfNotExists(connectionSource, Liquide.class);
             TableUtils.createTableIfNotExists(connectionSource, ProxyAction.class);
-            TableUtils.createTableIfNotExists(connectionSource, Dette.class);
+            TableUtils.createTableIfNotExists(connectionSource, Remboursement.class);
             getDaoCloture().create(new Cloture());
             database.execSQL("CREATE TRIGGER insertion_stock " +
                     "AFTER INSERT ON actionstock FOR EACH ROW BEGIN " +

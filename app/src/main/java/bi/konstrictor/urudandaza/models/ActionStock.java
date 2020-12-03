@@ -38,6 +38,7 @@ public class ActionStock {
     public Date date;
     @DatabaseField(defaultValue = "0")
     public Boolean perimee=false;
+
     public ActionStock() { }
 
     public void kurangura(Produit produit, Double quantite, Double suppl, Double prix, Personne personne, Double payee, String motif, Cloture cloture) {

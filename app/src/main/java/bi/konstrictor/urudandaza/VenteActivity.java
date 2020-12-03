@@ -56,15 +56,11 @@ public class VenteActivity extends RefreshableActivity{
         btn_vendre = findViewById(R.id.btn_vendre);
         lbl_vente_total = findViewById(R.id.lbl_vente_total);
 
-//        recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 3));
         FlexboxLayoutManager layout = new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP);
         layout.setJustifyContent(JustifyContent.SPACE_EVENLY);
-//        layout.setAlignItems(AlignItems.STRETCH);
         recycler_ibidandazwa.setLayoutManager(layout);
         produits = new ArrayList<>();
         adaptateur = new AdaptateurVente(VenteActivity.this, produits);
-//        recycler_ibidandazwa.addItemDecoration(new DividerItemDecoration(recycler_ibidandazwa.getContext(), DividerItemDecoration.VERTICAL));
-//        recycler_ibidandazwa.addItemDecoration(new DividerItemDecoration(recycler_ibidandazwa.getContext(), DividerItemDecoration.HORIZONTAL));
         recycler_ibidandazwa.setAdapter(adaptateur);
 
         CART = new ArrayList<>();
@@ -74,8 +70,7 @@ public class VenteActivity extends RefreshableActivity{
     private void chargerStock() {
         try {
             Dao dao_stocks = new InkoranyaMakuru(this).getDaoProduit();
-            produits = (ArrayList<Produit>) dao_stocks.queryBuilder().orderBy("nom", true).query();
-//            stocks.addAll(stocks);
+            produits = (ArrayList<Produit>) dao_stocks.queryBuilder().orderByRaw("nom COLLATE NOCASE ASC").query();
             adaptateur.setData(produits);
         } catch (SQLException e) {
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
