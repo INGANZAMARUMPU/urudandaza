@@ -81,23 +81,8 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             int item_id = item.getItemId();
-                            if (item_id == R.id.action_item_edit) {
-                                editItem(historie);
-                            }
-                            if (item_id == R.id.action_item_delete) {
-                                new AlertDialog.Builder(context)
-                                        .setIcon(android.R.drawable.ic_dialog_alert)
-                                        .setTitle("Guhanagura")
-                                        .setMessage("Urakeneye vy'ukuri guhanagura?")
-                                        .setPositiveButton("Hanagura", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Toast.makeText(context, "vyahanaguwe ", Toast.LENGTH_LONG).show();
-                                            }
-                                        })
-                                        .setNegativeButton("Reka", null)
-                                        .show();
-                            }
+                            if (item_id == R.id.action_item_edit) editItem(historie);
+                            if (item_id == R.id.action_item_delete) deleteItem(historie);
                             return false;
                         }
                     });
@@ -119,6 +104,19 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             kudandaza_form.setEdition(historie);
             kudandaza_form.show();
         }
+    }
+    private void deleteItem(ActionStock historie) {
+        new AlertDialog.Builder(context)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Guhanagura").setMessage("Urakeneye vy'ukuri guhanagura?")
+            .setPositiveButton("Hanagura", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(context, "nta ruhusha rwo guhanagura mufise ", Toast.LENGTH_LONG).show();
+                }
+            })
+            .setNegativeButton("Reka", null)
+            .show();
     }
     @Override
     public int getItemCount() {

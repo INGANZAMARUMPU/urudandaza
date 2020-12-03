@@ -40,6 +40,11 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
         holder.lbl_cloture_vente_tot.setText(cloture.getVente().toString());
         holder.lbl_cloture_vente_payee.setText(cloture.payee_vente.toString());
         holder.lbl_cloture_date.setText(cloture.getDateFormated());
+        int rouge = context.getResources().getColor(R.color.colorRed);
+        if (cloture.getAchatReste()>0)
+            holder.lbl_cloture_achat_rest.setTextColor(rouge);
+        if (cloture.getVenteReste()>0)
+            holder.lbl_cloture_vente_reste.setTextColor(rouge);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

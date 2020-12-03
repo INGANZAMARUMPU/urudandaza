@@ -113,6 +113,7 @@ public class DetailHistActivity extends RefreshableActivity {
         return super.onOptionsItemSelected(item);
     }
     public void addToTotals(ActionStock history) {
+        if(history.perimee) return;
         setAchat_tot(achat_tot +history.getAchatTotal());
         setAchat_rest(achat_rest+history.getAchatReste());
         setVente_tot(vente_tot+history.getVenteTotal());
