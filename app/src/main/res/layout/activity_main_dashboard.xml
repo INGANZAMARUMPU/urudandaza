@@ -247,6 +247,54 @@
                         android:layout_width="112dp"
                         android:layout_height="142dp"
                         android:layout_margin="5dp"
+                        app:cardBackgroundColor="#00bfa5">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="110dp"
+                            android:layout_height="140dp"
+                            android:layout_margin="1dp"
+                            android:onClick="startDettes"
+                            app:cardElevation="0dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:background="@drawable/cercle_vert"
+                                    android:padding="15dp"
+                                    android:src="@drawable/ic_riha" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Amadeni"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textSize="7pt" />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="kuriha no kurihwa"
+                                        android:textAlignment="center"
+                                        android:textSize="6pt"
+                                        android:lines="2"
+                                        android:ellipsize="end"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="112dp"
+                        android:layout_height="142dp"
+                        android:layout_margin="5dp"
                         app:cardBackgroundColor="#7c4dff">
                         <androidx.cardview.widget.CardView
                             android:layout_width="110dp"
@@ -275,7 +323,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Amadeni"
+                                        android:text="Abakiriya"
                                         android:textAlignment="center"
                                         android:textStyle="bold"
                                         android:textSize="7pt" />

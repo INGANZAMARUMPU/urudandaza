@@ -60,4 +60,10 @@ public class MainDashBoardActivity extends AppCompatActivity {
     public void fermer(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
     }
+
+    public void startDettes(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+        Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, ClotureActivity.class);
+        startActivity(open_ibidandazwa);
+    }
 }

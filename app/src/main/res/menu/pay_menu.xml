@@ -5,5 +5,6 @@
         android:id="@+id/action_pay"
         android:icon="@drawable/ic_kuriha"
         app:showAsAction="always"
-        android:title="kurihwa"/>
+        android:title="kurihwa"
+        android:visible="false"/>
 </menu>
