@@ -19,21 +19,24 @@ public class Remboursement {
     @DatabaseField
     public String checksum;
     @DatabaseField
-    private String signature;
+    private Signature signature;
 
     public Remboursement() {
     }
 
-    public Remboursement(ActionStock action_stock, Double payee, String motif, Date date, String checksum) {
+    public Remboursement(ActionStock action_stock, Double payee, String motif, Date date) {
         this.action_stock = action_stock;
         this.payee = payee;
         this.motif = motif;
         this.date = date;
-        this.checksum = checksum;
-        this.signature = Globals.sign(""+payee+date, signature);
+    }
+
+    public void validate(Signature signature){
+        this.signature = signature;
+        this.checksum = Globals.sign(""+payee+date.getTime(), signature.getSignature());
     }
 
     public boolean is_valid(){
-        return checksum.equals(Globals.sign(""+payee+date, signature));
+        return checksum.equals(Globals.sign(""+payee+date.getTime(), this.signature.getSignature()));
     }
 }
