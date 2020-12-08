@@ -1,17 +1,11 @@
 package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
-
-import java.sql.SQLException;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
@@ -74,32 +68,20 @@ public class ProductForm extends Dialog {
         if(validateFields()) {
             InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             if (edition) {
-                try {
-                    UpdateBuilder<Produit, Integer> update = inkoranyaMakuru.getDaoProduit().updateBuilder();
-                    update.where().eq("id", produit.id);
-                    update.updateColumnValue("nom" , field_product_name.getText());
-                    update.updateColumnValue("unite_entrant" , field_product_unite_in.getText());
-                    update.updateColumnValue("unite_sortant" , field_product_unite_out.getText());
-                    update.updateColumnValue("rapport" , field_product_unit_rapport.getText());
-                    update.update();
-                    dismiss();
-                    context.refresh();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                produit.nom = field_product_name.getText().toString();
+                produit.unite_entrant = field_product_unite_in.getText().toString();
+                produit.unite_sortant = field_product_unite_out.getText().toString();
+                produit.rapport = Double.parseDouble(
+                    field_product_unit_rapport.getText().toString());
+                produit.update(context);
+                dismiss();
+                context.refresh();
             } else {
                 double rapport = Double.parseDouble(product_unit_rapport);
                 Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, 0.);
-                try {
-                    Dao dao_produit = inkoranyaMakuru.getDao(Produit.class);
-                    dao_produit.create(produit);
-                    Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
-                    dismiss();
-                } catch (SQLException e) {
-                    Log.i("ERREUR", e.getMessage());
-                    e.printStackTrace();
-                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                }
+                produit.create(context);
+                Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+                dismiss();
             }
             something_changed = true;
         }

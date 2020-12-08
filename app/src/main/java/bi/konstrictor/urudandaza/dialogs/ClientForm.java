@@ -6,22 +6,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
-
-import java.sql.SQLException;
 import java.util.HashMap;
 
-import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.Personne;
@@ -73,20 +66,13 @@ public class ClientForm extends Dialog {
 
     private void submit() {
         if (validateFields()){
-            InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             if(EDIT_MODE){
-                try {
-                    UpdateBuilder<Personne, Integer> update = inkoranyaMakuru.getDaoPersonne().updateBuilder();
-                    update.where().eq("nom", client.nom);
-                    update.updateColumnValue("nom" , field_client_name.getText());
-                    update.updateColumnValue("phone" , field_client_tel.getText());
-                    update.updateColumnValue("autres" , field_client_autres.getText());
-                    update.update();
-                    context.refresh();
-                    dismiss();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                client.nom = field_client_name.getText().toString();
+                client.phone = field_client_tel.getText().toString();
+                client.autres = field_client_autres.getText().toString();
+                client.update(context);
+                context.refresh();
+                dismiss();
             }else{
                 new Personne(
                     field_client_name.getText().toString(),

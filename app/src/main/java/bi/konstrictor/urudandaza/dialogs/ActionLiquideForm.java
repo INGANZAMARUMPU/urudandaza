@@ -82,15 +82,9 @@ public class ActionLiquideForm extends Dialog {
             }
             InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             if (edition) {
-                try {
-                    UpdateBuilder<Liquide, Integer> update = inkoranyaMakuru.getDaoLiquide().updateBuilder();
-                    update.where().eq("id", liquide.id);
-                    update.updateColumnValue("montant" , field_liquide_somme.getText());
-                    update.updateColumnValue("motif" , field_liquide_motif.getText());
-                    update.update();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                liquide.montant = Double.parseDouble(field_liquide_somme.getText().toString());
+                liquide.motif = field_liquide_motif.getText().toString();
+                liquide.update(context);
             } else {
                 new Liquide(somme, liquide_motif).create(context);
                 context.refresh();
