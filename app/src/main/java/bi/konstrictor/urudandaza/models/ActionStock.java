@@ -13,6 +13,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
@@ -139,9 +140,9 @@ public class ActionStock implements Model{
                         @Override
                         public Void call() throws Exception {
                             daoAS.create(ActionStock.this);
-                            daoProduit.create(produit);
-                            daoCloture.create(cloture);
-                            daoPA.create((ProxyAction) ActionStock.this);
+                            daoProduit.update(produit);
+                            daoCloture.update(cloture);
+//                            daoPA.create((ProxyAction) ActionStock.this);
                             return null;
                         }
                     });
@@ -172,7 +173,7 @@ public class ActionStock implements Model{
                         daoAS.update(ActionStock.this);
                         daoProduit.update(produit);
                         daoCloture.update(cloture);
-                        daoPA.update((ProxyAction) ActionStock.this);
+//                        daoPA.update((ProxyAction) ActionStock.this);
                         return null;
                     }
             });
@@ -203,7 +204,7 @@ public class ActionStock implements Model{
                             daoAS.delete(ActionStock.this);
                             daoProduit.update(produit);
                             daoCloture.update(cloture);
-                            daoPA.delete((ProxyAction) ActionStock.this);
+//                            daoPA.delete((ProxyAction) ActionStock.this);
                             return null;
                         }
                     });
