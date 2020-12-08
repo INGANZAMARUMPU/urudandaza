@@ -88,21 +88,14 @@ public class ClientForm extends Dialog {
                     e.printStackTrace();
                 }
             }else{
-                try {
-                    Dao dao_personne = inkoranyaMakuru.getDaoPersonne();
-                    dao_personne.create(new Personne(
-                            field_client_name.getText().toString(),
-                            field_client_tel.getText().toString(),
-                            field_client_autres.getText().toString()));
+                new Personne(
+                    field_client_name.getText().toString(),
+                    field_client_tel.getText().toString(),
+                    field_client_autres.getText().toString()).create(context);
 //                    if(PARENT_NAME_FIELD == null) context.refresh();
 //                    else
-                        PARENT_NAME_FIELD.setText(field_client_name.getText());
-                    dismiss();
-                } catch (SQLException e) {
-                    Log.i("ERREUR", e.getMessage());
-                    e.printStackTrace();
-                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                }
+                    PARENT_NAME_FIELD.setText(field_client_name.getText());
+                dismiss();
             }
         }
     }

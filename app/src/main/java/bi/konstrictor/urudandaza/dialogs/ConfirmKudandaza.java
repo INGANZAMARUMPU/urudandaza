@@ -160,7 +160,7 @@ public class ConfirmKudandaza extends Dialog {
 
     private void loadClient() {
         try {
-            Dao dao_clients = new InkoranyaMakuru(context).getDaoPersonne();
+            Dao dao_clients = new InkoranyaMakuru(context).getDao(Personne.class);
             List<Personne> personnes = dao_clients.queryForAll();
             arrcontact = new String[personnes.size()];
             for (int i=0; i<personnes.size(); i++){
@@ -193,17 +193,8 @@ public class ConfirmKudandaza extends Dialog {
         for (ActionStock cart : CART){
             ActionStock as = new ActionStock();
             as.expiration(cart.produit, cart.getQuantite(), inkoranyaMakuru.getLatestCloture());
-            try {
-                Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                dao_action.create(as);
-                context.refresh();
-                Toast.makeText(context, "sawa", Toast.LENGTH_LONG).show();
-                dismiss();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                break;
-            }
+            as.create(context);
+            context.refresh(); dismiss();
         }
         context.refresh();
         Toast.makeText(context, "Vyakozwe", Toast.LENGTH_LONG).show();
@@ -233,15 +224,8 @@ public class ConfirmKudandaza extends Dialog {
                     cart.payee = as.payee;
                     cart.update(context);
                 }else {
-                    try {
-                        Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                        dao_action.create(as);
-                        dismiss();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                        break;
-                    }
+                    as.create(context);
+                    dismiss();
                 }
             }
             dismiss();

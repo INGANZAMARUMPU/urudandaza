@@ -92,17 +92,9 @@ public class ActionLiquideForm extends Dialog {
                     e.printStackTrace();
                 }
             } else {
-                try {
-                    Dao dao_liquide = inkoranyaMakuru.getDaoLiquide();
-                    dao_liquide.create(new Liquide(somme, liquide_motif));
-                    Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
-                    context.refresh();
-                    dismiss();
-                } catch (SQLException e) {
-                    Log.i("ERREUR", e.getMessage());
-                    e.printStackTrace();
-                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                }
+                new Liquide(somme, liquide_motif).create(context);
+                context.refresh();
+                dismiss();
             }
         }
     }

@@ -205,7 +205,7 @@ public class KudandazaForm extends Dialog {
     }
     private void loadClient() {
         try {
-            Dao dao_clients = new InkoranyaMakuru(context).getDaoPersonne();
+            Dao dao_clients = new InkoranyaMakuru(context).getDao(Personne.class);
             List<Personne> personnes = dao_clients.queryForAll();
             arrcontact = new String[personnes.size()];
             for (int i=0; i<personnes.size(); i++){
@@ -263,16 +263,9 @@ public class KudandazaForm extends Dialog {
                 action_stock.kudandaza(produit, qtt, personne, payee, null);
                 action_stock.update(context);
             } else {
-                try {
-                    ActionStock as = new ActionStock();
-                    as.kudandaza(produit, qtt, personne, payee, inkoranyaMakuru.getLatestCloture());
-                    Dao dao_action = inkoranyaMakuru.getDaoActionStock();
-                    dao_action.create(as);
-                } catch (SQLException e) {
-                    Log.i("ERREUR", e.getMessage());
-                    e.printStackTrace();
-                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                }
+                ActionStock as = new ActionStock();
+                as.kudandaza(produit, qtt, personne, payee, inkoranyaMakuru.getLatestCloture());
+                as.create(context);
             }
             dismiss();
             context.refresh();

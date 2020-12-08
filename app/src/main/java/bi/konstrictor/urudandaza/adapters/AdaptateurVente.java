@@ -103,16 +103,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                     public void onClick(DialogInterface dialog, int which) {
                         Double prix = Double.parseDouble(input.getText().toString());
                         produit.prix = prix;
-                        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
-                        try {
-                            Dao<Produit, Integer> dao_protuit = inkoranyaMakuru.getDaoProduit();
-                            dao_protuit.update(produit);
-                            context.refresh();
-                        } catch (SQLException e) {
-                            Log.i("ERREUR", e.getMessage());
-                            e.printStackTrace();
-                            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                        }
+                        produit.update(context);
                     }
                 });
                 builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
@@ -80,4 +81,44 @@ public class Cloture implements Serializable, Model{
             Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    public void create(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<Cloture, Integer> dao = inkoranyaMakuru.getDao(Cloture.class);
+            dao.create(this);
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<Cloture, Integer> dao = inkoranyaMakuru.getDao(Cloture.class);
+            dao.update(this);
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<Cloture, Integer> dao = inkoranyaMakuru.getDao(Cloture.class);
+            dao.delete(this);
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -91,7 +91,7 @@ public class ProductForm extends Dialog {
                 double rapport = Double.parseDouble(product_unit_rapport);
                 Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, 0.);
                 try {
-                    Dao dao_produit = inkoranyaMakuru.getDaoProduit();
+                    Dao dao_produit = inkoranyaMakuru.getDao(Produit.class);
                     dao_produit.create(produit);
                     Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
                     dismiss();

@@ -1,28 +1,17 @@
 package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.os.Build;
-import android.provider.ContactsContract;
 import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -33,11 +22,8 @@ import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
-import bi.konstrictor.urudandaza.models.Liquide;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 public class KuranguraForm extends Dialog {
     private RefreshableActivity context;
@@ -185,7 +171,7 @@ public class KuranguraForm extends Dialog {
     }
     private void loadClient() {
         try {
-            Dao dao_clients = new InkoranyaMakuru(context).getDaoPersonne();
+            Dao dao_clients = new InkoranyaMakuru(context).getDao(Personne.class);
             List<Personne> personnes = dao_clients.queryForAll();
             arrcontact = new String[personnes.size()];
             for (int i=0; i<personnes.size(); i++){
@@ -225,18 +211,11 @@ public class KuranguraForm extends Dialog {
                 action_stock.update(context);
                 dismiss();
             } else {
-                try {
-                    ActionStock as = new ActionStock();
-                    as.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
-                    Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                    dao_action.create(as);
-                    Toast.makeText(context, "mwaranguye " + as, Toast.LENGTH_LONG).show();
-                    dismiss();
-                } catch (SQLException e) {
-                    Log.i("ERREUR", e.getMessage());
-                    e.printStackTrace();
-                    Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
-                }
+                ActionStock as = new ActionStock();
+                as.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
+                as.create(context);
+                Toast.makeText(context, "mwaranguye " + as, Toast.LENGTH_LONG).show();
+                dismiss();
             }
             context.refresh();
             progress_kurangura.setVisibility(View.GONE);

@@ -62,4 +62,43 @@ public class Personne implements Model{
                 ", phone='" + phone + '\'' +
                 '}';
     }
+
+    @Override
+    public void create(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<Personne, Integer> dao = inkoranyaMakuru.getDao(Personne.class);
+            dao.create(this);
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<Personne, Integer> dao = inkoranyaMakuru.getDao(Personne.class);
+            dao.update(this);
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<Personne, Integer> dao = inkoranyaMakuru.getDao(Personne.class);
+            dao.delete(this);
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
 }

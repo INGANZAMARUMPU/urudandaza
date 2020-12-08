@@ -117,14 +117,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Dao dao_action = null;
-                    try {
-                        dao_action = new InkoranyaMakuru(context).getDaoActionStock();
-                        dao_action.delete(historie);
-                        context.refresh();
-                        Toast.makeText(context, "vyahanaguritse", Toast.LENGTH_SHORT).show();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    historie.delete(context);
                 }
             })
             .setNegativeButton("Reka", null)
