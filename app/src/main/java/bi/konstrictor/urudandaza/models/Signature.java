@@ -6,7 +6,7 @@ import java.util.Date;
 
 import bi.konstrictor.urudandaza.Globals;
 
-public class Signature {
+public class Signature implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

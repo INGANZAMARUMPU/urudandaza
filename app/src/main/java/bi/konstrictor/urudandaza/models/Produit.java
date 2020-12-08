@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
-public class Produit {
+public class Produit implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(unique = true)

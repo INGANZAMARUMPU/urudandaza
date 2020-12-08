@@ -74,46 +74,6 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
 
             getDao(Cloture.class).create(new Cloture());
 
-            database.execSQL("CREATE TRIGGER insertion_stock " +
-                "AFTER INSERT ON actionstock FOR EACH ROW BEGIN " +
-                "UPDATE produit SET quantite = quantite+NEW.quantite WHERE id = NEW.produit_id;" +
-                "UPDATE cloture SET payee_achat=payee_achat+NEW.payee, achat=achat+NEW.total " +
-                    "WHERE cloture.id=NEW.cloture_id AND NEW.quantite>0; " +
-                "UPDATE cloture SET vente=vente+NEW.total, payee_vente=payee_vente+NEW.payee " +
-                    "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0; " +
-                "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, " +
-                        "motif, date, cloture_id, perimee) " +
-                    "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, NEW.payee, " +
-                        "NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id, NEW.perimee); "+
-                "END;");
-
-            database.execSQL("CREATE TRIGGER modification_stock " +
-                "AFTER UPDATE ON ActionStock FOR EACH ROW BEGIN " +
-                "UPDATE Produit SET quantite = quantite-OLD.quantite+NEW.quantite WHERE id=NEW.produit_id; " +
-                "UPDATE cloture SET " +
-                    "achat=achat-OLD.total+NEW.total, payee_achat=payee_achat-OLD.payee+NEW.payee " +
-                    "WHERE cloture.id=NEW.cloture_id AND NEW.quantite>0;  " +
-                "UPDATE cloture SET " +
-                    "vente = vente-OLD.total+NEW.total, payee_vente = payee_vente-OLD.payee+NEW.payee " +
-                    "WHERE cloture.id=NEW.cloture_id AND NEW.quantite<0;  " +
-                "DELETE FROM proxyaction WHERE date = OLD.date; "+
-                "INSERT INTO proxyaction (produit_id, quantite, prix, total, payee, personne_id, " +
-                        "motif, date, cloture_id, perimee)" +
-                    "VALUES (NEW.produit_id, NEW.quantite, NEW.prix, NEW.total, NEW.payee, " +
-                        "NEW.personne_id, NEW.motif, NEW.date, NEW.cloture_id, NEW.perimee); "+
-                "END;");
-
-            database.execSQL("create trigger suppression_stock " +
-                "AFTER DELETE ON ActionStock FOR EACH ROW BEGIN " +
-                "UPDATE Produit SET quantite = quantite-OLD.quantite " +
-                    "WHERE id = OLD.produit_id; " +
-                "UPDATE cloture SET achat = achat-OLD.total, payee_achat = payee_achat-OLD.payee " +
-                    "WHERE cloture.id=OLD.cloture_id AND OLD.quantite>0; " +
-                "UPDATE cloture SET vente = vente-OLD.total, payee_vente = payee_vente-OLD.payee " +
-                    "WHERE cloture.id=OLD.cloture_id AND OLD.quantite<0; " +
-                "DELETE FROM proxyaction WHERE id = OLD.id; "+
-                "END;");
-
         } catch (Exception e) {
             Log.e("INKORANYAMAKURU", e.getMessage());
         }

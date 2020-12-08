@@ -8,15 +8,17 @@ import androidx.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 
-public class ActionStock {
+public class ActionStock implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)
@@ -119,17 +121,99 @@ public class ActionStock {
     public String toString() {
         return Math.abs(getQuantite()) +" " + produit.nom + " x " + prix + " : " + getTotal();
     }
+
+    @Override
+    public void create(Context context) {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<ActionStock, Integer> daoAS = inkoranyaMakuru.getDao(ActionStock.class);
+            final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
+            produit.quantite += quantite;
+            final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
+            cloture.vente += getVenteTotal();
+            cloture.achat -= getAchatTotal();
+            final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
+
+            TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            daoAS.create(ActionStock.this);
+                            daoProduit.create(produit);
+                            daoCloture.create(cloture);
+                            daoPA.create((ProxyAction) ActionStock.this);
+                            return null;
+                        }
+                    });
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+
+    }
+
     public void update(Context context){
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            Dao<ActionStock, Integer> dao = inkoranyaMakuru.getDao(ActionStock.class);
-            dao.update(this);
+            final Dao<ActionStock, Integer> daoAS = inkoranyaMakuru.getDao(ActionStock.class);
+            ActionStock old = daoAS.queryForId(id);
+            final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
+            produit.quantite = produit.quantite - old.quantite + quantite;
+            final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
+            cloture.vente = cloture.vente - old.getVenteTotal() + getVenteTotal();
+            cloture.achat = cloture.achat - old.getAchatTotal() + getAchatTotal();
+            final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
+
+            TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        daoAS.update(ActionStock.this);
+                        daoProduit.update(produit);
+                        daoCloture.update(cloture);
+                        daoPA.update((ProxyAction) ActionStock.this);
+                        return null;
+                    }
+            });
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void delete(Context context) {
+
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        try {
+            final Dao<ActionStock, Integer> daoAS = inkoranyaMakuru.getDao(ActionStock.class);
+            final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
+            produit.quantite -= quantite;
+            final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
+            cloture.vente -= getVenteTotal();
+            cloture.achat -= getAchatTotal();
+            final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
+
+            TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            daoAS.delete(ActionStock.this);
+                            daoProduit.update(produit);
+                            daoCloture.update(cloture);
+                            daoPA.delete((ProxyAction) ActionStock.this);
+                            return null;
+                        }
+                    });
+            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+        } catch (SQLException e) {
+            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
     public void expiration(Produit produit, Double quantite, Cloture cloture) {
         this.produit = produit;
         this.quantite = -Math.abs(quantite);
@@ -144,8 +228,8 @@ public class ActionStock {
     public boolean isAchat() {
         return quantite>0 && !perimee;
     }
-
     public boolean isDette() {
         return payee!=total;
     }
+
 }

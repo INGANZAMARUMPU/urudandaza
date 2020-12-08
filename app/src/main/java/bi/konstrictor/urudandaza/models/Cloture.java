@@ -14,7 +14,7 @@ import java.util.Date;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 
-public class Cloture implements Serializable {
+public class Cloture implements Serializable, Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

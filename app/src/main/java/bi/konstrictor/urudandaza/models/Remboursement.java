@@ -5,7 +5,7 @@ import java.util.Date;
 
 import bi.konstrictor.urudandaza.Globals;
 
-public class Remboursement {
+public class Remboursement implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)

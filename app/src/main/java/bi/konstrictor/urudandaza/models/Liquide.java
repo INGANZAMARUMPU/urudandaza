@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @DatabaseTable
-public class Liquide {
+public class Liquide implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

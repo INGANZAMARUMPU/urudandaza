@@ -16,7 +16,7 @@ import java.util.List;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 
 @DatabaseTable
-public class Personne {
+public class Personne implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(unique=true)

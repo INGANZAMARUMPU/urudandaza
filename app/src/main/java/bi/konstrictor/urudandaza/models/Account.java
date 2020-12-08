@@ -6,7 +6,7 @@ import java.util.Date;
 
 import bi.konstrictor.urudandaza.Globals;
 
-public class Account {
+public class Account implements Model{
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField
