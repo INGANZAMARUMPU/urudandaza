@@ -137,7 +137,7 @@ public class DetailHistActivity extends RefreshableActivity {
     }
     private void chargerStock() {
         try {
-            Dao dao_as = new InkoranyaMakuru(this).getDaoActionStock();
+            Dao dao_as = new InkoranyaMakuru(this).getDao(ActionStock.class);
             Where where = dao_as.queryBuilder().where().eq(filtre, valeur);
             if (is_dette)
                 where = where.and().ne("total", new ColumnArg("payee"));

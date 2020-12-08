@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
@@ -121,15 +122,8 @@ public class ActionStock {
     public void update(Context context){
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            UpdateBuilder<ActionStock, Integer> update = inkoranyaMakuru.getDaoActionStock().updateBuilder();
-            update.where().eq("id", this.id);
-            update.updateColumnValue("quantite" , this.quantite);
-            update.updateColumnValue("prix" , this.prix);
-            update.updateColumnValue("payee" , this.payee);
-            update.updateColumnValue("total" , this.total);
-            update.updateColumnValue("perimee" , this.perimee);
-            if(personne!=null) update.updateColumnValue("personne_id" , personne.id);
-            update.update();
+            Dao<ActionStock, Integer> dao = inkoranyaMakuru.getDao(ActionStock.class);
+            dao.update(this);
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();

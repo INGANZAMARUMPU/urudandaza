@@ -42,7 +42,7 @@ public class Personne {
     }
     public static Personne getClient(String nom, Context context){
         try{
-            Dao dao_personne = new InkoranyaMakuru(context).getDaoPersonne();
+            Dao dao_personne = new InkoranyaMakuru(context).getDao(Personne.class);
             List<Personne> personnes = dao_personne.queryBuilder().where().eq("nom", nom).query();
             if (personnes.size()>0){
                 return personnes.get(0);

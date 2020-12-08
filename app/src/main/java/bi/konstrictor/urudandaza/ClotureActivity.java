@@ -71,7 +71,7 @@ public class ClotureActivity extends RefreshableActivity {
     }
     private void chargerStock() {
         try {
-            Dao dao_clotures = new InkoranyaMakuru(this).getDaoCloture();
+            Dao dao_clotures = new InkoranyaMakuru(this).getDao(Cloture.class);
             clotures = (ArrayList<Cloture>) dao_clotures.queryForAll();
 //            clotures.addAll(clotures);
             adaptateur.setData(clotures);

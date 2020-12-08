@@ -56,6 +56,7 @@ public class AdaptateurLiquide extends RecyclerView.Adapter<AdaptateurLiquide.Vi
 
     public void setData(ArrayList<Liquide> produit) {
         this.liquides = produit;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

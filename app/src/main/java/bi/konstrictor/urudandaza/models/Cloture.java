@@ -62,9 +62,9 @@ public class Cloture implements Serializable {
     }
 
     public void cloturer(Context context){
-        UpdateBuilder<Cloture, Integer> update;
+        UpdateBuilder<Cloture,?> update;
         try {
-            update = new InkoranyaMakuru(context).getDaoCloture().updateBuilder();
+            update = new InkoranyaMakuru(context).getDao(Cloture.class).updateBuilder();
             if((this.getVente()>0) || (this.achat>0)) {
                 Toast.makeText(context, "Umusi warangiye", Toast.LENGTH_SHORT).show();
                 update.where().eq("id", this.id);

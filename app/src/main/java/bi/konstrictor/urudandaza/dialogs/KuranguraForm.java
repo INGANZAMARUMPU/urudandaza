@@ -230,7 +230,7 @@ public class KuranguraForm extends Dialog {
                     as.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
                     Dao dao_action = new InkoranyaMakuru(context).getDaoActionStock();
                     dao_action.create(as);
-                    Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "mwaranguye " + as, Toast.LENGTH_LONG).show();
                     dismiss();
                 } catch (SQLException e) {
                     Log.i("ERREUR", e.getMessage());

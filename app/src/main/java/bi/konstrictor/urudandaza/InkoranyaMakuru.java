@@ -31,33 +31,33 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public InkoranyaMakuru(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
-    public Dao<Produit, Integer> getDaoProduit() throws SQLException {
-        return getDao(Produit.class);
-    }
-    public Dao<Personne, Integer> getDaoPersonne() throws SQLException {
-        return getDao(Personne.class);
-    }
-    public Dao<Liquide, Integer> getDaoLiquide() throws SQLException {
-        return getDao(Liquide.class);
-    }
-    public Dao<Remboursement, Integer> getDaoDette() throws SQLException {
-        return getDao(Remboursement.class);
-    }
-    public Dao<ProxyAction, Integer> getDaoProxy() throws SQLException {
-        return getDao(ProxyAction.class);
-    }
-    public Dao<ActionStock, Integer> getDaoActionStock() throws SQLException {
-            return getDao(ActionStock.class);
-    }
-    public Dao<Cloture, Integer> getDaoCloture() throws SQLException {
-        return getDao(Cloture.class);
-    }
-    public Dao<Account, Integer> getDaoAccounts() throws SQLException {
-        return getDao(Cloture.class);
-    }
-    public Dao<Signature, Integer> getDaoSignatures() throws SQLException {
-        return getDao(Cloture.class);
-    }
+//    public Dao<Produit, Integer> getDaoProduit() throws SQLException {
+//        return getDao(Produit.class);
+//    }
+//    public Dao<Personne, Integer> getDaoPersonne() throws SQLException {
+//        return getDao(Personne.class);
+//    }
+//    public Dao<Liquide, Integer> getDaoLiquide() throws SQLException {
+//        return getDao(Liquide.class);
+//    }
+//    public Dao<Remboursement, Integer> getDaoDette() throws SQLException {
+//        return getDao(Remboursement.class);
+//    }
+//    public Dao<ProxyAction, Integer> getDaoProxy() throws SQLException {
+//        return getDao(ProxyAction.class);
+//    }
+//    public Dao<ActionStock, Integer> getDaoActionStock() throws SQLException {
+//        return getDao(ActionStock.class);
+//    }
+//    public Dao<Cloture, Integer> getDaoCloture() throws SQLException {
+//        return getDao(Cloture.class);
+//    }
+//    public Dao<Account, Integer> getDaoAccounts() throws SQLException {
+//        return getDao(Account.class);
+//    }
+//    public Dao<Signature, Integer> getDaoSignatures() throws SQLException {
+//        return getDao(Signature.class);
+//    }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
@@ -71,7 +71,9 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Remboursement.class);
             TableUtils.createTableIfNotExists(connectionSource, Account.class);
             TableUtils.createTableIfNotExists(connectionSource, Signature.class);
-            getDaoCloture().create(new Cloture());
+
+            getDao(Cloture.class).create(new Cloture());
+
             database.execSQL("CREATE TRIGGER insertion_stock " +
                 "AFTER INSERT ON actionstock FOR EACH ROW BEGIN " +
                 "UPDATE produit SET quantite = quantite+NEW.quantite WHERE id = NEW.produit_id;" +
@@ -119,18 +121,19 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
 
     public Cloture getLatestCloture(){
         try {
-            List<Cloture> clotures = getDaoCloture().queryBuilder().where().eq("compiled", false).query();
+            List<Cloture> clotures = getDao(Cloture.class).queryBuilder()
+                    .where().eq("compiled", false).query();
             if (clotures.size() > 1) {
                 for (int i = 0; i < clotures.size() - 1; i++) {
                     Cloture cloture = clotures.get(i);
                     cloture.compiled = true;
-                    getDaoCloture().update(cloture);
+                    getDao(Cloture.class).update(cloture);
                 }
                 return clotures.get(clotures.size() - 1);
             } else if (clotures.size() == 1) {
                 return clotures.get(0);
             } else {
-                return getDaoCloture().createIfNotExists(new Cloture());
+                return getDao(Cloture.class).createIfNotExists(new Cloture());
             }
         }catch (SQLException e){
             Log.i("ERREUR", e.getMessage());

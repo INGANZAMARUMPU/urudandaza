@@ -38,7 +38,6 @@ public class StockActivity extends RefreshableActivity{
         recycler_ibidandazwa.setLayoutManager(new GridLayoutManager(this, 1));
 //        recycler_ibidandazwa.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-
         produits = new ArrayList<>();
         adaptateur = new AdaptateurStock(StockActivity.this, produits);
         recycler_ibidandazwa.addItemDecoration(new DividerItemDecoration(recycler_ibidandazwa.getContext(), DividerItemDecoration.VERTICAL));
@@ -47,11 +46,9 @@ public class StockActivity extends RefreshableActivity{
     }
     private void chargerStock() {
         try {
-            Dao dao_produits = new InkoranyaMakuru(this).getDaoProduit();
+            Dao dao_produits = new InkoranyaMakuru(this).getDao(Produit.class);
             produits = (ArrayList<Produit>) dao_produits.queryForAll();
-//            produits.addAll(produits);
             adaptateur.setData(produits);
-            adaptateur.notifyDataSetChanged();
         } catch (SQLException e) {
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
         }

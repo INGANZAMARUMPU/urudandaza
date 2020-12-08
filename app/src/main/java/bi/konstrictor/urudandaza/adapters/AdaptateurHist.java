@@ -14,9 +14,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.DetailHistActivity;
+import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
@@ -82,7 +86,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                         public boolean onMenuItemClick(MenuItem item) {
                             int item_id = item.getItemId();
                             if (item_id == R.id.action_item_edit) editItem(historie);
-                            if (item_id == R.id.action_item_delete) deleteItem(historie);
+                            if (item_id == R.id.action_item_delete) deleteItem(historie, position);
                             return false;
                         }
                     });
@@ -105,14 +109,22 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             kudandaza_form.show();
         }
     }
-    private void deleteItem(ActionStock historie) {
+    private void deleteItem(final ActionStock historie, final int position) {
         new AlertDialog.Builder(context)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle("Guhanagura").setMessage("Urakeneye vy'ukuri guhanagura?")
             .setPositiveButton("Hanagura", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(context, "nta ruhusha rwo guhanagura mufise ", Toast.LENGTH_LONG).show();
+                    Dao dao_action = null;
+                    try {
+                        dao_action = new InkoranyaMakuru(context).getDaoActionStock();
+                        dao_action.delete(historie);
+                        context.refresh();
+                        Toast.makeText(context, "vyahanaguritse", Toast.LENGTH_SHORT).show();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
             })
             .setNegativeButton("Reka", null)

@@ -46,10 +46,9 @@ public class LiquideActivity extends RefreshableActivity {
 
     private void chargerDepenses() {
         try {
-            Dao dao_depenses = new InkoranyaMakuru(this).getDaoLiquide();
+            Dao dao_depenses = new InkoranyaMakuru(this).getDao(Liquide.class);
             depenses = (ArrayList<Liquide>) dao_depenses.queryForAll();
             adaptateur.setData(depenses);
-            adaptateur.notifyDataSetChanged();
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();

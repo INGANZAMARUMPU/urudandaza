@@ -47,7 +47,7 @@ public class ClientActivity extends RefreshableActivity {
 
     private void chargerClient() {
         try {
-            Dao dao_clients = new InkoranyaMakuru(this).getDaoPersonne();
+            Dao dao_clients = new InkoranyaMakuru(this).getDao(Personne.class);
             clients = (ArrayList<Personne>) dao_clients.queryForAll();
             adaptateur.setData(clients);
             adaptateur.notifyDataSetChanged();

@@ -69,7 +69,7 @@ public class VenteActivity extends RefreshableActivity{
 
     private void chargerStock() {
         try {
-            Dao dao_stocks = new InkoranyaMakuru(this).getDaoProduit();
+            Dao dao_stocks = new InkoranyaMakuru(this).getDao(Produit.class);
             produits = (ArrayList<Produit>) dao_stocks.queryBuilder().orderByRaw("nom COLLATE NOCASE ASC").query();
             adaptateur.setData(produits);
         } catch (SQLException e) {
