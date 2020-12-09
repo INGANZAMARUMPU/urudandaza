@@ -10,11 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.ColumnArg;
 import com.j256.ormlite.stmt.Where;
@@ -26,18 +29,18 @@ import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.pageadapters.CloturePageAdapter;
+import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class DetailHistActivity extends RefreshableActivity {
 
-    public boolean is_dette=false;
-    RecyclerView recycler_history;
-    ArrayList<ActionStock> produits;
-    TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
-    private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
-    private AdaptateurHist adaptateur;
-
-    private String filtre, valeur;
-    public Cloture cloture = null;
+    public CloturePageAdapter cloture_adapter;
+    public ViewPager view_pager_cloture;
+    private TabLayout tab_layout_cloture;
+    public String filtre, valeur;
+    public Boolean is_dette;
+    public Cloture cloture;
+    public ArrayList<ActionStock> produits = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +48,13 @@ public class DetailHistActivity extends RefreshableActivity {
         setContentView(R.layout.activity_det_hist);
         Toolbar toolbar = findViewById(R.id.history_toolbar);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         filtre = getIntent().getExtras().getString("filtre");
         valeur = getIntent().getExtras().getString("valeur");
         is_dette = getIntent().getExtras().getBoolean("is_dette");
         cloture = (Cloture) getIntent().getSerializableExtra("cloture");
-        lbl_det_hist_achat_tot = findViewById(R.id.lbl_det_hist_achat_tot);
-        lbl_det_hist_achat_rest = findViewById(R.id.lbl_det_hist_achat_rest);
-        lbl_det_hist_vente_tot = findViewById(R.id.lbl_det_hist_vente_tot);
-        lbl_det_hist_vente_reste = findViewById(R.id.lbl_det_hist_vente_reste);
 
-        recycler_history = findViewById(R.id.recycler_history);
-        recycler_history.setLayoutManager(new GridLayoutManager(this, 1));
-//        recycler_history.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
-
-        produits = new ArrayList<>();
-        adaptateur = new AdaptateurHist(DetailHistActivity.this, produits);
-        recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
-        recycler_history.setAdapter(adaptateur);
-        chargerStock();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     @Override
     public boolean onCreateOptionsMenu( Menu menu) {
@@ -112,50 +101,9 @@ public class DetailHistActivity extends RefreshableActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void addToTotals(ActionStock history) {
-        if(history.perimee) return;
-        setAchat_tot(achat_tot +history.getAchatTotal());
-        setAchat_rest(achat_rest+history.getAchatReste());
-        setVente_tot(vente_tot+history.getVenteTotal());
-        setVente_reste(vente_reste+history.getVenteReste());
-    }
-    public void setAchat_tot(Double achat_tot) {
-        this.achat_tot = achat_tot;
-        lbl_det_hist_achat_tot.setText(achat_tot.toString());
-    }
-    public void setAchat_rest(Double achat_rest) {
-        this.achat_rest = achat_rest;
-        lbl_det_hist_achat_rest.setText(achat_rest.toString());
-    }
-    public void setVente_tot(Double vente_tot) {
-        this.vente_tot = vente_tot;
-        lbl_det_hist_vente_tot.setText(vente_tot.toString());
-    }
-    public void setVente_reste(Double vente_reste) {
-        this.vente_reste = vente_reste;
-        lbl_det_hist_vente_reste.setText(vente_reste.toString());
-    }
-    private void chargerStock() {
-        try {
-            Dao dao_as = new InkoranyaMakuru(this).getDao(ActionStock.class);
-            Where where = dao_as.queryBuilder().where().eq(filtre, valeur);
-            if (is_dette)
-                where = where.and().ne("total", new ColumnArg("payee"));
-            produits = (ArrayList<ActionStock>) where.query();
-//            produits.addAll(produits);
-            adaptateur.setData(produits);
-            adaptateur.notifyDataSetChanged();
-        } catch (SQLException e) {
-            Toast.makeText(this, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
-        }
-    }
 
     @Override
     public void refresh() {
-        lbl_det_hist_achat_tot.setText("0");
-        lbl_det_hist_achat_rest.setText("0");
-        lbl_det_hist_vente_tot.setText("0");
-        lbl_det_hist_vente_reste.setText("0");
-        chargerStock();
+
     }
 }

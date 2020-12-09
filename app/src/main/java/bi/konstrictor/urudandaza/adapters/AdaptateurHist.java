@@ -24,6 +24,7 @@ import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
+import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
@@ -32,11 +33,14 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     private DetailHistActivity context;
     private ArrayList<ActionStock> histories;
     private Cloture cloture = null;
+    private boolean is_dette;
+    ClotureFragment parent;
 
     public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories) {
         this.context = context;
         this.histories = histories;
         this.cloture = context.cloture;
+        this.is_dette = context.is_dette;
     }
 
     @Override
@@ -67,7 +71,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             int lightBlue = context.getResources().getColor(R.color.lightBlue);
             holder.card_hist.setBackgroundColor(lightBlue);
         }
-        if ((cloture!=null && !cloture.compiled) | (context.is_dette)){
+        if ((cloture!=null && !cloture.compiled) | (is_dette)){
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -96,7 +100,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         }else{
             holder.btn_hist_options.setVisibility(View.GONE);
         }
-        context.addToTotals(historie);
+        parent.addToTotals(historie);
     }
     private void editItem(ActionStock historie) {
         if (historie.isAchat()) {

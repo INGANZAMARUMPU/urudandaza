@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurCloture;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class ClotureActivity extends RefreshableActivity {
 
@@ -31,7 +32,7 @@ public class ClotureActivity extends RefreshableActivity {
     public MutableLiveData<Double> achat_rest = new MutableLiveData<>();
     public MutableLiveData<Double> vente_tot = new MutableLiveData<>();
     public MutableLiveData<Double> vente_reste = new MutableLiveData<>();
-    public PageAdapter calculations_adapter;
+    public TotalsPageAdapter calculations_adapter;
     public ViewPager view_pager_totals;
     private TabLayout tab_layout_totals;
 
@@ -52,7 +53,7 @@ public class ClotureActivity extends RefreshableActivity {
         vente_tot.setValue(0.);
         vente_reste.setValue(0.);
 
-        calculations_adapter = new PageAdapter(
+        calculations_adapter = new TotalsPageAdapter(
                 getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
                 this);

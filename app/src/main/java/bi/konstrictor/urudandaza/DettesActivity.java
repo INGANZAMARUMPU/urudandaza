@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -19,8 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurCloture;
-import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class DettesActivity extends RefreshableActivity {
 
@@ -32,7 +29,7 @@ public class DettesActivity extends RefreshableActivity {
     public MutableLiveData<Double> achat_rest = new MutableLiveData<>();
     public MutableLiveData<Double> vente_tot = new MutableLiveData<>();
     public MutableLiveData<Double> vente_reste = new MutableLiveData<>();
-    public PageAdapter calculations_adapter;
+    public TotalsPageAdapter calculations_adapter;
     public ViewPager view_pager_totals;
     private TabLayout tab_layout_totals;
 
