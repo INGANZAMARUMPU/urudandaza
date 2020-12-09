@@ -6,12 +6,15 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.Model;
@@ -65,15 +68,31 @@ public class Cloture implements Serializable, Model {
         return Math.abs(vente);
     }
 
-    public void cloturer(Context context){
-        UpdateBuilder<Cloture,?> update;
+    public void cloturer(final Context context){
         try {
-            update = new InkoranyaMakuru(context).getDao(Cloture.class).updateBuilder();
-            if((this.getVente()>0) || (this.achat>0)) {
-                Toast.makeText(context, "Umusi warangiye", Toast.LENGTH_SHORT).show();
-                update.where().eq("id", this.id);
-                update.updateColumnValue("compiled", true);
-                update.update();
+            InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+            final Dao<Produit, Integer> dao_p = inkoranyaMakuru.getDao(Produit.class);
+            final Dao<ClotureProduit, Integer> dao_c = inkoranyaMakuru.getDao(ClotureProduit.class);
+            final Dao<Cloture, Integer> dao = inkoranyaMakuru.getDao(Cloture.class);
+            final ArrayList<Produit> produits = (ArrayList<Produit>) dao_p.queryForAll();
+
+            final ArrayList<ClotureProduit> clotureProduits = new ArrayList<>();
+
+            for (Produit produit : produits){
+                clotureProduits.add(new ClotureProduit(produit.quantite, produit, Cloture.this));
+            }
+
+            if((this.getVente()>0) & (this.achat>0)) {
+                TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            compiled = true;
+                            dao_c.create(clotureProduits);
+                            dao.update(Cloture.this);
+                            return null;
+                        }
+                    });
                 Toast.makeText(context, "Umusi mushasha...", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(context, "Umusi ugaragara ntiwugarika", Toast.LENGTH_LONG).show();

@@ -15,50 +15,65 @@ import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
+import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class AdaptateurStockBasic extends RecyclerView.Adapter<AdaptateurStockBasic.ViewHolder> {
 
-        private ArrayList<Produit> produits;
+    private ArrayList<ClotureProduit> clotures;
+    private ArrayList<Produit> produits;
 
-        public AdaptateurStockBasic(ArrayList<Produit> produits) {
-            this.produits = produits;
+    public AdaptateurStockBasic(ArrayList<ClotureProduit> clotures) {
+        this.clotures = clotures;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card_product, parent, false);
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        ClotureProduit cloture;
+        Produit produit;
+        if(clotures!=null)
+            cloture = clotures.get(position);
+        else {
+            produit = produits.get(position);
+            cloture = new ClotureProduit(produit.quantite, produit, null);
         }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_product, parent, false);
-            return new ViewHolder(itemView);
+        holder.lbl_card_unite.setText(cloture.produit.unite_entrant);
+        holder.lbl_card_quantite.setText(cloture.quantite.toString());
+        if(cloture.produit.rapport>1){
+            String str_quantite;
+            Double quantite = cloture.quantite/cloture.produit.rapport;
+            Integer modulo = cloture.quantite.intValue()%cloture.produit.rapport.intValue();
+            str_quantite = quantite.intValue()+" "+ cloture.produit.unite_entrant +" "
+                    + modulo +" "+ cloture.produit.unite_sortant;
+            holder.lbl_card_unite.setText("");
+            holder.lbl_card_quantite.setText(str_quantite);
         }
+        holder.lbl_card_product.setText(cloture.produit.nom);
+        holder.lbl_kurangura_prix.setText(cloture.produit.prix.toString());
+    }
 
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
-            final Produit produit = produits.get(position);
-            holder.lbl_card_unite.setText(produit.unite_entrant);
-            holder.lbl_card_quantite.setText(produit.quantite.toString());
-            if(produit.rapport>1){
-                String str_quantite;
-                Double quantite = produit.quantite/produit.rapport;
-                Integer modulo = produit.quantite.intValue()%produit.rapport.intValue();
-                str_quantite = quantite.intValue()+" "+ produit.unite_entrant +" "+ modulo +" "+ produit.unite_sortant;
-                holder.lbl_card_unite.setText("");
-                holder.lbl_card_quantite.setText(str_quantite);
-            }
-            holder.lbl_card_product.setText(produit.nom);
-            holder.lbl_kurangura_prix.setText(produit.prix.toString());
-        }
+    @Override
+    public int getItemCount() {
+        if (clotures!=null)
+            return clotures.size();
+        return produits.size();
+    }
 
-        @Override
-        public int getItemCount() {
-            return produits.size();
-        }
-
-        public void setData(ArrayList<Produit> produit) {
-            this.produits = produit;
-            notifyDataSetChanged();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
+    public void setData(ArrayList<ClotureProduit> produit) {
+        this.clotures = produit;
+        notifyDataSetChanged();
+    }
+    public void setProduits(ArrayList<Produit> produits) {
+        this.produits = produits;
+    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
             TextView lbl_card_product, lbl_card_quantite, lbl_card_unite, lbl_kurangura_prix;
             Button btn_kurangura;
             public View view;

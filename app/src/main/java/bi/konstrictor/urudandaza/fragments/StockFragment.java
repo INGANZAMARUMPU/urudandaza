@@ -20,6 +20,8 @@ import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.adapters.AdaptateurStockBasic;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
+import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Produit;
 
 /**
@@ -29,22 +31,22 @@ public class StockFragment extends Fragment {
     private final RefreshableActivity context;
     private View view;
     private RecyclerView recycler_stock;
-    private ArrayList<Produit> produits;
+    private ArrayList<ClotureProduit> clotures;
     private AdaptateurStockBasic adaptateur;
+    private Cloture cloture;
 
-    public StockFragment(RefreshableActivity context) {
+    public StockFragment(RefreshableActivity context, Cloture cloture) {
         super();
         this.context = context;
+        this.cloture = cloture;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_stock, container, false);
         recycler_stock = view.findViewById(R.id.recycler_stock);
         recycler_stock.setLayoutManager(new GridLayoutManager(context, 1));
-//        recycler_stock.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-        produits = new ArrayList<>();
-        adaptateur = new AdaptateurStockBasic(produits);
+        adaptateur = new AdaptateurStockBasic(clotures);
         recycler_stock.addItemDecoration(new DividerItemDecoration(recycler_stock.getContext(), DividerItemDecoration.VERTICAL));
         recycler_stock.setAdapter(adaptateur);
         chargerStock();
@@ -52,10 +54,19 @@ public class StockFragment extends Fragment {
     }
     private void chargerStock() {
         try {
+            Dao dao_clotures = new InkoranyaMakuru(context).getDao(ClotureProduit.class);
             Dao dao_produits = new InkoranyaMakuru(context).getDao(Produit.class);
-            produits = (ArrayList<Produit>) dao_produits.queryForAll();
-            adaptateur.setData(produits);
+            if (cloture.compiled) {
+                clotures = (ArrayList<ClotureProduit>) dao_clotures
+                        .queryForEq("cloture_id", cloture.id);
+                adaptateur.setData(clotures);
+            } else {
+                ArrayList<Produit> produits;
+                produits = (ArrayList<Produit>) dao_produits.queryForAll();
+                adaptateur.setProduits(produits);
+            }
         } catch (SQLException e) {
+            e.printStackTrace();
             Toast.makeText(context, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
         }
     }

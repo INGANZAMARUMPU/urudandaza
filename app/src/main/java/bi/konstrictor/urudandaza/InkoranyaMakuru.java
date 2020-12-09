@@ -16,6 +16,7 @@ import java.util.List;
 import bi.konstrictor.urudandaza.models.Account;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Liquide;
 import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.models.Personne;
@@ -31,37 +32,11 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public InkoranyaMakuru(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
-//    public Dao<Produit, Integer> getDaoProduit() throws SQLException {
-//        return getDao(Produit.class);
-//    }
-//    public Dao<Personne, Integer> getDaoPersonne() throws SQLException {
-//        return getDao(Personne.class);
-//    }
-//    public Dao<Liquide, Integer> getDaoLiquide() throws SQLException {
-//        return getDao(Liquide.class);
-//    }
-//    public Dao<Remboursement, Integer> getDaoDette() throws SQLException {
-//        return getDao(Remboursement.class);
-//    }
-//    public Dao<ProxyAction, Integer> getDaoProxy() throws SQLException {
-//        return getDao(ProxyAction.class);
-//    }
-//    public Dao<ActionStock, Integer> getDaoActionStock() throws SQLException {
-//        return getDao(ActionStock.class);
-//    }
-//    public Dao<Cloture, Integer> getDaoCloture() throws SQLException {
-//        return getDao(Cloture.class);
-//    }
-//    public Dao<Account, Integer> getDaoAccounts() throws SQLException {
-//        return getDao(Account.class);
-//    }
-//    public Dao<Signature, Integer> getDaoSignatures() throws SQLException {
-//        return getDao(Signature.class);
-//    }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
+            TableUtils.createTableIfNotExists(connectionSource, ClotureProduit.class);
             TableUtils.createTableIfNotExists(connectionSource, Produit.class);
             TableUtils.createTableIfNotExists(connectionSource, Personne.class);
             TableUtils.createTableIfNotExists(connectionSource, ActionStock.class);

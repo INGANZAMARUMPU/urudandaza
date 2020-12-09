@@ -16,7 +16,7 @@ public class CloturePageAdapter extends FragmentStatePagerAdapter {
     public CloturePageAdapter(FragmentManager fm, int behavior, DetailHistActivity context) {
         super(fm, behavior);
         this.cloture_fragment = new ClotureFragment(context);
-        this.stock_fragment = new StockFragment(context);
+        this.stock_fragment = new StockFragment(context, context.cloture);
     }
     @Override
     public Fragment getItem(int position) {
