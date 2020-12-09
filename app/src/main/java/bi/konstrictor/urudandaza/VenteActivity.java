@@ -25,10 +25,11 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ProxyAction;
 import bi.konstrictor.urudandaza.models.Produit;
 
-public class VenteActivity extends RefreshableActivity{
+public class VenteActivity extends RefreshableActivity {
 
     private RecyclerView recycler_ibidandazwa;
     private AdaptateurVente adaptateur;

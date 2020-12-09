@@ -12,9 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
 @DatabaseTable
-public class Liquide implements Model{
+public class Liquide implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

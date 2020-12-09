@@ -11,8 +11,9 @@ import java.util.Date;
 
 import bi.konstrictor.urudandaza.Globals;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
-public class Remboursement implements Model{
+public class Remboursement implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)

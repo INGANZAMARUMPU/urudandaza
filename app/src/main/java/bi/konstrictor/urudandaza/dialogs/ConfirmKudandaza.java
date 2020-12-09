@@ -1,22 +1,14 @@
 package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.os.Build;
-import android.provider.ContactsContract;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +17,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,13 +24,9 @@ import java.util.List;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.RefreshableActivity;
-import bi.konstrictor.urudandaza.VenteActivity;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Personne;
-import bi.konstrictor.urudandaza.models.Produit;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 public class ConfirmKudandaza extends Dialog {
     private RefreshableActivity context;

@@ -9,12 +9,12 @@ import android.widget.Toast;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.StockActivity;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class ProductForm extends Dialog {
 
-    StockActivity context;
+    RefreshableActivity context;
     private TextView field_product_name, field_product_unite_in, field_product_unite_out,
             field_product_unit_rapport;
     private ProgressBar progress_product;
@@ -24,7 +24,7 @@ public class ProductForm extends Dialog {
     public Boolean something_changed = false;
     private Produit produit;
 
-    public ProductForm(StockActivity context) {
+    public ProductForm(RefreshableActivity context) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
         setContentView(R.layout.form_product);
         this.context = context;

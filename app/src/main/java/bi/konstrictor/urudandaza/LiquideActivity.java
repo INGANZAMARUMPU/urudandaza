@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurLiquide;
 import bi.konstrictor.urudandaza.dialogs.ActionLiquideForm;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.Liquide;
 
 public class LiquideActivity extends RefreshableActivity {

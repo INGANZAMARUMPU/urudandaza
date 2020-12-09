@@ -7,12 +7,11 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.sql.SQLException;
-import java.util.Date;
 
-import bi.konstrictor.urudandaza.Globals;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
-public class Account implements Model{
+public class Account implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

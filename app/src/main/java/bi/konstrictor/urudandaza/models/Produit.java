@@ -10,9 +10,10 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.sql.SQLException;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
 @DatabaseTable
-public class Produit implements Model{
+public class Produit implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(unique = true)

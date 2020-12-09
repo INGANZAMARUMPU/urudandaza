@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.RefreshableActivity;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.Personne;
 
 import static android.Manifest.permission.READ_CONTACTS;

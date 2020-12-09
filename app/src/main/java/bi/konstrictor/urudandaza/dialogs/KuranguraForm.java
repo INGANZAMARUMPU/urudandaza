@@ -17,9 +17,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
-import bi.konstrictor.urudandaza.OnTextChangeListener;
+import bi.konstrictor.urudandaza.interfaces.OnTextChangeListener;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.RefreshableActivity;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.Personne;

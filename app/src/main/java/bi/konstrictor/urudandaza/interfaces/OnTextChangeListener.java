@@ -1,4 +1,4 @@
-package bi.konstrictor.urudandaza;
+package bi.konstrictor.urudandaza.interfaces;
 
 import android.text.Editable;
 import android.text.TextWatcher;

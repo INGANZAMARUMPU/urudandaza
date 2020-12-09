@@ -1,25 +1,21 @@
 package bi.konstrictor.urudandaza.models;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.TransactionManager;
-import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
-public class ActionStock implements Model{
+public class ActionStock implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)

@@ -1,4 +1,4 @@
-package bi.konstrictor.urudandaza.models;
+package bi.konstrictor.urudandaza.interfaces;
 
 import android.content.Context;
 

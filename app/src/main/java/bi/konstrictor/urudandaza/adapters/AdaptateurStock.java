@@ -12,18 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.RefreshableActivity;
-import bi.konstrictor.urudandaza.StockActivity;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
 import bi.konstrictor.urudandaza.dialogs.ProductForm;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class AdaptateurStock extends RecyclerView.Adapter<AdaptateurStock.ViewHolder> {
 
-        private StockActivity context;
+        private RefreshableActivity context;
         private ArrayList<Produit> produits;
 
-        public AdaptateurStock(StockActivity context, ArrayList<Produit> produits) {
+        public AdaptateurStock(RefreshableActivity context, ArrayList<Produit> produits) {
             this.context = context;
             this.produits = produits;
         }

@@ -5,16 +5,14 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.misc.TransactionManager;
 
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.Globals;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
-public class Signature implements Model{
+public class Signature implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField

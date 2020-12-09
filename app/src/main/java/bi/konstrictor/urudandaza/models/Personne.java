@@ -1,7 +1,6 @@
 package bi.konstrictor.urudandaza.models;
 
 import android.content.Context;
-import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,13 +9,13 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
+import bi.konstrictor.urudandaza.interfaces.Model;
 
 @DatabaseTable
-public class Personne implements Model{
+public class Personne implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(unique=true)

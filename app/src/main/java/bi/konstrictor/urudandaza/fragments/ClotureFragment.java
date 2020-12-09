@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.RefreshableActivity;
 import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;

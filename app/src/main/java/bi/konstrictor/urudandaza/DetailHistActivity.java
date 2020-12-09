@@ -6,31 +6,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.ColumnArg;
-import com.j256.ormlite.stmt.Where;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
+import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.pageadapters.CloturePageAdapter;
-import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class DetailHistActivity extends RefreshableActivity {
 
