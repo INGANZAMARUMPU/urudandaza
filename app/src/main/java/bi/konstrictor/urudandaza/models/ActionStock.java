@@ -236,12 +236,14 @@ public class ActionStock implements Model {
         this.date = new Date();
         perimee = true;
     }
-
     public boolean isAchat() {
         return quantite>0 && !perimee;
     }
+    public boolean isVente() {
+        return quantite<0 && !perimee;
+    }
     public boolean isDette() {
-        return payee!=total;
+        return payee<total & !perimee;
     }
 
 }

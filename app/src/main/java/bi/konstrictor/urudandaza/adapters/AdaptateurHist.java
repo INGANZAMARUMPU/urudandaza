@@ -132,6 +132,8 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
 
     public void setData(ArrayList<ActionStock> produit) {
         this.histories = produit;
+        parent.refresh();
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

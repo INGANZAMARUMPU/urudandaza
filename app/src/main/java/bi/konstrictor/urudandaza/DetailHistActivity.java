@@ -18,6 +18,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
+import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
+import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
@@ -96,6 +98,8 @@ public class DetailHistActivity extends RefreshableActivity {
                     .setNegativeButton("Reka", null)
                     .show();
         }else if(id == R.id.action_filtre){
+            view_pager_cloture.setCurrentItem(0);
+            new FilterActionForm(this, (ClotureFragment) cloture_adapter.getItem(0)).show();
         }else if(id == R.id.action_pay){
             Double montant=0.;
             for (ActionStock as:produits){

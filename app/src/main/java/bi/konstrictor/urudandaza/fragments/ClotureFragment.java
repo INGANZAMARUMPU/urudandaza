@@ -23,6 +23,7 @@ import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
+import bi.konstrictor.urudandaza.interfaces.Filterable;
 import bi.konstrictor.urudandaza.interfaces.SummableActionStock;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
@@ -30,7 +31,7 @@ import bi.konstrictor.urudandaza.models.Cloture;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClotureFragment extends Fragment implements SummableActionStock {
+public class ClotureFragment extends Fragment implements SummableActionStock, Filterable {
     private final DetailHistActivity context;
     TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
     private View view;
@@ -101,18 +102,13 @@ public class ClotureFragment extends Fragment implements SummableActionStock {
             setProducts((ArrayList<ActionStock>) where.query());
 //            produits.addAll(produits);
             adaptateur.setData(products);
-            adaptateur.notifyDataSetChanged();
         } catch (SQLException e) {
             Toast.makeText(context, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
         }
     }
 
     public void refresh() {
-        lbl_det_hist_achat_tot.setText("0");
-        lbl_det_hist_achat_rest.setText("0");
-        lbl_det_hist_vente_tot.setText("0");
-        lbl_det_hist_vente_reste.setText("0");
-        chargerStock();
+        setAchat_rest(0.); setAchat_tot(0.); setVente_tot(0.); setVente_reste(0.);
     }
 
     public ArrayList<ActionStock> getProducts() {
@@ -122,5 +118,36 @@ public class ClotureFragment extends Fragment implements SummableActionStock {
     public void setProducts(ArrayList<ActionStock> products) {
         context.produits = products;
         this.products = products;
+    }
+
+    @Override
+    public void performFiltering(Boolean in, Boolean out, Boolean dette, Boolean perimee) {
+        ArrayList<ActionStock> filtered = new ArrayList<>();
+        if(perimee){
+            for (ActionStock as : products){
+                if(as.perimee) filtered.add(as);
+            }
+            adaptateur.setData(filtered);
+            return;
+        }
+        for (ActionStock as : products){
+            if(in & as.isAchat()) {
+                filtered.add(as); continue;
+            }
+            if(out & as.isVente()) {
+                filtered.add(as); continue;
+            }
+            if(dette & as.isDette()) {
+                filtered.add(as); continue;
+            }
+        }
+        adaptateur.setData(filtered);
+        return;
+    }
+
+    @Override
+    public void cancelFiltering() {
+        adaptateur.setData(products);
+        return;
     }
 }
