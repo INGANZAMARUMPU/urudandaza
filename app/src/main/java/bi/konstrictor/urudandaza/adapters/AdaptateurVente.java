@@ -143,6 +143,10 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
         }
     }
     private void addTocart(Produit produit, Double quantite) {
+        if(quantite<=0) {
+            context.removeFromCart(produit);
+            return;
+        }
         ProxyAction as = new ProxyAction();
         as.kudandaza(produit, quantite, null, null, new InkoranyaMakuru(context).getLatestCloture());
         context.addToCart(as);
