@@ -131,8 +131,13 @@ public class ActionStock implements Model{
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
             produit.quantite += quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
-            cloture.vente += getVenteTotal();
-            cloture.achat -= getAchatTotal();
+            if(isAchat()){
+                cloture.payee_achat = payee;
+                cloture.achat += getAchatTotal();
+            } else{
+                cloture.payee_vente = payee;
+                cloture.vente += getVenteTotal();
+            }
             final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
 
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
@@ -162,8 +167,13 @@ public class ActionStock implements Model{
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
             produit.quantite = produit.quantite - old.quantite + quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
-            cloture.vente = cloture.vente - old.getVenteTotal() + getVenteTotal();
-            cloture.achat = cloture.achat - old.getAchatTotal() + getAchatTotal();
+            if(isAchat()){
+                cloture.payee_achat = cloture.payee_achat - old.payee + payee;
+                cloture.achat = cloture.achat - old.getAchatTotal() + getAchatTotal();
+            } else{
+                cloture.payee_vente = cloture.payee_vente - old.payee + payee;
+                cloture.vente = cloture.vente - old.getVenteTotal() + getVenteTotal();
+            }
             final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
 
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
@@ -193,8 +203,13 @@ public class ActionStock implements Model{
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
             produit.quantite -= quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
-            cloture.vente -= getVenteTotal();
-            cloture.achat -= getAchatTotal();
+            if(isAchat()){
+                cloture.payee_achat -= payee;
+                cloture.achat -= getAchatTotal();
+            } else{
+                cloture.payee_vente -= payee;
+                cloture.vente -= getVenteTotal();
+            }
             final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
 
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),

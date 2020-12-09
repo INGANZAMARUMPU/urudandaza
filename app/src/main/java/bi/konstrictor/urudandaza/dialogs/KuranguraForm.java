@@ -199,6 +199,7 @@ public class KuranguraForm extends Dialog {
             double qtt = Double.parseDouble(kurangura_qtt);
             double qtt_suppl = Double.parseDouble(kurangura_qtt_suppl);
             double prix = Double.parseDouble(kurangura_prix);
+            payee = Double.parseDouble(kurangura_payee);
             if(ideni){
                 personne = Personne.getClient(client, context);
                 if (personne==null){
@@ -209,14 +210,12 @@ public class KuranguraForm extends Dialog {
             if (edition) {
                 action_stock.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
                 action_stock.update(context);
-                dismiss();
             } else {
                 ActionStock as = new ActionStock();
                 as.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
                 as.create(context);
-                Toast.makeText(context, "mwaranguye " + as, Toast.LENGTH_LONG).show();
-                dismiss();
             }
+            dismiss();
             context.refresh();
             progress_kurangura.setVisibility(View.GONE);
         }
