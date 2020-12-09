@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -16,15 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.DetailHistActivity;
-import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
-import bi.konstrictor.urudandaza.fragments.ClotureFragment;
+import bi.konstrictor.urudandaza.interfaces.SummableActionStock;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
@@ -34,13 +31,14 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     private ArrayList<ActionStock> histories;
     private Cloture cloture = null;
     private boolean is_dette;
-    ClotureFragment parent;
+    SummableActionStock parent;
 
-    public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories) {
+    public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories, SummableActionStock parent) {
         this.context = context;
         this.histories = histories;
         this.cloture = context.cloture;
         this.is_dette = context.is_dette;
+        this.parent = parent;
     }
 
     @Override

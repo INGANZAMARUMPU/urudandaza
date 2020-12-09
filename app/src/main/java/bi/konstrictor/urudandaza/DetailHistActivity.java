@@ -4,11 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -20,11 +22,12 @@ import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.pageadapters.CloturePageAdapter;
+import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class DetailHistActivity extends RefreshableActivity {
 
     public CloturePageAdapter cloture_adapter;
-    public ViewPager view_pager_cloture;
+    private ViewPager view_pager_cloture;
     private TabLayout tab_layout_cloture;
     public String filtre, valeur;
     public Boolean is_dette;
@@ -41,6 +44,20 @@ public class DetailHistActivity extends RefreshableActivity {
         valeur = getIntent().getExtras().getString("valeur");
         is_dette = getIntent().getExtras().getBoolean("is_dette");
         cloture = (Cloture) getIntent().getSerializableExtra("cloture");
+
+        view_pager_cloture = findViewById(R.id.view_pager_cloture);
+        tab_layout_cloture = findViewById(R.id.tab_layout_cloture);
+
+        cloture_adapter = new CloturePageAdapter(
+                getSupportFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+                this);
+        view_pager_cloture.setAdapter(cloture_adapter);
+        view_pager_cloture.setOffscreenPageLimit(2);
+        tab_layout_cloture.setupWithViewPager(view_pager_cloture);
+
+        tab_layout_cloture.getTabAt(0).setText("KUDANDAZA");
+        tab_layout_cloture.getTabAt(1).setText("STOCK");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

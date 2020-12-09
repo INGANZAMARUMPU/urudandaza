@@ -16,11 +16,9 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.StockActivity;
-import bi.konstrictor.urudandaza.adapters.AdaptateurStock;
+import bi.konstrictor.urudandaza.adapters.AdaptateurStockBasic;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.Produit;
 
@@ -32,7 +30,7 @@ public class StockFragment extends Fragment {
     private View view;
     private RecyclerView recycler_stock;
     private ArrayList<Produit> produits;
-    private AdaptateurStock adaptateur;
+    private AdaptateurStockBasic adaptateur;
 
     public StockFragment(RefreshableActivity context) {
         super();
@@ -46,7 +44,7 @@ public class StockFragment extends Fragment {
 //        recycler_stock.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
         produits = new ArrayList<>();
-        adaptateur = new AdaptateurStock(context, produits);
+        adaptateur = new AdaptateurStockBasic(produits);
         recycler_stock.addItemDecoration(new DividerItemDecoration(recycler_stock.getContext(), DividerItemDecoration.VERTICAL));
         recycler_stock.setAdapter(adaptateur);
         chargerStock();

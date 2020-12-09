@@ -23,13 +23,14 @@ import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
+import bi.konstrictor.urudandaza.interfaces.SummableActionStock;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClotureFragment extends Fragment {
+public class ClotureFragment extends Fragment implements SummableActionStock {
     private final DetailHistActivity context;
     TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
     private View view;
@@ -56,11 +57,11 @@ public class ClotureFragment extends Fragment {
         lbl_det_hist_vente_tot = view.findViewById(R.id.lbl_det_hist_vente_tot);
         lbl_det_hist_vente_reste = view.findViewById(R.id.lbl_det_hist_vente_reste);
 
-        recycler_history = view.findViewById(R.id.recycler_history);
+        recycler_history = view.findViewById(R.id.recycler_clotures);
         recycler_history.setLayoutManager(new GridLayoutManager(context, 1));
 //        recycler_history.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-        adaptateur = new AdaptateurHist(context, products);
+        adaptateur = new AdaptateurHist(context, products, this);
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
         chargerStock();
@@ -94,7 +95,7 @@ public class ClotureFragment extends Fragment {
     private void chargerStock() {
         try {
             Dao dao_as = new InkoranyaMakuru(context).getDao(ActionStock.class);
-            Where where = dao_as.queryBuilder().where().eq(filtre, valeur);
+            Where where = dao_as.queryBuilder().where().eq(context.filtre, context.valeur);
             if (is_dette)
                 where = where.and().ne("total", new ColumnArg("payee"));
             setProducts((ArrayList<ActionStock>) where.query());
