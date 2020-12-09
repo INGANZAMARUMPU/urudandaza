@@ -130,9 +130,11 @@ public class ActionStock implements Model {
             if(isAchat()){
                 cloture.payee_achat = payee;
                 cloture.achat += getAchatTotal();
-            } else{
+            } else if (isVente()){
                 cloture.payee_vente = payee;
                 cloture.vente += getVenteTotal();
+            } else {
+                cloture.perte = getVenteTotal();
             }
             final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
 
@@ -164,11 +166,13 @@ public class ActionStock implements Model {
             produit.quantite = produit.quantite - old.quantite + quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
             if(isAchat()){
-                cloture.payee_achat = cloture.payee_achat - old.payee + payee;
-                cloture.achat = cloture.achat - old.getAchatTotal() + getAchatTotal();
-            } else{
-                cloture.payee_vente = cloture.payee_vente - old.payee + payee;
-                cloture.vente = cloture.vente - old.getVenteTotal() + getVenteTotal();
+                cloture.payee_achat -= old.payee + payee;
+                cloture.achat -= old.getAchatTotal() + getAchatTotal();
+            }else if (isVente()){
+                cloture.payee_vente -= old.payee + payee;
+                cloture.vente -= old.getVenteTotal() + getVenteTotal();
+            } else {
+                cloture.perte -= old.getVenteTotal() + getVenteTotal();
             }
             final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
 
@@ -202,9 +206,11 @@ public class ActionStock implements Model {
             if(isAchat()){
                 cloture.payee_achat -= payee;
                 cloture.achat -= getAchatTotal();
-            } else{
+            } else if (isVente()){
                 cloture.payee_vente -= payee;
                 cloture.vente -= getVenteTotal();
+            } else {
+                cloture.perte -= getVenteTotal();
             }
             final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
 

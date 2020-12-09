@@ -30,6 +30,8 @@ public class Cloture implements Serializable, Model {
     @DatabaseField(defaultValue = "0")
     public Double payee_vente;
     @DatabaseField(defaultValue = "0")
+    public Double perte;
+    @DatabaseField(defaultValue = "0")
     public Boolean compiled;
 
     public Cloture() {

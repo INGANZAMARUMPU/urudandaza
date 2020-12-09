@@ -120,7 +120,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ayarishwe :"
+                                android:text="uruhombo :"
                                 android:gravity="fill"
                                 android:textSize="6pt"/>
                             <TextView
@@ -145,7 +145,7 @@
                                 android:textColor="#000"
                                 android:textSize="6pt"/>
                             <TextView
-                                android:id="@+id/lbl_cloture_vente_payee"
+                                android:id="@+id/lbl_cloture_perte"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="00"

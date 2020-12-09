@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.adapters;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +39,16 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
         holder.lbl_cloture_achat_tot.setText(cloture.achat.toString());
         holder.lbl_cloture_vente_reste.setText(cloture.getVenteReste().toString());
         holder.lbl_cloture_vente_tot.setText(cloture.getVente().toString());
-        holder.lbl_cloture_vente_payee.setText(cloture.payee_vente.toString());
+        holder.lbl_cloture_perte.setText(cloture.perte.toString());
         holder.lbl_cloture_date.setText(cloture.getDateFormated());
         int rouge = context.getResources().getColor(R.color.colorRed);
         if (cloture.getAchatReste()>0)
             holder.lbl_cloture_achat_rest.setTextColor(rouge);
         if (cloture.getVenteReste()>0)
             holder.lbl_cloture_vente_reste.setTextColor(rouge);
+        if (cloture.perte>0){
+            holder.lbl_cloture_perte.setTextColor(rouge);
+        }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +81,7 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView lbl_cloture_date, lbl_cloture_achat_tot, lbl_cloture_achat_rest,
-                lbl_cloture_vente_tot, lbl_cloture_vente_payee, lbl_cloture_vente_reste;
+                lbl_cloture_vente_tot, lbl_cloture_perte, lbl_cloture_vente_reste;
         public View view;
 
         public ViewHolder(final View itemView) {
@@ -88,7 +92,7 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
             lbl_cloture_achat_rest = itemView.findViewById(R.id.lbl_cloture_achat_rest);
             lbl_cloture_vente_tot = itemView.findViewById(R.id.lbl_cloture_vente_tot);
             lbl_cloture_vente_reste = itemView.findViewById(R.id.lbl_cloture_vente_reste);
-            lbl_cloture_vente_payee = itemView.findViewById(R.id.lbl_cloture_vente_payee);
+            lbl_cloture_perte = itemView.findViewById(R.id.lbl_cloture_perte);
         }
     }
 }
