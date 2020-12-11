@@ -27,6 +27,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.j256.ormlite.dao.Dao;
 
+import java.io.File;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -131,6 +133,23 @@ public class ClotureActivity extends RefreshableActivity {
                     .show();
             }
         }else if(id == R.id.action_generate){
+            if (checkWritePermission()) {
+                new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setTitle("Kubika")
+                    .setMessage("Urakeneye gukora rapport?")
+                    .setPositiveButton("Ego", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SQLiteDatabase db = new InkoranyaMakuru(ClotureActivity.this).getReadableDatabase();
+                            File file = Globals.generatePDF(ClotureActivity.this, "<h1>Jonkur</h1>" +
+                                    "<div>Jonathan Nkurunziza</div>");
+                        }
+                    })
+                    .setNegativeButton("Reka", null)
+                    .show();
+
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -9,17 +9,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import java.io.File;
 
-/**
- * Converts HTML to PDF.
- * <p>
- * Can convert only one task at a time, any requests to do more conversions before
- * ending the current task are ignored.
- */
 public class PdfConverter implements Runnable {
 
     private static final String TAG = "PdfConverter";
@@ -31,6 +25,7 @@ public class PdfConverter implements Runnable {
     private PrintAttributes mPdfPrintAttrs;
     private boolean mIsCurrentlyConverting;
     private WebView mWebView;
+    OnPDFCreated mOnPDFCreated;
 
     private PdfConverter() {
     }
@@ -42,33 +37,56 @@ public class PdfConverter implements Runnable {
         return sInstance;
     }
 
+
+    public void SetOnPDFCreatedListener(OnPDFCreated OnPDFCreated) {
+        this.mOnPDFCreated = OnPDFCreated;
+    }
+
     @Override
     public void run() {
         mWebView = new WebView(mContext);
+
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
                     throw new RuntimeException("call requires API level 19");
                 else {
-                    PrintDocumentAdapter documentAdapter = mWebView.createPrintDocumentAdapter();
-                    documentAdapter.onLayout(null, getPdfPrintAttrs(), null,
-                            new PrintDocumentAdapter.LayoutResultCallback() {
+                    PrintDocumentAdapter documentAdapter = null;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        documentAdapter = mWebView.createPrintDocumentAdapter("Document");
+                    }else {
+                        documentAdapter = mWebView.createPrintDocumentAdapter();
+                    }
+
+                    documentAdapter.onLayout(null, getPdfPrintAttrs(), null, new PrintDocumentAdapter.LayoutResultCallback() {
                     }, null);
-                    documentAdapter.onWrite(new PageRange[]{PageRange.ALL_PAGES}, getOutputFileDescriptor(),
-                            null, new PrintDocumentAdapter.WriteResultCallback() {
+                    documentAdapter.onWrite(new PageRange[]{PageRange.ALL_PAGES}, getOutputFileDescriptor(), null, new PrintDocumentAdapter.WriteResultCallback() {
                         @Override
                         public void onWriteFinished(PageRange[] pages) {
+                            Log.e("onWriteFinished", "onWriteFinished call");
+                            if (mOnPDFCreated != null){
+                                mOnPDFCreated.onPDFCreated();
+                            }
                             destroy();
                         }
                     });
                 }
             }
         });
-        mWebView.loadData(mHtmlString, "text/HTML", "UTF-8");
+
+        mWebView.loadDataWithBaseURL("",mHtmlString, "text/HTML", "UTF-8","");
     }
 
-    public PrintAttributes getPdfPrintAttrs() {
+    private PrintAttributes getPdfPrintAttrs() {
         return mPdfPrintAttrs != null ? mPdfPrintAttrs : getDefaultPrintAttrs();
     }
 
@@ -128,4 +146,12 @@ public class PdfConverter implements Runnable {
         mIsCurrentlyConverting = false;
         mWebView = null;
     }
+
+
+    public interface OnPDFCreated {
+
+        void onPDFCreated();
+
+    }
+
 }

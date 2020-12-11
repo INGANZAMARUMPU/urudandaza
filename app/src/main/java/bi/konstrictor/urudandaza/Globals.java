@@ -1,12 +1,17 @@
 package bi.konstrictor.urudandaza;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Environment;
 import android.print.PdfConverter;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -37,11 +43,21 @@ public class Globals {
         String hash = new BigInteger(1, m.digest()).toString(16);
         return hash;
     }
-    public static File generatePDF(Context context, String html){
+    public static File generatePDF(final AppCompatActivity context, String html){
         PdfConverter converter = PdfConverter.getInstance();
-        File file = new File(Environment.getExternalStorageDirectory().toString(),
-                "urudandaza-"+new Date().toString()+".pdf");
+        File folder = new File(Environment.getExternalStorageDirectory().toString(), "urudandaza");
+        folder.mkdirs();
+        final File file = new File(folder.toString(), "urudandaza-"+new Date().getTime()+".pdf");
         converter.convert(context, html, file);
+        converter.SetOnPDFCreatedListener(new PdfConverter.OnPDFCreated() {
+            @Override
+            public void onPDFCreated() {
+                ShareCompat.IntentBuilder.from(context)
+                    .setStream(Uri.parse(file.getAbsolutePath()))
+                    .setType(URLConnection.guessContentTypeFromName(file.getName()))
+                    .startChooser();
+            }
+        });
         return file;
     }
 
@@ -49,7 +65,6 @@ public class Globals {
         String sql = "SELECT name FROM sqlite_master WHERE type = \"table\";";
         Cursor cur = db.rawQuery(sql, new String[0]);
         cur.moveToFirst();
-
         File folder = new File(Environment.getExternalStorageDirectory().toString(), "urudandaza");
         folder.mkdirs();
         File file = new File(folder, "backup.rdz");
