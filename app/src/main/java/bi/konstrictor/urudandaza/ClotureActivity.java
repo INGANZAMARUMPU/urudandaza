@@ -1,10 +1,22 @@
 package bi.konstrictor.urudandaza;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -19,7 +31,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurCloture;
+import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
+import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
+import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
+import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
@@ -71,6 +87,65 @@ public class ClotureActivity extends RefreshableActivity {
         recycler_history.setAdapter(adaptateur);
         chargerStock();
     }
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu) {
+        getMenuInflater().inflate(R.menu.cloture_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        checkWritePermission();
+        if (id == R.id.action_backup) {
+            if (checkWritePermission()) {
+                new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setTitle("Kubika")
+                    .setMessage("Urakeneye kubika ibikorwa vyose?\n\n" +
+                            "M.N: bikenewe canecane mu gihe ukeneye kwimurira ibikorwa no kuyindi telephone")
+                    .setPositiveButton("Ego", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SQLiteDatabase db = new InkoranyaMakuru(ClotureActivity.this).getReadableDatabase();
+                            Globals.exportDB(ClotureActivity.this, db);
+                        }
+                    })
+                    .setNegativeButton("Reka", null)
+                    .show();
+            }
+        }else if(id == R.id.action_restore){
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Kubika")
+                    .setMessage("Urakeneye kugarukana ibikorwa vyose?\n\n" +
+                            "M.N: ivyo musanganywe vyoooose bica bisubirizwa n'ivyo bishasha")
+                    .setPositiveButton("Ego", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(ClotureActivity.this, "nturabirihira", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Reka", null)
+                    .show();
+        }else if(id == R.id.action_generate){
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkWritePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void chargerStock() {
         try {
             Dao dao_clotures = new InkoranyaMakuru(this).getDao(Cloture.class);

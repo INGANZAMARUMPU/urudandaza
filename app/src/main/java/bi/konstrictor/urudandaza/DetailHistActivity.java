@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,7 +23,6 @@ import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.pageadapters.CloturePageAdapter;
-import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class DetailHistActivity extends RefreshableActivity {
 
@@ -67,7 +65,7 @@ public class DetailHistActivity extends RefreshableActivity {
     @Override
     public boolean onCreateOptionsMenu( Menu menu) {
         if (cloture!=null && !cloture.compiled) {
-            getMenuInflater().inflate(R.menu.cloture_menu, menu);
+            getMenuInflater().inflate(R.menu.history_menu, menu);
             return true;
         }
         if (is_dette) {
@@ -81,22 +79,22 @@ public class DetailHistActivity extends RefreshableActivity {
         int id = item.getItemId();
         if (id == R.id.action_cloture) {
             new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Guhanagura")
-                    .setMessage("Urakeneye vy'ukuri gufunga ibikorwa vyakozwe uno musi?\n" +
-                            "M.N: Ubifunze ntuba ugishoboye kubihindagura")
-                    .setPositiveButton("Funga", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            cloture.cloturer(DetailHistActivity.this);
-                            Intent data = new Intent();
-                            data.setData(Uri.parse("changed"));
-                            setResult(RESULT_OK, data);
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("Reka", null)
-                    .show();
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Guhanagura")
+                .setMessage("Urakeneye vy'ukuri gufunga ibikorwa vyakozwe uno musi?\n" +
+                        "M.N: Ubifunze ntuba ugishoboye kubihindagura")
+                .setPositiveButton("Funga", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        cloture.cloturer(DetailHistActivity.this);
+                        Intent data = new Intent();
+                        data.setData(Uri.parse("changed"));
+                        setResult(RESULT_OK, data);
+                        finish();
+                    }
+                })
+                .setNegativeButton("Reka", null)
+                .show();
         }else if(id == R.id.action_filtre){
             view_pager_cloture.setCurrentItem(0);
             new FilterActionForm(this, (ClotureFragment) cloture_adapter.getItem(0)).show();

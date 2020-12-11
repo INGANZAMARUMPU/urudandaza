@@ -2,9 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_cloture"
-        android:title="kumarira umusi"/>
+        android:id="@+id/action_backup"
+        android:title="kubika"/>
     <item
-        android:id="@+id/action_filtre"
-        android:title="filtrage"/>
+        android:id="@+id/action_restore"
+        android:title="kibikura"/>
+    <item
+        android:id="@+id/action_generate"
+        android:title="gucapura icegeranyo"/>
 </menu>
