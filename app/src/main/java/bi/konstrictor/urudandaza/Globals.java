@@ -8,8 +8,11 @@ import android.print.PdfConverter;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
@@ -47,38 +50,57 @@ public class Globals {
         Cursor cur = db.rawQuery(sql, new String[0]);
         cur.moveToFirst();
 
-        File file = new File(Environment.getExternalStorageDirectory().toString(),
-                "urudandaza.backup.txt");
-        try {
-            FileOutputStream stream = new FileOutputStream(file);
-
+        File folder = new File(Environment.getExternalStorageDirectory().toString(), "urudandaza");
+        folder.mkdirs();
+        File file = new File(folder, "backup.rdz");
+        try ( FileOutputStream stream = new FileOutputStream(file)){
             String tableName;
             while (cur.moveToNext()) {
                 tableName = cur.getString(cur.getColumnIndex("name"));
-                Log.i("BACKUP", tableName);
                 if (!tableName.equals("android_metadata") && !tableName.equals("sqlite_sequence")) {
                     exportTable(db, tableName, stream);
                 }
             }
-            Toast.makeText(context, "wabitswe muri "+file.getCanonicalPath(), Toast.LENGTH_SHORT).show();
-            stream.close();
+            Toast.makeText(context, "vyagenze neza ", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+
+    public static void importDB(Context context) {
+        File file = new File(Environment.getExternalStorageDirectory().toString(),
+                "urudandaza/backup.rdz");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line;
+            StringBuilder sb = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append('\n');
+            }
+            Log.i("BACKUP", sb.toString());
+            SQLiteDatabase db = new InkoranyaMakuru(context).getWritableDatabase();
+            String[] queries = sb.toString().split(";");
+            for(String query : queries){
+                db.execSQL(query);
+            }
+        } catch (IOException e) {
+            Log.e("Exception", "File read failed: " + e.toString());
+        }
+
     }
 
     private static void exportTable(SQLiteDatabase db, String tableName, FileOutputStream stream) throws IOException {
         String sql = "select * from " + tableName;
         Cursor cur = db.rawQuery(sql, new String[0]);
         int numcols = cur.getColumnCount();
-        String line = "DELETE FROM "+tableName+";\n";
+        String line = "DELETE FROM "+tableName+";";
         stream.write(line.getBytes());
         while (cur.moveToNext()) {
             line = "insert into "+tableName+" values (";
             for (int idx = 0; idx < numcols; idx++) {
                 line += "\""+cur.getString(idx)+"\", ";
             }
-            line = line.substring(0, line.length()- 2).concat(");\n");
+            line = line.substring(0, line.length()- 2).concat(");");
             Log.i("BACKUP", line);
             stream.write(line.getBytes());
         }

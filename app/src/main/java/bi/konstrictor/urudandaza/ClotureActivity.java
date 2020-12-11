@@ -115,7 +115,8 @@ public class ClotureActivity extends RefreshableActivity {
                     .show();
             }
         }else if(id == R.id.action_restore){
-            new AlertDialog.Builder(this)
+            if (checkWritePermission()) {
+                new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Kubika")
                     .setMessage("Urakeneye kugarukana ibikorwa vyose?\n\n" +
@@ -123,11 +124,12 @@ public class ClotureActivity extends RefreshableActivity {
                     .setPositiveButton("Ego", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(ClotureActivity.this, "nturabirihira", Toast.LENGTH_SHORT).show();
+                            Globals.importDB(ClotureActivity.this);
                         }
                     })
                     .setNegativeButton("Reka", null)
                     .show();
+            }
         }else if(id == R.id.action_generate){
         }
         return super.onOptionsItemSelected(item);
