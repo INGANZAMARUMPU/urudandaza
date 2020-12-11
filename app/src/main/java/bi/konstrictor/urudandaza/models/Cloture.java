@@ -25,15 +25,15 @@ public class Cloture implements Serializable, Model {
     @DatabaseField
     public Date date;
     @DatabaseField(defaultValue = "0")
-    public Double achat;
+    public Double achat = 0.;
     @DatabaseField(defaultValue = "0")
-    public Double vente;
+    public Double vente = 0.;
     @DatabaseField(defaultValue = "0")
-    public Double payee_achat;
+    public Double payee_achat = 0.;
     @DatabaseField(defaultValue = "0")
-    public Double payee_vente;
+    public Double payee_vente = 0.;
     @DatabaseField(defaultValue = "0")
-    public Double perte;
+    public Double perte = 0.;
     @DatabaseField(defaultValue = "0")
     public Boolean compiled;
 
@@ -82,7 +82,7 @@ public class Cloture implements Serializable, Model {
                 clotureProduits.add(new ClotureProduit(produit.quantite, produit, Cloture.this));
             }
 
-            if((this.getVente()>0) & (this.achat>0)) {
+            if((this.getVente()>0) | (this.achat>0)) {
                 TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                     new Callable<Void>() {
                         @Override

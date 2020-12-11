@@ -31,6 +31,7 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
 
     public InkoranyaMakuru(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Account.class);
             TableUtils.createTableIfNotExists(connectionSource, Signature.class);
 
-            getDao(Cloture.class).create(new Cloture());
+            getLatestCloture();
 
         } catch (Exception e) {
             Log.e("INKORANYAMAKURU", e.getMessage());
@@ -62,18 +63,19 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                 for (int i = 0; i < clotures.size() - 1; i++) {
                     Cloture cloture = clotures.get(i);
                     cloture.compiled = true;
-                    getDao(Cloture.class).update(cloture);
+                    cloture.update(context);
                 }
                 return clotures.get(clotures.size() - 1);
             } else if (clotures.size() == 1) {
                 return clotures.get(0);
             } else {
-                return getDao(Cloture.class).createIfNotExists(new Cloture());
+                Cloture cloture = new Cloture();
+                cloture.create(context);
+                return cloture;
             }
         }catch (SQLException e){
-            Log.i("ERREUR", e.getMessage());
+            Log.e("INKORANYAMAKURU ERREUR", e.getMessage());
             e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
             return null;
         }
     }

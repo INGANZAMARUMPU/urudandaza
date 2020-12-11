@@ -125,13 +125,14 @@ public class ActionStock implements Model {
         try {
             final Dao<ActionStock, Integer> daoAS = inkoranyaMakuru.getDao(ActionStock.class);
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
-            produit.quantite += quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
+            produit.quantite += quantite;
+            if(cloture == null) cloture = inkoranyaMakuru.getLatestCloture();
             if(isAchat()){
-                cloture.payee_achat = payee;
+                cloture.payee_achat += payee;
                 cloture.achat += getAchatTotal();
             } else if (isVente()){
-                cloture.payee_vente = payee;
+                cloture.payee_vente += payee;
                 cloture.vente += getVenteTotal();
             } else {
                 cloture.perte = getVenteTotal();

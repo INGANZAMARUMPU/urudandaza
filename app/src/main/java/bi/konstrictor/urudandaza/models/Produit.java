@@ -57,7 +57,6 @@ public class Produit implements Model {
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
         }
     }
 
