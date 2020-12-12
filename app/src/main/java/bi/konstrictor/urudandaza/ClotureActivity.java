@@ -126,7 +126,7 @@ public class ClotureActivity extends RefreshableActivity {
                     .setPositiveButton("Ego", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Globals.importDB(ClotureActivity.this);
+                            Globals.importDB(ClotureActivity.this, null);
                         }
                     })
                     .setNegativeButton("Reka", null)

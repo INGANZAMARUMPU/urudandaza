@@ -51,8 +51,20 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file"
+                    android:mimeType="*/*"
+                    android:label="@string/app_name"
+                    android:host="*" />
+                <data android:pathPattern=".*\\.rdz" />
+                <data android:pathPattern=".*\\..*\\.rdz" />
+                <data android:pathPattern=".*\\..*\\..*\\.rdz" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.rdz" />
             </intent-filter>
         </activity>
     </application>

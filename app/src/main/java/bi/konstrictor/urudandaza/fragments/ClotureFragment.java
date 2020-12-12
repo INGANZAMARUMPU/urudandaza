@@ -138,7 +138,7 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
                 filtered.add(as); continue;
             }
             if(dette & as.isDette()) {
-                filtered.add(as); continue;
+                filtered.add(as);
             }
         }
         adaptateur.setData(filtered);

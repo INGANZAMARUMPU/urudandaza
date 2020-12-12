@@ -8,4 +8,5 @@
     <color name="colorBlue">#55a</color>
     <color name="lightBlue">#ddf</color>
     <color name="lightRed">#fdd</color>
+    <color name="blank">#0fff</color>
 </resources>

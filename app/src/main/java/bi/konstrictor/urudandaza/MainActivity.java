@@ -3,6 +3,7 @@ package bi.konstrictor.urudandaza;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
@@ -23,15 +24,18 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Intent i=new Intent(MainActivity.this,
                         LoginActivity.class);
-                //Intent is used to switch from one activity to another.
-
                 startActivity(i);
-                //invoke the SecondActivity.
-
                 finish();
-                //the current activity will get finished.
             }
         }, SPLASH_SCREEN_TIME_OUT);
-
+//        Uri data = getIntent().getData();
+//        if(data!=null) {
+//            getIntent().setData(null);
+//            try {
+//                Globals.importDB(this, data);
+//            } catch (Exception e) {
+//                finish();
+//            }
+//        }
     }
 }

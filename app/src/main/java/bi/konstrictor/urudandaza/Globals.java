@@ -76,32 +76,30 @@ public class Globals {
                     exportTable(db, tableName, stream);
                 }
             }
-            Toast.makeText(context, "vyagenze neza ", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 
-    public static void importDB(Context context) {
-        File file = new File(Environment.getExternalStorageDirectory().toString(),
-                "urudandaza/backup.rdz");
+    public static void importDB(Context context, Uri uri) {
+        File file;
+        if( uri!= null){
+            if (uri.getPath()!=null) file = new File(uri.getPath());
+            else return;
+        } else {
+            file = new File(Environment.getExternalStorageDirectory().toString(),
+                    "urudandaza/backup.rdz");
+        }
+        Toast.makeText(context, "biriko birabikurwa ", Toast.LENGTH_SHORT).show();
         try (BufferedReader br = new BufferedReader(new FileReader(file))){
             String line;
-            StringBuilder sb = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append('\n');
-            }
-            Log.i("BACKUP", sb.toString());
             SQLiteDatabase db = new InkoranyaMakuru(context).getWritableDatabase();
-            String[] queries = sb.toString().split(";");
-            for(String query : queries){
-                db.execSQL(query);
+            while ((line = br.readLine()) != null) {
+                db.execSQL(line);
             }
         } catch (IOException e) {
-            Log.e("Exception", "File read failed: " + e.toString());
+            Toast.makeText(context, "fichier urudandaza/backup.rdz ntiyuguruka", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private static void exportTable(SQLiteDatabase db, String tableName, FileOutputStream stream) throws IOException {
@@ -115,8 +113,7 @@ public class Globals {
             for (int idx = 0; idx < numcols; idx++) {
                 line += "\""+cur.getString(idx)+"\", ";
             }
-            line = line.substring(0, line.length()- 2).concat(");");
-            Log.i("BACKUP", line);
+            line = line.substring(0, line.length()- 2).concat(");\n");
             stream.write(line.getBytes());
         }
     }
