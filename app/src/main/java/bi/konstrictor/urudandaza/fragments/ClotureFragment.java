@@ -123,14 +123,10 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     @Override
     public void performFiltering(Boolean in, Boolean out, Boolean dette, Boolean perimee) {
         ArrayList<ActionStock> filtered = new ArrayList<>();
-        if(perimee){
-            for (ActionStock as : products){
-                if(as.perimee) filtered.add(as);
-            }
-            adaptateur.setData(filtered);
-            return;
-        }
         for (ActionStock as : products){
+            if(perimee & as.perimee){
+                filtered.add(as); continue;
+            }
             if(in & as.isAchat()) {
                 filtered.add(as); continue;
             }
@@ -142,7 +138,6 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
             }
         }
         adaptateur.setData(filtered);
-        return;
     }
 
     @Override

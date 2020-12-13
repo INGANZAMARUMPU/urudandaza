@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.adapters.AdaptateurCloture;
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
+import bi.konstrictor.urudandaza.dialogs.FilterClotureForm;
 import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
@@ -149,6 +150,10 @@ public class ClotureActivity extends RefreshableActivity {
                     .setNegativeButton("Reka", null)
                     .show();
 
+            }
+        }else if(id == R.id.action_date){
+            if (checkWritePermission()) {
+                new FilterClotureForm(this).show();
             }
         }
         return super.onOptionsItemSelected(item);

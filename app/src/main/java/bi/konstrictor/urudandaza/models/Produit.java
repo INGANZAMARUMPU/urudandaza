@@ -45,7 +45,7 @@ public class Produit implements Model {
     }
     @Override
     public String toString() {
-        return nom + " "+quantite+" " + unite_entrant+" " ;
+        return nom + " "+unite_entrant+"/" + unite_sortant ;
     }
 
     @Override

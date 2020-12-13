@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".dialogs.KudandazaForm">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Icegeranyo"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="12pt" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kuva itariki: "/>
+        <DatePicker
+            android:id="@+id/date_picker_du"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gushika itariki: "/>
+        <DatePicker
+            android:id="@+id/date_picker_au"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <Button
+                android:id="@+id/btn_cancel_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reka"
+                android:textColor="#777"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+            <Button
+                android:id="@+id/btn_submit_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sawa"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
