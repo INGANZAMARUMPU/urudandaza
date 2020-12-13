@@ -56,7 +56,7 @@ public class StockFragment extends Fragment {
         try {
             Dao dao_clotures = new InkoranyaMakuru(context).getDao(ClotureProduit.class);
             Dao dao_produits = new InkoranyaMakuru(context).getDao(Produit.class);
-            if (cloture.compiled) {
+            if (cloture != null && cloture.compiled) {
                 clotures = (ArrayList<ClotureProduit>) dao_clotures
                         .queryForEq("cloture_id", cloture.id);
                 adaptateur.setData(clotures);

@@ -250,7 +250,7 @@ public class ActionStock implements Model {
         return quantite<0 && !perimee;
     }
     public boolean isDette() {
-        return payee<total & !perimee;
+        return payee<total && !perimee;
     }
 
 }

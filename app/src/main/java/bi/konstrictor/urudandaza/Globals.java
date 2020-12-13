@@ -95,7 +95,8 @@ public class Globals {
             String line;
             SQLiteDatabase db = new InkoranyaMakuru(context).getWritableDatabase();
             while ((line = br.readLine()) != null) {
-                db.execSQL(line);
+                for (String s : line.split(";"))
+                    db.execSQL(s);
             }
         } catch (IOException e) {
             Toast.makeText(context, "fichier urudandaza/backup.rdz ntiyuguruka", Toast.LENGTH_SHORT).show();

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
@@ -29,10 +32,11 @@ public class DetailHistActivity extends RefreshableActivity {
     public CloturePageAdapter cloture_adapter;
     private ViewPager view_pager_cloture;
     private TabLayout tab_layout_cloture;
-    public String filtre, valeur;
+    public HashMap<String, String> filters;
     public Boolean is_dette;
     public Cloture cloture;
     public ArrayList<ActionStock> produits = new ArrayList<>();
+    public ArrayList<Date> dates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +44,8 @@ public class DetailHistActivity extends RefreshableActivity {
         setContentView(R.layout.activity_det_hist);
         Toolbar toolbar = findViewById(R.id.history_toolbar);
 
-        filtre = getIntent().getExtras().getString("filtre");
-        valeur = getIntent().getExtras().getString("valeur");
+        filters = (HashMap<String, String>) getIntent().getSerializableExtra("filters");
+        dates = (ArrayList<Date>) getIntent().getSerializableExtra("dates");
         is_dette = getIntent().getExtras().getBoolean("is_dette");
         cloture = (Cloture) getIntent().getSerializableExtra("cloture");
 
@@ -56,8 +60,13 @@ public class DetailHistActivity extends RefreshableActivity {
         view_pager_cloture.setOffscreenPageLimit(2);
         tab_layout_cloture.setupWithViewPager(view_pager_cloture);
 
-        tab_layout_cloture.getTabAt(0).setText("KUDANDAZA");
-        tab_layout_cloture.getTabAt(1).setText("STOCK");
+        if (cloture == null){
+            tab_layout_cloture.removeTabAt(1);
+            tab_layout_cloture.setVisibility(View.GONE);
+        } else {
+            tab_layout_cloture.getTabAt(0).setText("KUDANDAZA");
+            tab_layout_cloture.getTabAt(1).setText("STOCK");
+        }
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import bi.konstrictor.urudandaza.ClientActivity;
 import bi.konstrictor.urudandaza.DetailHistActivity;
@@ -55,8 +56,9 @@ public class AdaptateurClient extends RecyclerView.Adapter<AdaptateurClient.View
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
                 Intent intent = new Intent(context, DetailHistActivity.class);
-                intent.putExtra("filtre", "personne_id");
-                intent.putExtra("valeur", client.id.toString());
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("personne_id", client.id.toString());
+                intent.putExtra("filters", filters);
                 intent.putExtra("is_dette", true);
                 context.startActivity(intent);
             }

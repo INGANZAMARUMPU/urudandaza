@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import bi.konstrictor.urudandaza.ClotureActivity;
 import bi.konstrictor.urudandaza.DetailHistActivity;
@@ -54,8 +55,9 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.button_fadein));
                 Intent intent = new Intent(context, DetailHistActivity.class);
-                intent.putExtra("filtre", "cloture_id");
-                intent.putExtra("valeur", cloture.id.toString());
+                HashMap<String, String> filters = new HashMap<>();
+                filters.put("cloture_id", cloture.id.toString());
+                intent.putExtra("filters", filters);
                 intent.putExtra("cloture", cloture);
                 context.startActivityForResult(intent, context.CLOTURE_CODE);
             }

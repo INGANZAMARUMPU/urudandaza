@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,6 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     private ArrayList<ActionStock> products = new ArrayList<>();;
     private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
     private AdaptateurHist adaptateur;
-
-    private String filtre, valeur;
     public Cloture cloture = null;
 
     public ClotureFragment(DetailHistActivity context) {
@@ -88,6 +87,7 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     }
     public void addToTotals(ActionStock history) {
         if(history.perimee) return;
+        Log.i("==== TOTALS ====", "adding to totals "+history);
         setAchat_tot(achat_tot +history.getAchatTotal());
         setAchat_rest(achat_rest+history.getAchatReste());
         setVente_tot(vente_tot+history.getVenteTotal());
@@ -96,7 +96,16 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     private void chargerStock() {
         try {
             Dao dao_as = new InkoranyaMakuru(context).getDao(ActionStock.class);
-            Where where = dao_as.queryBuilder().where().eq(context.filtre, context.valeur);
+            Where where = dao_as.queryBuilder().where();
+            if (context.filters == null && context.dates == null ) return;
+            if (context.filters != null) {
+                for (String clef : context.filters.keySet()) {
+                    where = where.eq(clef, context.filters.get(clef));
+                }
+            }
+            if (context.dates != null && context.dates.size()>1){
+                where.between("date", context.dates.get(0), context.dates.get(1));
+            }
             if (is_dette)
                 where = where.and().ne("total", new ColumnArg("payee"));
             setProducts((ArrayList<ActionStock>) where.query());
@@ -124,16 +133,16 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     public void performFiltering(Boolean in, Boolean out, Boolean dette, Boolean perimee) {
         ArrayList<ActionStock> filtered = new ArrayList<>();
         for (ActionStock as : products){
-            if(perimee & as.perimee){
+            if(perimee && as.perimee){
                 filtered.add(as); continue;
             }
-            if(in & as.isAchat()) {
+            if(in && as.isAchat()) {
                 filtered.add(as); continue;
             }
-            if(out & as.isVente()) {
+            if(out && as.isVente()) {
                 filtered.add(as); continue;
             }
-            if(dette & as.isDette()) {
+            if(dette && as.isDette()) {
                 filtered.add(as);
             }
         }
