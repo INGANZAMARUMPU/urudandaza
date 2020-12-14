@@ -9,6 +9,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.Model;
@@ -24,13 +25,18 @@ public class ClotureProduit implements Model {
     @DatabaseField(canBeNull=false,foreign=true, foreignColumnName="id")
     public Cloture cloture;
 
+    @DatabaseField
+    public Date date;
+
     public ClotureProduit() {
+        this.date = new Date();
     }
 
     public ClotureProduit(Double quantite, Produit produit, Cloture cloture) {
         this.quantite = quantite;
         this.produit = produit;
         this.cloture = cloture;
+        this.date = cloture.date;
     }
 
     @Override
