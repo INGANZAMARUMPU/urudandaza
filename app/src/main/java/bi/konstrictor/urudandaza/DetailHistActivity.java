@@ -75,15 +75,12 @@ public class DetailHistActivity extends RefreshableActivity {
     }
     @Override
     public boolean onCreateOptionsMenu( Menu menu) {
-        if (cloture!=null && !cloture.compiled) {
-            getMenuInflater().inflate(R.menu.history_menu, menu);
-            return true;
-        }
         if (is_dette) {
             getMenuInflater().inflate(R.menu.pay_menu, menu);
             return true;
         }
-        return false;
+        getMenuInflater().inflate(R.menu.history_menu, menu);
+        return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

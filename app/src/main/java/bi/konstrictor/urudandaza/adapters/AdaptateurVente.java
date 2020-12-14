@@ -66,7 +66,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
             public void onClick(View v) {
                 holder.view.requestFocus();
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
-                if(qtt+1<=produit.quantite){
+                if(qtt+1<=produit.quantite && produit.prix>0){
                     qtt++;
                     holder.field_vente_qtt.setText(qtt.toString());
                     addTocart(produit, qtt);
@@ -78,7 +78,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
             public void onClick(View v) {
                 holder.view.requestFocus();
                 Double qtt = Double.parseDouble(holder.field_vente_qtt.getText().toString());
-                if(qtt>0){
+                if(qtt>0  && produit.prix>0){
                     qtt--;
                     holder.field_vente_qtt.setText(qtt.toString());
                     addTocart(produit, qtt);

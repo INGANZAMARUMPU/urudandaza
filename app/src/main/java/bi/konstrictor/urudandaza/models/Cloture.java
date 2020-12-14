@@ -68,39 +68,33 @@ public class Cloture implements Serializable, Model {
         return Math.abs(vente);
     }
 
-    public void cloturer(final Context context){
-        try {
-            InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
-            final Dao<Produit, Integer> dao_p = inkoranyaMakuru.getDao(Produit.class);
-            final Dao<ClotureProduit, Integer> dao_c = inkoranyaMakuru.getDao(ClotureProduit.class);
-            final Dao<Cloture, Integer> dao = inkoranyaMakuru.getDao(Cloture.class);
-            final ArrayList<Produit> produits = (ArrayList<Produit>) dao_p.queryForAll();
+    public void cloturer(final Context context) throws SQLException {
+        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
+        final Dao<Produit, Integer> dao_p = inkoranyaMakuru.getDao(Produit.class);
+        final Dao<ClotureProduit, Integer> dao_c = inkoranyaMakuru.getDao(ClotureProduit.class);
+        final Dao<Cloture, Integer> dao = inkoranyaMakuru.getDao(Cloture.class);
+        final ArrayList<Produit> produits = (ArrayList<Produit>) dao_p.queryForAll();
 
-            final ArrayList<ClotureProduit> clotureProduits = new ArrayList<>();
+        final ArrayList<ClotureProduit> clotureProduits = new ArrayList<>();
 
-            for (Produit produit : produits){
-                clotureProduits.add(new ClotureProduit(produit.quantite, produit, Cloture.this));
-            }
+        for (Produit produit : produits){
+            clotureProduits.add(new ClotureProduit(produit.quantite, produit, Cloture.this));
+        }
 
-            if((this.getVente()>0) | (this.achat>0)) {
-                TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
-                    new Callable<Void>() {
-                        @Override
-                        public Void call() throws Exception {
-                            compiled = true;
-                            dao_c.create(clotureProduits);
-                            dao.update(Cloture.this);
-                            return null;
-                        }
-                    });
-                Toast.makeText(context, "Umusi mushasha...", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(context, "Umusi ugaragara ntiwugarika", Toast.LENGTH_LONG).show();
-            }
-        } catch (SQLException e) {
-            Log.i("ERREUR", e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(context, "Hari ikintu kutagenze neza", Toast.LENGTH_LONG).show();
+        if((this.getVente()>0) | (this.achat>0)) {
+            TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        compiled = true;
+                        dao_c.create(clotureProduits);
+                        dao.update(Cloture.this);
+                        return null;
+                    }
+                });
+            Toast.makeText(context, "Umusi mushasha...", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Umusi ugaragara ntiwugarika", Toast.LENGTH_LONG).show();
         }
     }
 

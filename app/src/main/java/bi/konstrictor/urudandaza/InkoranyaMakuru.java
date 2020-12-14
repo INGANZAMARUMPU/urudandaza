@@ -3,12 +3,14 @@ package bi.konstrictor.urudandaza;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,45 +57,49 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     }
 
     public Cloture getLatestCloture(){
+        List<Cloture> clotures = new ArrayList<>();
         try {
-            List<Cloture> clotures = getDao(Cloture.class).queryBuilder()
+            clotures = getDao(Cloture.class).queryBuilder()
                     .where().eq("compiled", false).query();
-            if (clotures.size() > 1) {
-                for (int i = 0; i < clotures.size() - 1; i++) {
-                    Cloture cloture = clotures.get(i);
-                    cloture.compiled = true;
-                    cloture.update(context);
-                }
-                return clotures.get(clotures.size() - 1);
-            } else if (clotures.size() == 1) {
-                Cloture last = clotures.get(0);
-                Date date = new Date();
-                String str_date =
-                    String.format("%04d", last.date.getYear())+
-                    String.format("%02d", last.date.getMonth()) +
-                    String.format("%02d", last.date.getDate());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        if (clotures.size() > 1) {
+            for (int i = 0; i < clotures.size() - 1; i++) {
+                Cloture cloture = clotures.get(i);
+                cloture.compiled = true;
+                cloture.update(context);
+            }
+            return clotures.get(clotures.size() - 1);
+        } else if (clotures.size() == 1) {
+            Cloture last = clotures.get(0);
+            Date date = new Date();
+            String str_date =
+                String.format("%04d", last.date.getYear())+
+                String.format("%02d", last.date.getMonth()) +
+                String.format("%02d", last.date.getDate());
 
-                String str_today =
-                    String.format("%04d", date.getYear())+
-                    String.format("%02d", date.getMonth()) +
-                    String.format("%02d", date.getDate());
+            String str_today =
+                String.format("%04d", date.getYear())+
+                String.format("%02d", date.getMonth()) +
+                String.format("%02d", date.getDate());
 
-                if(Integer.parseInt(str_date) < Integer.parseInt(str_today)){
+            if(Integer.parseInt(str_date) < Integer.parseInt(str_today)){
+                try {
                     last.cloturer(context);
                     Cloture cloture = new Cloture();
                     cloture.create(context);
                     return cloture;
+                } catch (SQLException e) {
+                    Toast.makeText(context, "Journée incloturable", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
-                return last;
-            } else {
-                Cloture cloture = new Cloture();
-                cloture.create(context);
-                return cloture;
             }
-        }catch (SQLException e){
-            Log.e("INKORANYAMAKURU ERREUR", e.getMessage());
-            e.printStackTrace();
-            return null;
+            return last;
+        } else {
+            Cloture cloture = new Cloture();
+            cloture.create(context);
+            return cloture;
         }
     }
 

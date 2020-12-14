@@ -76,7 +76,6 @@ public class StockFragment extends Fragment {
             if (cloture != null && cloture.compiled) {
                 clotures = (ArrayList<ClotureProduit>) dao_clotures
                         .queryForAll();//Eq("cloture_id", cloture.id);
-                Log.e("======", clotures.toString());
             } else {
                 ArrayList<Produit> produits;
                 produits = (ArrayList<Produit>) dao_produits.queryForAll();
