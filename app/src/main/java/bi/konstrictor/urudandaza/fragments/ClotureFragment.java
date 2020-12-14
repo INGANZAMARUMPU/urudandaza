@@ -86,7 +86,6 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     }
     public void addToTotals(ActionStock history) {
         if(history.perimee) return;
-        Log.i("==== TOTALS ====", "adding to totals "+history);
         setAchat_tot(achat_tot +history.getAchatTotal());
         setAchat_rest(achat_rest+history.getAchatReste());
         setVente_tot(vente_tot+history.getVenteTotal());

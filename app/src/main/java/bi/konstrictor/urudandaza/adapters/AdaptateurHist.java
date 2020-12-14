@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -101,7 +102,6 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         }else{
             holder.btn_hist_options.setVisibility(View.GONE);
         }
-        parent.addToTotals(historie);
     }
 
     private void editItem(ActionStock historie) {
@@ -134,9 +134,13 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         return histories.size();
     }
 
-    public void setData(ArrayList<ActionStock> produit) {
-        this.histories = produit;
+    public void setData(ArrayList<ActionStock> histories) {
         parent.refresh();
+        Toast.makeText(context, "Calculating Totals", Toast.LENGTH_SHORT).show();
+        this.histories = histories;
+        for (ActionStock as : histories){
+            parent.addToTotals(as);
+        }
         notifyDataSetChanged();
     }
 

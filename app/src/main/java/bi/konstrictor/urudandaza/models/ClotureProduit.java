@@ -36,7 +36,7 @@ public class ClotureProduit implements Model {
         this.quantite = quantite;
         this.produit = produit;
         this.cloture = cloture;
-        this.date = cloture.date;
+        this.date = cloture == null ? new Date() : cloture.date;
     }
 
     @Override

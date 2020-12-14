@@ -21,7 +21,6 @@ import bi.konstrictor.urudandaza.models.Produit;
 public class AdaptateurStockBasic extends RecyclerView.Adapter<AdaptateurStockBasic.ViewHolder> {
 
     private ArrayList<ClotureProduit> clotures;
-    private ArrayList<Produit> produits;
 
     public AdaptateurStockBasic(ArrayList<ClotureProduit> clotures) {
         this.clotures = clotures;
@@ -36,14 +35,7 @@ public class AdaptateurStockBasic extends RecyclerView.Adapter<AdaptateurStockBa
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        ClotureProduit cloture;
-        Produit produit;
-        if(clotures!=null)
-            cloture = clotures.get(position);
-        else {
-            produit = produits.get(position);
-            cloture = new ClotureProduit(produit.quantite, produit, null);
-        }
+        ClotureProduit cloture  = clotures.get(position);
         holder.lbl_card_unite.setText(cloture.produit.unite_entrant);
         holder.lbl_card_quantite.setText(cloture.quantite.toString());
         if(cloture.produit.rapport>1){
@@ -61,17 +53,12 @@ public class AdaptateurStockBasic extends RecyclerView.Adapter<AdaptateurStockBa
 
     @Override
     public int getItemCount() {
-        if (clotures!=null)
-            return clotures.size();
-        return produits.size();
+        return clotures.size();
     }
 
-    public void setData(ArrayList<ClotureProduit> produit) {
-        this.clotures = produit;
+    public void setData(ArrayList<ClotureProduit> clotures) {
+        this.clotures = clotures;
         notifyDataSetChanged();
-    }
-    public void setProduits(ArrayList<Produit> produits) {
-        this.produits = produits;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
             TextView lbl_card_product, lbl_card_quantite, lbl_card_unite, lbl_kurangura_prix;

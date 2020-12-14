@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class StockFragment extends Fragment {
         recycler_stock = view.findViewById(R.id.recycler_stock);
         recycler_stock.setLayoutManager(new GridLayoutManager(context, 1));
 
+        clotures = new ArrayList<>();
         adaptateur = new AdaptateurStockBasic(clotures);
         recycler_stock.addItemDecoration(new DividerItemDecoration(recycler_stock.getContext(), DividerItemDecoration.VERTICAL));
         recycler_stock.setAdapter(adaptateur);
@@ -73,13 +75,16 @@ public class StockFragment extends Fragment {
             }
             if (cloture != null && cloture.compiled) {
                 clotures = (ArrayList<ClotureProduit>) dao_clotures
-                        .queryForEq("cloture_id", cloture.id);
-                adaptateur.setData(clotures);
+                        .queryForAll();//Eq("cloture_id", cloture.id);
+                Log.e("======", clotures.toString());
             } else {
                 ArrayList<Produit> produits;
                 produits = (ArrayList<Produit>) dao_produits.queryForAll();
-                adaptateur.setProduits(produits);
+                for (Produit produit: produits){
+                    clotures.add(new ClotureProduit(produit.quantite, produit, null));
+                }
             }
+            adaptateur.setData(clotures);
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(context, "Erreur de connection à la base", Toast.LENGTH_LONG).show();
