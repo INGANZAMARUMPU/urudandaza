@@ -1,13 +1,10 @@
 package bi.konstrictor.urudandaza;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,18 +25,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.File;
-import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.adapters.AdaptateurCloture;
-import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
-import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
 import bi.konstrictor.urudandaza.dialogs.FilterClotureForm;
-import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Produit;
 import bi.konstrictor.urudandaza.pageadapters.TotalsPageAdapter;
 
 public class ClotureActivity extends RefreshableActivity {
@@ -47,6 +40,7 @@ public class ClotureActivity extends RefreshableActivity {
     public static final int CLOTURE_CODE = 10;
     RecyclerView recycler_history;
     ArrayList<Cloture> clotures;
+    public ArrayList<Produit> produits = new ArrayList<>();
     private AdaptateurCloture adaptateur;
     public MutableLiveData<Double> achat_tot = new MutableLiveData<>();
     public MutableLiveData<Double> achat_rest = new MutableLiveData<>();
@@ -89,6 +83,12 @@ public class ClotureActivity extends RefreshableActivity {
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
         chargerStock();
+        try {
+            produits = (ArrayList<Produit>) new InkoranyaMakuru(this)
+                            .getDao(Produit.class).queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public boolean onCreateOptionsMenu( Menu menu) {
@@ -151,7 +151,7 @@ public class ClotureActivity extends RefreshableActivity {
                     .show();
 
             }
-        }else if(id == R.id.action_date){
+        }else if(id == R.id.action_filtre_produit){
             if (checkWritePermission()) {
                 new FilterClotureForm(this).show();
             }

@@ -97,16 +97,18 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
             Dao dao_as = new InkoranyaMakuru(context).getDao(ActionStock.class);
             Where where = dao_as.queryBuilder().where();
             if (context.filters == null && context.dates == null ) return;
-            if (context.filters != null) {
-                for (String clef : context.filters.keySet()) {
-                    where = where.eq(clef, context.filters.get(clef));
-                }
-            }
-            if (context.dates != null && context.dates.size()>1){
-                where.between("date", context.dates.get(0), context.dates.get(1));
-            }
             if (is_dette)
-                where = where.and().ne("total", new ColumnArg("payee"));
+                where.ne("total", new ColumnArg("payee")).and();
+            if (context.dates != null && context.dates.size()>1){
+                where.between("date", context.dates.get(0), context.dates.get(1)).and();
+            }
+            if (context.filters != null && context.filters.size()>0) {
+                for (String clef : context.filters.keySet()) {
+                    where.eq(clef, context.filters.get(clef));
+                }
+                // Join this loop's wheres by and
+                if (context.filters.size()>1) where.and(context.filters.size());
+            }
             setProducts((ArrayList<ActionStock>) where.query());
 //            produits.addAll(produits);
             adaptateur.setData(products);

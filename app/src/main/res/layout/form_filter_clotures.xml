@@ -15,7 +15,15 @@
             android:text="Icegeranyo"
             android:textAlignment="center"
             android:textColor="#000"
-            android:textSize="12pt" />
+            android:textSize="12pt"
+            android:layout_marginBottom="10dp"/>
+        <Spinner
+            android:id="@+id/spinner_product"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinner_background"
+            android:spinnerMode="dropdown"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +31,7 @@
         <DatePicker
             android:id="@+id/date_picker_du"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"/>
         <TextView
@@ -33,7 +41,7 @@
         <DatePicker
             android:id="@+id/date_picker_au"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"/>
         <LinearLayout

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,7 @@ public class DetailHistActivity extends RefreshableActivity {
 
         filters = (HashMap<String, String>) getIntent().getSerializableExtra("filters");
         dates = (ArrayList<Date>) getIntent().getSerializableExtra("dates");
+
         is_dette = getIntent().getExtras().getBoolean("is_dette");
         cloture = (Cloture) getIntent().getSerializableExtra("cloture");
 

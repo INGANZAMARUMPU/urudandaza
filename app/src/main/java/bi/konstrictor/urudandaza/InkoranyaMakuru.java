@@ -3,10 +3,8 @@ package bi.konstrictor.urudandaza;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
@@ -19,10 +17,10 @@ import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Liquide;
-import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
 import bi.konstrictor.urudandaza.models.ProxyAction;
+import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.models.Signature;
 
 public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
@@ -79,8 +77,6 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                     String.format("%04d", date.getYear())+
                     String.format("%02d", date.getMonth()) +
                     String.format("%02d", date.getDate());
-
-                Log.e("========", str_date+" "+str_today);
 
                 if(Integer.parseInt(str_date) < Integer.parseInt(str_today)){
                     last.cloturer(context);

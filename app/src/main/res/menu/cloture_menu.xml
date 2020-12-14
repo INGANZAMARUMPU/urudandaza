@@ -9,10 +9,10 @@
         android:title="kibikura"/>
     <item
         android:id="@+id/action_generate"
-        android:title="gucapura icegeranyo"/>
+        android:title="gucapura"/>
     <item
         android:icon="@drawable/ic_calender"
-        android:id="@+id/action_date"
-        android:title="amatariki"
+        android:id="@+id/action_filtre_produit"
+        android:title="ikidandazwa"
         app:showAsAction="ifRoom"/>
 </menu>
