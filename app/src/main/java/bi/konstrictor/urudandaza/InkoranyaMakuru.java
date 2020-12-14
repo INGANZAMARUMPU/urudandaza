@@ -11,6 +11,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import bi.konstrictor.urudandaza.models.Account;
@@ -67,7 +68,27 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
                 }
                 return clotures.get(clotures.size() - 1);
             } else if (clotures.size() == 1) {
-                return clotures.get(0);
+                Cloture last = clotures.get(0);
+                Date date = new Date();
+                String str_date =
+                    String.format("%04d", last.date.getYear())+
+                    String.format("%02d", last.date.getMonth()) +
+                    String.format("%02d", last.date.getDate());
+
+                String str_today =
+                    String.format("%04d", date.getYear())+
+                    String.format("%02d", date.getMonth()) +
+                    String.format("%02d", date.getDate());
+
+                Log.e("========", str_date+" "+str_today);
+
+                if(Integer.parseInt(str_date) < Integer.parseInt(str_today)){
+                    last.cloturer(context);
+                    Cloture cloture = new Cloture();
+                    cloture.create(context);
+                    return cloture;
+                }
+                return last;
             } else {
                 Cloture cloture = new Cloture();
                 cloture.create(context);

@@ -86,25 +86,7 @@ public class DetailHistActivity extends RefreshableActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_cloture) {
-            new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Guhanagura")
-                .setMessage("Urakeneye vy'ukuri gufunga ibikorwa vyakozwe uno musi?\n" +
-                        "M.N: Ubifunze ntuba ugishoboye kubihindagura")
-                .setPositiveButton("Funga", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        cloture.cloturer(DetailHistActivity.this);
-                        Intent data = new Intent();
-                        data.setData(Uri.parse("changed"));
-                        setResult(RESULT_OK, data);
-                        finish();
-                    }
-                })
-                .setNegativeButton("Reka", null)
-                .show();
-        }else if(id == R.id.action_filtre){
+        if(id == R.id.action_filtre){
             view_pager_cloture.setCurrentItem(0);
             new FilterActionForm(this, (ClotureFragment) cloture_adapter.getItem(0)).show();
         }else if(id == R.id.action_pay){

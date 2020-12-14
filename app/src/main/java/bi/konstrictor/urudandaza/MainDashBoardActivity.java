@@ -23,6 +23,7 @@ public class MainDashBoardActivity extends AppCompatActivity {
                 requestPermissions(new String[]{READ_CONTACTS}, 10);
             }
         }
+        new InkoranyaMakuru(this).getLatestCloture();
     }
 
     @Override

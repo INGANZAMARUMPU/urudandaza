@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -102,6 +103,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         }
         parent.addToTotals(historie);
     }
+
     private void editItem(ActionStock historie) {
         if (historie.isAchat()) {
             KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);

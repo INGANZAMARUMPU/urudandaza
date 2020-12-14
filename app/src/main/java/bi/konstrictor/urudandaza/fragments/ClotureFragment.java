@@ -65,7 +65,6 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
         chargerStock();
-
         return view;
     }
 
