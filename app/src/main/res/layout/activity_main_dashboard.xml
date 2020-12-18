@@ -14,12 +14,10 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -42,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:paddingBottom="20dp"
+                    android:paddingBottom="15dp"
                     app:alignContent="flex_end"
                     app:alignItems="flex_start"
                     app:flexDirection="row"
@@ -264,7 +262,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
                                     android:background="@drawable/cercle_vert"
-                                    android:padding="15dp"
+                                    android:padding="10dp"
                                     android:src="@drawable/ic_riha" />
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -430,6 +428,166 @@
                                         android:text="kuzimya application"
                                         android:textAlignment="center"
                                         android:textSize="6pt"
+                                        android:lines="2"
+                                        android:ellipsize="end"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+                </com.google.android.flexbox.FlexboxLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#999"/>
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="15dp"
+                    app:alignContent="flex_end"
+                    app:alignItems="flex_start"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="92dp"
+                        android:layout_height="112dp"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="#ddd">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="90dp"
+                            android:layout_height="110dp"
+                            android:onClick="startStock"
+                            android:layout_margin="1dp"
+                            app:cardElevation="0dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/cercle_gris"
+                                    android:padding="10dp"
+                                    android:src="@drawable/ic_eye" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Umugenduzi"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textSize="6pt" />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="ibiranga uwugendudura"
+                                        android:textAlignment="center"
+                                        android:textSize="5pt"
+                                        android:lines="2"
+                                        android:ellipsize="end"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="92dp"
+                        android:layout_height="112dp"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="#ddd">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="90dp"
+                            android:layout_height="110dp"
+                            android:onClick="startStock"
+                            android:layout_margin="1dp"
+                            app:cardElevation="0dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/cercle_gris"
+                                    android:padding="10dp"
+                                    android:src="@drawable/ic_money" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Kuriha"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textSize="6pt" />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="kuriha application"
+                                        android:textAlignment="center"
+                                        android:textSize="5pt"
+                                        android:lines="2"
+                                        android:ellipsize="end"/>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="92dp"
+                        android:layout_height="112dp"
+                        android:layout_margin="5dp"
+                        app:cardBackgroundColor="#ddd">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="90dp"
+                            android:layout_height="110dp"
+                            android:onClick="startStock"
+                            android:layout_margin="1dp"
+                            app:cardElevation="0dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="5dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/cercle_gris"
+                                    android:padding="10dp"
+                                    android:src="@drawable/ic_help" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Gufashwa"
+                                        android:textAlignment="center"
+                                        android:textStyle="bold"
+                                        android:textSize="6pt" />
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="kugira ico mubajije"
+                                        android:textAlignment="center"
+                                        android:textSize="5pt"
                                         android:lines="2"
                                         android:ellipsize="end"/>
                                 </LinearLayout>

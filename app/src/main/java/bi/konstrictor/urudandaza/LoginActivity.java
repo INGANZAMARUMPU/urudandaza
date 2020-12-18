@@ -13,6 +13,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Intent i=new Intent(LoginActivity.this,
+                MainDashBoardActivity.class);
+        startActivity(i);
     }
     public void nextActivity(View v){
         Intent i=new Intent(LoginActivity.this,

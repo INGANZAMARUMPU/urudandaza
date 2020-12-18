@@ -73,7 +73,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
             int lightBlue = context.getResources().getColor(R.color.lightBlue);
             holder.card_hist.setBackgroundColor(lightBlue);
         }
-        if ((cloture!=null && !cloture.compiled) | (is_dette)){
+        if (cloture!=null && !cloture.compiled){
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
