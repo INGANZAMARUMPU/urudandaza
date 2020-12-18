@@ -64,6 +64,7 @@ public class DetailHistActivity extends RefreshableActivity {
 
         if (cloture == null){
             tab_layout_cloture.removeTabAt(1);
+            cloture_adapter.removeTabPage(1);
             tab_layout_cloture.setVisibility(View.GONE);
         } else {
             tab_layout_cloture.getTabAt(0).setText("KUDANDAZA");
@@ -93,9 +94,9 @@ public class DetailHistActivity extends RefreshableActivity {
             for (ActionStock as:produits){
                 montant += as.getTotal();
             }
-            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, produits, montant);
-            kurangura_form.setEdition(true, produits.get(0).personne);
-            kurangura_form.show();
+//            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, produits, montant);
+//            kurangura_form.setEdition(true, produits.get(0).personne);
+//            kurangura_form.show();
         }
         return super.onOptionsItemSelected(item);
     }

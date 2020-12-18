@@ -4,16 +4,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +23,7 @@ public class FilterClotureForm extends Dialog {
     private final ClotureActivity context;
     private Button btn_submit_filter, btn_cancel_filter;
     private DatePicker date_du, date_au;
-    private Spinner spinner_product;
+    private AutoCompleteTextView spinner_product;
 
     public FilterClotureForm(final ClotureActivity context) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -41,7 +36,7 @@ public class FilterClotureForm extends Dialog {
 
         spinner_product.setAdapter(new ArrayAdapter(
                 context,
-                R.layout.support_simple_spinner_dropdown_item,
+                android.R.layout.simple_dropdown_item_1line,
                 context.produits));
 
         btn_cancel_filter = findViewById(R.id.btn_cancel_filter);
@@ -64,9 +59,10 @@ public class FilterClotureForm extends Dialog {
         show();
     }
     public void submit(){
+        if(getSelectedProduit() == -1) return;
         Intent intent = new Intent(context, DetailHistActivity.class);
         HashMap<String, String> filters = new HashMap<>();
-        filters.put("produit_id", ((Produit) spinner_product.getSelectedItem()).id.toString());
+        filters.put("produit_id", getSelectedProduit().toString());
         intent.putExtra("filters", filters);
         ArrayList<Date> dates = new ArrayList<>();
         dates.add(getDateFromPickers(date_du));
@@ -75,7 +71,14 @@ public class FilterClotureForm extends Dialog {
         context.startActivityForResult(intent, context.CLOTURE_CODE);
         dismiss();
     }
-
+    private Integer getSelectedProduit(){
+        for (Produit p : context.produits){
+            if (p.toString().equals(spinner_product.getText().toString())){
+                return p.id;
+            }
+        }
+        return -1;
+    }
     private Date getDateFromPickers(DatePicker datePicker) {
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
