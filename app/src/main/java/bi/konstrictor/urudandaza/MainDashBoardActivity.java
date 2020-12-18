@@ -9,11 +9,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 
 import java.util.Random;
 
 import bi.konstrictor.urudandaza.dialogs.PasswordForm;
+import bi.konstrictor.urudandaza.dialogs.RechargeForm;
+import bi.konstrictor.urudandaza.models.Password;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -75,7 +79,8 @@ public class MainDashBoardActivity extends AppCompatActivity {
 
     public void changePassword(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
-        new PasswordForm(this).build();
+        PasswordForm form = new PasswordForm(this);
+        form.build();
     }
 
     public void whatsappMe(View view) {
@@ -84,5 +89,10 @@ public class MainDashBoardActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url[new Random().nextInt(2)]));
         startActivity(i);
+    }
+
+    public void startPayment(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+        new RechargeForm(this).build();
     }
 }
