@@ -16,6 +16,7 @@ import java.util.HashMap;
 import bi.konstrictor.urudandaza.ClotureActivity;
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
+import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
 public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.ViewHolder> {
@@ -24,7 +25,7 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
 
     public AdaptateurCloture(ClotureActivity context, ArrayList<Cloture> clotures) {
         this.context = context;
-        this.clotures = clotures;
+        setData(clotures);
     }
 
     @Override
@@ -62,7 +63,6 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
                 context.startActivityForResult(intent, context.CLOTURE_CODE);
             }
         });
-        updateTot(cloture);
     }
 
     private void updateTot(Cloture cloture) {
@@ -79,6 +79,9 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
 
     public void setData(ArrayList<Cloture> clotures) {
         this.clotures = clotures;
+        for (Cloture cloture : clotures){
+            updateTot(cloture);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

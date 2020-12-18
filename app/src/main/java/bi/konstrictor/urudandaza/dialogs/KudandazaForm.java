@@ -254,7 +254,6 @@ public class KudandazaForm extends Dialog {
             }
             dismiss();
             context.refresh();
-            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         }
         progress_kudandaza.setVisibility(View.GONE);
     }

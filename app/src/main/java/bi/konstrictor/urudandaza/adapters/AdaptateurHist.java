@@ -136,7 +136,6 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
 
     public void setData(ArrayList<ActionStock> histories) {
         parent.refresh();
-        Toast.makeText(context, "Calculating Totals", Toast.LENGTH_SHORT).show();
         this.histories = histories;
         for (ActionStock as : histories){
             parent.addToTotals(as);
