@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import bi.konstrictor.urudandaza.dialogs.PasswordForm;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class MainDashBoardActivity extends AppCompatActivity {
@@ -66,5 +68,10 @@ public class MainDashBoardActivity extends AppCompatActivity {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
         Intent open_ibidandazwa = new Intent(MainDashBoardActivity.this, ClotureActivity.class);
         startActivity(open_ibidandazwa);
+    }
+
+    public void changePassword(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+        new PasswordForm(this).build();
     }
 }

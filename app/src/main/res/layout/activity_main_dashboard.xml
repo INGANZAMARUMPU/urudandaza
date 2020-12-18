@@ -40,7 +40,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:paddingBottom="15dp"
                     app:alignContent="flex_end"
                     app:alignItems="flex_start"
                     app:flexDirection="row"
@@ -435,16 +434,11 @@
                         </androidx.cardview.widget.CardView>
                     </androidx.cardview.widget.CardView>
                 </com.google.android.flexbox.FlexboxLayout>
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#999"/>
                 <com.google.android.flexbox.FlexboxLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:paddingBottom="20dp"
-                    android:paddingTop="15dp"
                     app:alignContent="flex_end"
                     app:alignItems="flex_start"
                     app:flexDirection="row"
@@ -458,7 +452,7 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="90dp"
                             android:layout_height="110dp"
-                            android:onClick="startStock"
+                            android:onClick="changePassword"
                             android:layout_margin="1dp"
                             app:cardElevation="0dp">
                             <LinearLayout
@@ -489,7 +483,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="ibiranga uwugendudura"
+                                        android:text="ibiranga uwugendura"
                                         android:textAlignment="center"
                                         android:textSize="5pt"
                                         android:lines="2"
