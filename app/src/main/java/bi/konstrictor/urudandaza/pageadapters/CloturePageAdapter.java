@@ -12,6 +12,7 @@ public class CloturePageAdapter extends FragmentStatePagerAdapter {
     private ClotureFragment cloture_fragment;
     private StockFragment stock_fragment;
     DetailHistActivity context;
+    private int tabs_number = 2;
 
     public CloturePageAdapter(FragmentManager fm, int behavior, DetailHistActivity context) {
         super(fm, behavior);
@@ -29,6 +30,11 @@ public class CloturePageAdapter extends FragmentStatePagerAdapter {
     }
     @Override
     public int getCount() {
-        return 2;
+        return tabs_number;
+    }
+
+    public void removeTabPage(int i) {
+        tabs_number -= 1;
+        notifyDataSetChanged();
     }
 }

@@ -2,10 +2,13 @@ package bi.konstrictor.urudandaza;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -72,5 +75,38 @@ public class StockActivity extends RefreshableActivity {
     @Override
     public void refresh() {
         chargerStock();
+    }
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu) {
+        getMenuInflater().inflate( R.menu.search_menu, menu);
+
+        final MenuItem action_search = menu.findItem( R.id.action_search);
+        SearchView searchView = (SearchView) action_search.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adaptateur.setData(produits);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<Produit> result = new ArrayList<>();
+                for (Produit p : produits){
+                    if(p.nom.toLowerCase().contains(s.toLowerCase())){
+                        result.add(p);
+                    }
+                }
+                adaptateur.setData(result);
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adaptateur.setData(produits);
+                return false;
+            }
+        });
+        return true;
     }
 }
