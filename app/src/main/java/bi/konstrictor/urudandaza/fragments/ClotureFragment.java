@@ -37,7 +37,6 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
     private View view;
 
-    public boolean is_dette=false;
     RecyclerView recycler_history;
     private ArrayList<ActionStock> products = new ArrayList<>();;
     private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
@@ -96,7 +95,7 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
             Dao dao_as = new InkoranyaMakuru(context).getDao(ActionStock.class);
             Where where = dao_as.queryBuilder().where();
             if (context.filters == null && context.dates == null ) return;
-            if (is_dette)
+            if (context.is_dette)
                 where.ne("total", new ColumnArg("payee")).and();
             if (context.dates != null && context.dates.size()>1){
                 where.between("date", context.dates.get(0), context.dates.get(1)).and();
@@ -116,8 +115,12 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
         }
     }
 
-    public void refresh() {
+    public void reset() {
         setAchat_rest(0.); setAchat_tot(0.); setVente_tot(0.); setVente_reste(0.);
+    }
+
+    public void refresh() {
+        chargerStock();
     }
 
     public ArrayList<ActionStock> getProducts() {

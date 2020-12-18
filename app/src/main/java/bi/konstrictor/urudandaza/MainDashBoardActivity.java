@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+
+import java.util.Random;
 
 import bi.konstrictor.urudandaza.dialogs.PasswordForm;
 
@@ -73,5 +76,13 @@ public class MainDashBoardActivity extends AppCompatActivity {
     public void changePassword(View view) {
         view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
         new PasswordForm(this).build();
+    }
+
+    public void whatsappMe(View view) {
+        view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_fadein));
+        String[] url = {"https://wa.me/+25775960696", "https://wa.me/+25771208396"};
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url[new Random().nextInt(2)]));
+        startActivity(i);
     }
 }

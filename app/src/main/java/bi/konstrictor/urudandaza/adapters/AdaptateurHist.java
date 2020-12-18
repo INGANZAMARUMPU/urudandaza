@@ -23,6 +23,7 @@ import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
+import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.interfaces.SummableActionStock;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
@@ -33,9 +34,9 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     private ArrayList<ActionStock> histories;
     private Cloture cloture = null;
     private boolean is_dette;
-    SummableActionStock parent;
+    ClotureFragment parent;
 
-    public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories, SummableActionStock parent) {
+    public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories, ClotureFragment parent) {
         this.context = context;
         this.histories = histories;
         this.cloture = context.cloture;
@@ -135,7 +136,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     }
 
     public void setData(ArrayList<ActionStock> histories) {
-        parent.refresh();
+        parent.reset();
         this.histories = histories;
         for (ActionStock as : histories){
             parent.addToTotals(as);

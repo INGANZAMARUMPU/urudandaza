@@ -37,7 +37,6 @@ public class ConfirmKudandaza extends Dialog {
     private ProgressBar progress_vente;
     private String[] arrcontact;
     private ArrayList<ActionStock> CART;
-    private boolean edition = false;
     private Double payee, montant;
     private String client;
     private boolean ideni = false;
@@ -207,13 +206,8 @@ public class ConfirmKudandaza extends Dialog {
                     as.kudandaza(cart.produit, cart.getQuantite(), personne, payee, inkoranyaMakuru.getLatestCloture());
                     payee = 0.;
                 }
-                if (edition){
-                    cart.payee = as.payee;
-                    cart.update(context);
-                }else {
-                    as.create(context);
-                    dismiss();
-                }
+                as.create(context);
+                dismiss();
             }
             dismiss();
             context.refresh();
@@ -232,10 +226,6 @@ public class ConfirmKudandaza extends Dialog {
             }
         }
         return true;
-    }
-    public void setEdition(boolean edition, Personne personne) {
-        this.edition = edition;
-        field_vente_client.setText(personne.nom);
     }
     public void build(){ show(); }
 }

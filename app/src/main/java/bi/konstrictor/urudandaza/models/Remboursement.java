@@ -34,11 +34,11 @@ public class Remboursement implements Model {
     public Remboursement() {
     }
 
-    public Remboursement(ActionStock action_stock, Double payee, String motif, Date date) {
+    public Remboursement(ActionStock action_stock, Double payee, String motif) {
         this.action_stock = action_stock;
         this.payee = payee;
         this.motif = motif;
-        this.date = date;
+        this.date = new Date();
     }
 
     public void validate(Password password){

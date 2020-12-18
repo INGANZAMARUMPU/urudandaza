@@ -55,7 +55,7 @@ public class PasswordForm extends Dialog {
         if(validateFields()) {
             InkoranyaMakuru db = new InkoranyaMakuru(context);
             try {
-                final Dao<Password, Integer> dao = db.getDao(Password.class);
+                Dao<Password, Integer> dao = db.getDao(Password.class);
                 Account admin = new Account().getAdminAccount(context);
                 String str_signature = Globals.hash(this.password);
                 Password password;

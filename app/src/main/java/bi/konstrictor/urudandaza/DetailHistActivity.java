@@ -4,10 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +28,7 @@ import bi.konstrictor.urudandaza.fragments.ClotureFragment;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.pageadapters.CloturePageAdapter;
 
 public class DetailHistActivity extends RefreshableActivity {
@@ -90,15 +93,50 @@ public class DetailHistActivity extends RefreshableActivity {
             view_pager_cloture.setCurrentItem(0);
             new FilterActionForm(this, (ClotureFragment) cloture_adapter.getItem(0)).show();
         }else if(id == R.id.action_pay){
-            Double montant=0.;
-            for (ActionStock as:produits){
-                montant += as.getTotal();
-            }
-//            ConfirmKudandaza kurangura_form = new ConfirmKudandaza(this, produits, montant);
-//            kurangura_form.setEdition(true, produits.get(0).personne);
-//            kurangura_form.show();
+            showPayDialog();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showPayDialog() {
+        Double montant=0.;
+        for (ActionStock as:produits){
+            montant += as.getTotal()-as.payee;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Arishe angahe?");
+        final EditText input = new EditText(this);
+        input.setText(montant.toString());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Double payee = Double.parseDouble(input.getText().toString());
+                for (ActionStock as : produits) {
+                    double total = as.getTotal();
+                    Remboursement dette;
+                    if (payee >= total) {
+                        dette = new Remboursement(as, total, "");
+                        payee -= total;
+                    } else {
+                        dette = new Remboursement(as, payee, "");
+                        payee = 0.;
+                    }
+                    as.payee += dette.payee;
+                    as.update(DetailHistActivity.this);
+                    dette.create(DetailHistActivity.this);
+                }
+            }
+        });
+        builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     @Override
