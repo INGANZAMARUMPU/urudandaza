@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.TransactionManager;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.concurrent.Callable;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.Model;
 
+@DatabaseTable
 public class ActionStock implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;

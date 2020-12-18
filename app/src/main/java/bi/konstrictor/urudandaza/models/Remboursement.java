@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -13,6 +14,7 @@ import bi.konstrictor.urudandaza.Globals;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.Model;
 
+@DatabaseTable
 public class Remboursement implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
@@ -26,8 +28,8 @@ public class Remboursement implements Model {
     public Date date;
     @DatabaseField
     public String checksum;
-    @DatabaseField
-    private Signature signature;
+    @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id")
+    private Password signature;
 
     public Remboursement() {
     }
@@ -39,9 +41,9 @@ public class Remboursement implements Model {
         this.date = date;
     }
 
-    public void validate(Signature signature){
-        this.signature = signature;
-        this.checksum = Globals.sign(""+payee+date.getTime(), signature.getSignature());
+    public void validate(Password password){
+        this.signature = password;
+        this.checksum = Globals.sign(""+payee+date.getTime(), password.getSignature());
     }
 
     public boolean is_valid(){
