@@ -37,11 +37,11 @@ public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.Vi
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Cloture cloture = clotures.get(position);
-        holder.lbl_cloture_achat_rest.setText(cloture.getAchatReste().toString());
-        holder.lbl_cloture_achat_tot.setText(cloture.achat.toString());
-        holder.lbl_cloture_vente_reste.setText(cloture.getVenteReste().toString());
-        holder.lbl_cloture_vente_tot.setText(cloture.getVente().toString());
-        holder.lbl_cloture_perte.setText(cloture.perte.toString());
+        holder.lbl_cloture_achat_rest.setText(String.format("%.2f", cloture.getAchatReste()));
+        holder.lbl_cloture_achat_tot.setText(String.format("%.2f", cloture.achat));
+        holder.lbl_cloture_vente_reste.setText(String.format("%.2f", cloture.getVenteReste()));
+        holder.lbl_cloture_vente_tot.setText(String.format("%.2f", cloture.getVente()));
+        holder.lbl_cloture_perte.setText(String.format("%.2f", cloture.perte));
         holder.lbl_cloture_date.setText(cloture.getDateFormated());
         int rouge = context.getResources().getColor(R.color.colorRed);
         if (cloture.getAchatReste()>0)

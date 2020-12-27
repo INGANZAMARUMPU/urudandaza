@@ -57,11 +57,11 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         Double qtt = Math.abs(historie.getQuantite());
         holder.lbl_hist_product.setText(historie.produit.nom);
         holder.lbl_hist_date.setText(historie.getDateFormated());
-        holder.lbl_hist_qtt.setText(qtt.toString());
-        holder.lbl_hist_price.setText(historie.getPrix().toString());
-        holder.lbl_hist_tot.setText(historie.getTotal().toString());
-        holder.lbl_hist_payee.setText(historie.payee.toString());
-        holder.lbl_hist_reste.setText(reste.toString());
+        holder.lbl_hist_qtt.setText(String.format("%.2f", qtt));
+        holder.lbl_hist_price.setText(String.format("%.2f", historie.getPrix()));
+        holder.lbl_hist_tot.setText(String.format("%.2f", historie.getTotal()));
+        holder.lbl_hist_payee.setText(String.format("%.2f", historie.payee));
+        holder.lbl_hist_reste.setText(String.format("%.2f", reste));
         int rouge = context.getResources().getColor(R.color.colorRed);
         if (reste>0) holder.lbl_hist_reste.setTextColor(rouge);
         if (historie.isVente()) {

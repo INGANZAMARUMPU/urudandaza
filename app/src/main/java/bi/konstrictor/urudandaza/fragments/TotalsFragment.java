@@ -43,25 +43,25 @@ public class TotalsFragment extends Fragment {
         context.achat_tot.observe(context, new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                lbl_hist_achat_tot.setText(aDouble.toString());
+                lbl_hist_achat_tot.setText(String.format("%.2f", aDouble));
             }
         });
         context.achat_rest.observe(context, new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                lbl_hist_achat_rest.setText(aDouble.toString());
+                lbl_hist_achat_rest.setText(String.format("%.2f", aDouble));
             }
         });
         context.vente_tot.observe(context, new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                lbl_hist_vente_tot.setText(aDouble.toString());
+                lbl_hist_vente_tot.setText(String.format("%.2f", aDouble));
             }
         });
         context.vente_reste.observe(context, new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                lbl_hist_vente_reste.setText(aDouble.toString());
+                lbl_hist_vente_reste.setText(String.format("%.2f", aDouble));
             }
         });
     }

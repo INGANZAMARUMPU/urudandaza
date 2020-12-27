@@ -26,6 +26,7 @@
                         android:layout_height="wrap_content"
                         android:text="ikidandazwa"
                         android:textColor="#000"
+                        android:maxLines="1"
                         android:textSize="8pt"/>
                     <TextView
                         android:id="@+id/lbl_hist_date"
@@ -44,6 +45,7 @@
                             android:layout_height="wrap_content"
                             android:text="qtt"
                             android:textColor="#000"
+                            android:maxLines="1"
                             android:textSize="6pt"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -56,6 +58,7 @@
                             android:layout_height="wrap_content"
                             android:text="prix"
                             android:textColor="#000"
+                            android:maxLines="1"
                             android:textSize="6pt"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -104,6 +107,7 @@
                             android:layout_height="wrap_content"
                             android:text="000 000"
                             android:textColor="#000"
+                            android:maxLines="1"
                             android:textSize="6pt"/>
                         <TextView
                             android:id="@+id/lbl_hist_payee"
@@ -111,6 +115,7 @@
                             android:layout_height="wrap_content"
                             android:text="00"
                             android:textColor="#000"
+                            android:maxLines="1"
                             android:textSize="6pt"/>
                         <TextView
                             android:id="@+id/lbl_hist_reste"
@@ -118,6 +123,7 @@
                             android:layout_height="wrap_content"
                             android:text="00"
                             android:textColor="#000"
+                            android:maxLines="1"
                             android:textSize="6pt"
                             android:layout_column="1"/>
                     </LinearLayout>
