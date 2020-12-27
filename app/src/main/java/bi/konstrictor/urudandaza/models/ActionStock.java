@@ -139,8 +139,6 @@ public class ActionStock implements Model {
             } else {
                 cloture.perte = getVenteTotal();
             }
-            final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
-
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                     new Callable<Void>() {
                         @Override
@@ -148,7 +146,6 @@ public class ActionStock implements Model {
                             daoAS.create(ActionStock.this);
                             daoProduit.update(produit);
                             daoCloture.update(cloture);
-//                            daoPA.create((ProxyAction) ActionStock.this);
                             return null;
                         }
                     });
@@ -177,8 +174,6 @@ public class ActionStock implements Model {
             } else {
                 cloture.perte -= old.getVenteTotal() + getVenteTotal();
             }
-            final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
-
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                 new Callable<Void>() {
                     @Override
@@ -186,7 +181,6 @@ public class ActionStock implements Model {
                         daoAS.update(ActionStock.this);
                         daoProduit.update(produit);
                         daoCloture.update(cloture);
-//                        daoPA.update((ProxyAction) ActionStock.this);
                         return null;
                     }
             });
@@ -215,8 +209,6 @@ public class ActionStock implements Model {
             } else {
                 cloture.perte -= getVenteTotal();
             }
-            final Dao<ProxyAction, Integer> daoPA = inkoranyaMakuru.getDao(ProxyAction.class);
-
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                     new Callable<Void>() {
                         @Override
@@ -224,7 +216,6 @@ public class ActionStock implements Model {
                             daoAS.delete(ActionStock.this);
                             daoProduit.update(produit);
                             daoCloture.update(cloture);
-//                            daoPA.delete((ProxyAction) ActionStock.this);
                             return null;
                         }
                     });

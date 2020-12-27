@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
 import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.ProxyAction;
+import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
 
 public class VenteActivity extends RefreshableActivity {
@@ -39,7 +39,7 @@ public class VenteActivity extends RefreshableActivity {
     private SearchView searchView;
 
     private ArrayList<Produit> produits;
-    private ArrayList<ProxyAction> CART;
+    private ArrayList<ActionStock> CART;
     private Boolean INTEGER_MODE = true;
 
     private Double MONTANT = 0.;
@@ -140,14 +140,14 @@ public class VenteActivity extends RefreshableActivity {
         }
         chargerStock();
     }
-    public ProxyAction getCartItem(Produit produit){
+    public ActionStock getCartItem(Produit produit){
         for (int i=0; i<CART.size(); i++){
             if(produit.id == CART.get(i).produit.id) return CART.get(i);
         }
         return null;
     }
-    public void addToCart(ProxyAction stock){
-        ProxyAction old = getCartItem(stock.produit);
+    public void addToCart(ActionStock stock){
+        ActionStock old = getCartItem(stock.produit);
         if (stock.getQuantite()>0) {
             if(old==null){
                 CART.add(stock);
@@ -164,7 +164,7 @@ public class VenteActivity extends RefreshableActivity {
         lbl_vente_total.setText(this.MONTANT.toString());
     }
     public void removeFromCart(Produit produit){
-        for(ProxyAction as : CART){
+        for(ActionStock as : CART){
             if(produit.id == as.produit.id){
                 CART.remove(as);
                 setMONTANT(MONTANT - as.getTotal());

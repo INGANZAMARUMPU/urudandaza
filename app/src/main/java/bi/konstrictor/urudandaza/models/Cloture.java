@@ -82,7 +82,6 @@ public class Cloture implements Serializable, Model {
         for (Produit produit : produits){
             clotureProduits.add(new ClotureProduit(produit.quantite, produit, Cloture.this));
         }
-
         if((this.getVente()>0) | (this.achat>0)) {
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                 new Callable<Void>() {

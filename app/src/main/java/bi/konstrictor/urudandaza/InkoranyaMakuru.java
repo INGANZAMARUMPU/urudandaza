@@ -21,7 +21,6 @@ import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Liquide;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
-import bi.konstrictor.urudandaza.models.ProxyAction;
 import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.models.Password;
 
@@ -39,25 +38,14 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, ClotureProduit.class);
-            Log.i("INKORANYAMAKURU", "ClotureProduit.class");
             TableUtils.createTableIfNotExists(connectionSource, Produit.class);
-            Log.i("INKORANYAMAKURU", "Produit.class");
             TableUtils.createTableIfNotExists(connectionSource, Personne.class);
-            Log.i("INKORANYAMAKURU", "Personne.class");
             TableUtils.createTableIfNotExists(connectionSource, ActionStock.class);
-            Log.i("INKORANYAMAKURU", "ActionStock.class");
             TableUtils.createTableIfNotExists(connectionSource, Cloture.class);
-            Log.i("INKORANYAMAKURU", "Cloture.class");
             TableUtils.createTableIfNotExists(connectionSource, Liquide.class);
-            Log.i("INKORANYAMAKURU", "Liquide.class");
-            TableUtils.createTableIfNotExists(connectionSource, ProxyAction.class);
-            Log.i("INKORANYAMAKURU", "ProxyAction.class");
             TableUtils.createTableIfNotExists(connectionSource, Remboursement.class);
-            Log.i("INKORANYAMAKURU", "Remboursement.class");
             TableUtils.createTableIfNotExists(connectionSource, Account.class);
-            Log.i("INKORANYAMAKURU", "Account.class");
             TableUtils.createTableIfNotExists(connectionSource, Password.class);
-            Log.i("INKORANYAMAKURU", "Signature.class");
 
             getLatestCloture();
 

@@ -1,29 +1,20 @@
 package bi.konstrictor.urudandaza.adapters;
 
 import android.content.DialogInterface;
-import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.j256.ormlite.dao.Dao;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
@@ -31,7 +22,6 @@ import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.VenteActivity;
 import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Produit;
-import bi.konstrictor.urudandaza.models.ProxyAction;
 
 public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHolder> {
 
@@ -97,13 +87,13 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                 final EditText input = new EditText(context);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 builder.setView(input);
-
                 builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Double prix = Double.parseDouble(input.getText().toString());
                         produit.prix = prix;
                         produit.update(context);
+                        context.refresh();
                     }
                 });
                 builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {
@@ -115,28 +105,28 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
                 builder.show();
             }
         });
-        holder.field_vente_qtt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-            @Override
-            public void afterTextChanged(Editable s) {
-                String str_new_val = s.toString().trim();
-                if (str_new_val.isEmpty()){
-                    context.removeFromCart(produit);
-                    return;
-                }
-                Double new_val = Double.parseDouble(str_new_val);
-                if (new_val<0 | new_val>produit.quantite){
-                    context.removeFromCart(produit);
-                    return;
-                }
-                addTocart(produit, new_val);
-            }
-        });
         if(context.isINTEGER_MODE()){
             holder.field_vente_qtt.setFocusable(false);
+            holder.field_vente_qtt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String str_new_val = s.toString().trim();
+                    if (str_new_val.isEmpty()) {
+                        context.removeFromCart(produit);
+                        return;
+                    }
+                    Double new_val = Double.parseDouble(str_new_val);
+                    if (new_val < 0 | new_val > produit.quantite) {
+                        context.removeFromCart(produit);
+                        return;
+                    }
+                    addTocart(produit, new_val);
+                }
+            });
         }else{
             holder.field_vente_qtt.setFocusable(true);
             holder.field_vente_qtt.setFocusableInTouchMode(true);
@@ -147,7 +137,7 @@ public class AdaptateurVente extends RecyclerView.Adapter<AdaptateurVente.ViewHo
             context.removeFromCart(produit);
             return;
         }
-        ProxyAction as = new ProxyAction();
+        ActionStock as = new ActionStock();
         as.kudandaza(produit, quantite, null, null, new InkoranyaMakuru(context).getLatestCloture());
         context.addToCart(as);
     }
