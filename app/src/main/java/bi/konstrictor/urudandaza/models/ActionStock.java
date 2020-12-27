@@ -103,7 +103,7 @@ public class ActionStock implements Model {
         return 0;
     }
     public void setQuantite(Double quantite, Double supl) {
-        if (quantite>0) {
+        if (quantite>=0) {
             quantite = quantite*produit.rapport+supl;
         }
         this.quantite=quantite;
