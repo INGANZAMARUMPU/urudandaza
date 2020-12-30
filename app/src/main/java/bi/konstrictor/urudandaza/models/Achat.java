@@ -26,7 +26,7 @@ public class Achat implements Model {
     private Double quantite = 0.;
     private Double suppl = 0.;
     @DatabaseField
-    private Double prix = 0.;
+    public Double prix = 0.;
     @DatabaseField(canBeNull = false)
     private Double total;
     @DatabaseField
@@ -66,7 +66,7 @@ public class Achat implements Model {
         return quantite +" " + produit.nom + " x " + prix + " : " + getTotal();
     }
 
-    private Double getTotal() {
+    public Double getTotal() {
         return quantite*prix;
     }
 
@@ -152,5 +152,13 @@ public class Achat implements Model {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+    public double getQuantite() {
+        return quantite;
+    }
+
+    public Double getReste() {
+        return total-payee;
     }
 }

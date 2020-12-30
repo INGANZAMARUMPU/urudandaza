@@ -25,7 +25,7 @@ public class Vente implements Model {
     @DatabaseField
     private Double quantite = 0.;
     @DatabaseField
-    private Double prix = 0.;
+    public Double prix = 0.;
     @DatabaseField(canBeNull = false)
     private Double total;
     @DatabaseField
@@ -52,12 +52,8 @@ public class Vente implements Model {
         return quantite*prix;
     }
 
-    public Integer getQuantiteSuppl() {
-        if (quantite>0) {
-            Double suppl = quantite%produit.rapport;
-            return suppl.intValue();
-        }
-        return 0;
+    public Double getQuantite() {
+        return quantite;
     }
     @Override
     public String toString() {
@@ -171,4 +167,7 @@ public class Vente implements Model {
         perimee = true;
     }
 
+    public Double getReste() {
+        return total-payee;
+    }
 }

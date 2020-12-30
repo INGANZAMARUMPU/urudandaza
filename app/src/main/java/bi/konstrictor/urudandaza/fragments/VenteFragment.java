@@ -1,7 +1,6 @@
 package bi.konstrictor.urudandaza.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,27 +22,27 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.adapters.AdaptateurHist;
+import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
 import bi.konstrictor.urudandaza.interfaces.Filterable;
-import bi.konstrictor.urudandaza.interfaces.SummableActionStock;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Vente;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Vente;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClotureFragment extends Fragment implements SummableActionStock, Filterable {
+public class VenteFragment extends Fragment implements Filterable {
     private final DetailHistActivity context;
     TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
     private View view;
 
     RecyclerView recycler_history;
-    private ArrayList<ActionStock> products = new ArrayList<>();;
+    private ArrayList<Vente> products = new ArrayList<>();;
     private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
-    private AdaptateurHist adaptateur;
+    private AdaptateurVente adaptateur;
     public Cloture cloture = null;
 
-    public ClotureFragment(DetailHistActivity context) {
+    public VenteFragment(DetailHistActivity context) {
         super();
         this.context = context;
     }
@@ -60,39 +59,29 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
         recycler_history.setLayoutManager(new GridLayoutManager(context, 1));
 //        recycler_history.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-        adaptateur = new AdaptateurHist(context, products, this);
+        adaptateur = new AdaptateurVente(context, products, this);
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
         chargerStock();
         return view;
     }
 
-    public void setAchat_tot(Double achat_tot) {
+    public void setTot(Double achat_tot) {
         this.achat_tot = achat_tot;
         lbl_det_hist_achat_tot.setText(achat_tot.toString());
     }
-    public void setAchat_rest(Double achat_rest) {
+    public void setRest(Double achat_rest) {
         this.achat_rest = achat_rest;
         lbl_det_hist_achat_rest.setText(achat_rest.toString());
     }
-    public void setVente_tot(Double vente_tot) {
-        this.vente_tot = vente_tot;
-        lbl_det_hist_vente_tot.setText(vente_tot.toString());
-    }
-    public void setVente_reste(Double vente_reste) {
-        this.vente_reste = vente_reste;
-        lbl_det_hist_vente_reste.setText(vente_reste.toString());
-    }
-    public void addToTotals(ActionStock history) {
+    public void addToTotals(Vente history) {
         if(history.perimee) return;
-        setAchat_tot(achat_tot +history.getAchatTotal());
-        setAchat_rest(achat_rest+history.getAchatReste());
-        setVente_tot(vente_tot+history.getVenteTotal());
-        setVente_reste(vente_reste+history.getVenteReste());
+        setTot(achat_tot +history.getTotal());
+        setRest(achat_rest+history.getReste());
     }
     private void chargerStock() {
         try {
-            Dao dao_as = new InkoranyaMakuru(context).getDao(ActionStock.class);
+            Dao dao_as = new InkoranyaMakuru(context).getDao(Vente.class);
             Where where = dao_as.queryBuilder().where();
             if (context.filters == null && context.dates == null ) return;
             if (context.is_dette)
@@ -107,7 +96,7 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
                 // Join this loop's wheres by and
                 if (context.filters.size()>1) where.and(context.filters.size());
             }
-            setProducts((ArrayList<ActionStock>) where.query());
+            setProducts((ArrayList<Vente>) where.query());
 //            produits.addAll(produits);
             adaptateur.setData(products);
         } catch (SQLException e) {
@@ -116,36 +105,30 @@ public class ClotureFragment extends Fragment implements SummableActionStock, Fi
     }
 
     public void reset() {
-        setAchat_rest(0.); setAchat_tot(0.); setVente_tot(0.); setVente_reste(0.);
+        setRest(0.); setTot(0.);
     }
 
     public void refresh() {
         chargerStock();
     }
 
-    public ArrayList<ActionStock> getProducts() {
+    public ArrayList<Vente> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<ActionStock> products) {
-        context.produits = products;
+    public void setProducts(ArrayList<Vente> products) {
+        context.ventes = products;
         this.products = products;
     }
 
     @Override
-    public void performFiltering(Boolean in, Boolean out, Boolean dette, Boolean perimee) {
-        ArrayList<ActionStock> filtered = new ArrayList<>();
-        for (ActionStock as : products){
+    public void performFiltering(Boolean dette, Boolean perimee) {
+        ArrayList<Vente> filtered = new ArrayList<>();
+        for (Vente as : products){
             if(perimee && as.perimee){
                 filtered.add(as); continue;
             }
-            if(in && as.isAchat()) {
-                filtered.add(as); continue;
-            }
-            if(out && as.isVente()) {
-                filtered.add(as); continue;
-            }
-            if(dette && as.isDette()) {
+            if(dette && as.getReste()>0) {
                 filtered.add(as);
             }
         }
