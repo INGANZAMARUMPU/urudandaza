@@ -1,7 +1,6 @@
 package bi.konstrictor.urudandaza.adapters;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import java.util.HashMap;
 import bi.konstrictor.urudandaza.ClotureActivity;
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 
 public class AdaptateurCloture extends RecyclerView.Adapter<AdaptateurCloture.ViewHolder> {

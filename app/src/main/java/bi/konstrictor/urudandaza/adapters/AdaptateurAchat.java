@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,24 +19,22 @@ import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.dialogs.KudandazaForm;
 import bi.konstrictor.urudandaza.dialogs.KuranguraForm;
-import bi.konstrictor.urudandaza.fragments.ClotureFragment;
-import bi.konstrictor.urudandaza.interfaces.SummableActionStock;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.fragments.AchatFragment;
+import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Cloture;
 
-public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHolder> {
+public class AdaptateurAchat extends RecyclerView.Adapter<AdaptateurAchat.ViewHolder> {
 
     private DetailHistActivity context;
-    private ArrayList<ActionStock> histories;
+    private ArrayList<Achat> achats;
     private Cloture cloture = null;
     private boolean is_dette;
-    ClotureFragment parent;
+    AchatFragment parent;
 
-    public AdaptateurHist(DetailHistActivity context, ArrayList<ActionStock> histories, ClotureFragment parent) {
+    public AdaptateurAchat(DetailHistActivity context, ArrayList<Achat> achats, AchatFragment parent) {
         this.context = context;
-        this.histories = histories;
+        this.achats = achats;
         this.cloture = context.cloture;
         this.is_dette = context.is_dette;
         this.parent = parent;
@@ -52,33 +48,22 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final ActionStock historie = histories.get(position);
-        Double reste = historie.perimee ? 0 : historie.getTotal() - historie.payee;
-        Double qtt = Math.abs(historie.getQuantite());
-        holder.lbl_hist_product.setText(historie.produit.nom);
-        holder.lbl_hist_date.setText(historie.getDateFormated());
+        final Achat achat = achats.get(position);
+        Double qtt = Math.abs(achat.getQuantite());
+        holder.lbl_hist_product.setText(achat.produit.nom);
+        holder.lbl_hist_date.setText(achat.getDateFormated());
         holder.lbl_hist_qtt.setText(String.format("%.2f", qtt));
-        holder.lbl_hist_price.setText(String.format("%.2f", historie.getPrix()));
-        holder.lbl_hist_tot.setText(String.format("%.2f", historie.getTotal()));
-        holder.lbl_hist_payee.setText(String.format("%.2f", historie.payee));
-        holder.lbl_hist_reste.setText(String.format("%.2f", reste));
+        holder.lbl_hist_price.setText(String.format("%.2f", achat.prix));
+        holder.lbl_hist_tot.setText(String.format("%.2f", achat.getTotal()));
+        holder.lbl_hist_payee.setText(String.format("%.2f", achat.payee));
+        holder.lbl_hist_reste.setText(String.format("%.2f", achat.getReste()));
         int rouge = context.getResources().getColor(R.color.colorRed);
-        if (reste>0) holder.lbl_hist_reste.setTextColor(rouge);
-        if (historie.isVente()) {
-            int blank = context.getResources().getColor(R.color.blank);
-            holder.card_hist.setBackgroundColor(blank);
-        }if (historie.perimee){
-            int lightRed = context.getResources().getColor(R.color.lightRed);
-            holder.card_hist.setBackgroundColor(lightRed);
-        }else if (historie.isAchat()){
-            int lightBlue = context.getResources().getColor(R.color.lightBlue);
-            holder.card_hist.setBackgroundColor(lightBlue);
-        }
+        if (achat.getReste()>0) holder.lbl_hist_reste.setTextColor(rouge);
         if (cloture!=null && !cloture.compiled){
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    editItem(historie);
+                    editItem(achat);
                     return false;
                 }
             });
@@ -92,8 +77,8 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             int item_id = item.getItemId();
-                            if (item_id == R.id.action_item_edit) editItem(historie);
-                            if (item_id == R.id.action_item_delete) deleteItem(historie, position);
+                            if (item_id == R.id.action_item_edit) editItem(achat);
+                            if (item_id == R.id.action_item_delete) deleteItem(achat, position);
                             return false;
                         }
                     });
@@ -105,18 +90,12 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
         }
     }
 
-    private void editItem(ActionStock historie) {
-        if (historie.isAchat()) {
-            KuranguraForm kurangura_form = new KuranguraForm(context, historie.produit);
-            kurangura_form.setEdition(historie);
-            kurangura_form.show();
-        } else {
-            KudandazaForm kudandaza_form = new KudandazaForm(context, historie.produit);
-            kudandaza_form.setEdition(historie);
-            kudandaza_form.show();
-        }
+    private void editItem(Achat achat) {
+        KuranguraForm kurangura_form = new KuranguraForm(context, achat.produit);
+        kurangura_form.setEdition(achat);
+        kurangura_form.show();
     }
-    private void deleteItem(final ActionStock historie, final int position) {
+    private void deleteItem(final Achat achat, final int position) {
         new AlertDialog.Builder(context)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle("Guhanagura").setMessage("Urakeneye vy'ukuri guhanagura?")
@@ -124,7 +103,7 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Dao dao_action = null;
-                    historie.delete(context);
+                    achat.delete(context);
                 }
             })
             .setNegativeButton("Reka", null)
@@ -132,13 +111,13 @@ public class AdaptateurHist extends RecyclerView.Adapter<AdaptateurHist.ViewHold
     }
     @Override
     public int getItemCount() {
-        return histories.size();
+        return achats.size();
     }
 
-    public void setData(ArrayList<ActionStock> histories) {
+    public void setData(ArrayList<Achat> achats) {
         parent.reset();
-        this.histories = histories;
-        for (ActionStock as : histories){
+        this.achats = achats;
+        for (Achat as : achats){
             parent.addToTotals(as);
         }
         notifyDataSetChanged();
