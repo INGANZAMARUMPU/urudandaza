@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import bi.konstrictor.urudandaza.models.Account;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Liquide;
@@ -23,6 +23,7 @@ import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
 import bi.konstrictor.urudandaza.models.Remboursement;
 import bi.konstrictor.urudandaza.models.Password;
+import bi.konstrictor.urudandaza.models.Vente;
 
 public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
     private static final String DB_NAME = "ringtone.mp3";
@@ -40,7 +41,8 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, ClotureProduit.class);
             TableUtils.createTableIfNotExists(connectionSource, Produit.class);
             TableUtils.createTableIfNotExists(connectionSource, Personne.class);
-            TableUtils.createTableIfNotExists(connectionSource, ActionStock.class);
+            TableUtils.createTableIfNotExists(connectionSource, Achat.class);
+            TableUtils.createTableIfNotExists(connectionSource, Vente.class);
             TableUtils.createTableIfNotExists(connectionSource, Cloture.class);
             TableUtils.createTableIfNotExists(connectionSource, Liquide.class);
             TableUtils.createTableIfNotExists(connectionSource, Remboursement.class);
