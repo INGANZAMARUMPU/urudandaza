@@ -18,14 +18,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.ColumnArg;
 import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
@@ -36,19 +34,18 @@ import bi.konstrictor.urudandaza.interfaces.Filterable;
 import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.RemboursementAchat;
-import bi.konstrictor.urudandaza.models.Vente;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AchatFragment extends Fragment implements Filterable {
     private final DetailHistActivity context;
-    TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
+    TextView lbl_det_clot_tot, lbl_det_clot_rest;
     private View view;
 
     RecyclerView recycler_history;
     private ArrayList<Achat> achats = new ArrayList<>();;
-    private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
+    private Double achat_tot = 0., achat_reste = 0.;
     private AdaptateurAchats adaptateur;
     public Cloture cloture = null;
     private double payee;
@@ -63,10 +60,8 @@ public class AchatFragment extends Fragment implements Filterable {
         view = inflater.inflate(R.layout.fragment_cloture, container, false);
         setHasOptionsMenu(true);
 
-        lbl_det_hist_achat_tot = view.findViewById(R.id.lbl_det_hist_achat_tot);
-        lbl_det_hist_achat_rest = view.findViewById(R.id.lbl_det_hist_achat_rest);
-        lbl_det_hist_vente_tot = view.findViewById(R.id.lbl_det_hist_vente_tot);
-        lbl_det_hist_vente_reste = view.findViewById(R.id.lbl_det_hist_vente_reste);
+        lbl_det_clot_tot = view.findViewById(R.id.lbl_det_clot_tot);
+        lbl_det_clot_rest = view.findViewById(R.id.lbl_det_clot_rest);
 
         recycler_history = view.findViewById(R.id.recycler_clotures);
         recycler_history.setLayoutManager(new GridLayoutManager(context, 1));
@@ -108,26 +103,17 @@ public class AchatFragment extends Fragment implements Filterable {
                 for (int i=0; i<achats.size(); i++) {
                     final Achat achat = achats.get(i);
                     final double total = achat.getTotal();
+                    RemboursementAchat remboursement;
                     if (payee >= total) {
-                        dette = new RemboursementAchat(achat, total, "");
+                        remboursement = new RemboursementAchat(achat, total, "");
                         payee -= total;
                     } else {
-                        dette = new RemboursementAchat(achat, payee, "");
+                        remboursement = new RemboursementAchat(achat, payee, "");
                         payee = 0.;
                     }
-                    achat.payee += dette.payee;
-                    try {
-                        TransactionManager.callInTransaction(connection, new Callable<Void>(){
-                            @Override
-                            public Void call() throws Exception {
-                                achat.update(context);
-                                dette.create(context);
-                                return null;
-                            }
-                        });
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    remboursement.create(context);
+                    payee -= remboursement.payee;
+
                 }
             }
         });
@@ -142,15 +128,15 @@ public class AchatFragment extends Fragment implements Filterable {
 
     public void setTot(Double achat_tot) {
         this.achat_tot = achat_tot;
-        lbl_det_hist_achat_tot.setText(achat_tot.toString());
+        lbl_det_clot_tot.setText(achat_tot.toString());
     }
     public void setRest(Double achat_rest) {
-        this.achat_rest = achat_rest;
-        lbl_det_hist_achat_rest.setText(achat_rest.toString());
+        this.achat_reste = achat_rest;
+        lbl_det_clot_rest.setText(achat_rest.toString());
     }
     public void addToTotals(Achat history) {
         setTot(achat_tot +history.getTotal());
-        setRest(achat_rest+history.getReste());
+        setRest(achat_reste+history.getReste());
     }
     private void chargerStock() {
         try {

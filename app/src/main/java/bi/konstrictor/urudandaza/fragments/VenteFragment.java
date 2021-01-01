@@ -18,14 +18,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.ColumnArg;
 import com.j256.ormlite.stmt.Where;
-import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
@@ -42,16 +39,15 @@ import bi.konstrictor.urudandaza.models.Vente;
  */
 public class VenteFragment extends Fragment implements Filterable {
     private final DetailHistActivity context;
-    TextView lbl_det_hist_achat_tot, lbl_det_hist_achat_rest, lbl_det_hist_vente_tot, lbl_det_hist_vente_reste;
+    TextView lbl_det_clot_tot, lbl_det_clot_rest;
     private View view;
 
     RecyclerView recycler_history;
     private ArrayList<Vente> ventes = new ArrayList<>();;
-    private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
+    private Double vente_tot = 0., vente_rest = 0.;
     private AdaptateurVentes adaptateur;
     public Cloture cloture = null;
     private double payee;
-    private RemboursementVente dette;
 
     public VenteFragment(DetailHistActivity context) {
         super();
@@ -62,10 +58,8 @@ public class VenteFragment extends Fragment implements Filterable {
         view = inflater.inflate(R.layout.fragment_cloture, container, false);
         setHasOptionsMenu(true);
 
-        lbl_det_hist_achat_tot = view.findViewById(R.id.lbl_det_hist_achat_tot);
-        lbl_det_hist_achat_rest = view.findViewById(R.id.lbl_det_hist_achat_rest);
-        lbl_det_hist_vente_tot = view.findViewById(R.id.lbl_det_hist_vente_tot);
-        lbl_det_hist_vente_reste = view.findViewById(R.id.lbl_det_hist_vente_reste);
+        lbl_det_clot_tot = view.findViewById(R.id.lbl_det_clot_tot);
+        lbl_det_clot_rest = view.findViewById(R.id.lbl_det_clot_rest);
 
         recycler_history = view.findViewById(R.id.recycler_clotures);
         recycler_history.setLayoutManager(new GridLayoutManager(context, 1));
@@ -99,34 +93,24 @@ public class VenteFragment extends Fragment implements Filterable {
         input.setText(montant.toString());
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(input);
-        final ConnectionSource connection = new InkoranyaMakuru(context).getConnectionSource();
         builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 payee = Double.parseDouble(input.getText().toString());
                 for (int i=0; i<ventes.size(); i++) {
-                    final Vente achat = ventes.get(i);
-                    final double total = achat.getTotal();
+                    final Vente vente = ventes.get(i);
+                    final double total = vente.getTotal();
+                    RemboursementVente remboursement;
                     if (payee >= total) {
-                        dette = new RemboursementVente(achat, total, "");
+                        remboursement = new RemboursementVente(vente, total, "");
                         payee -= total;
                     } else {
-                        dette = new RemboursementVente(achat, payee, "");
+                        remboursement = new RemboursementVente(vente, payee, "");
                         payee = 0.;
                     }
-                    achat.payee += dette.payee;
-                    try {
-                        TransactionManager.callInTransaction(connection, new Callable<Void>(){
-                            @Override
-                            public Void call() throws Exception {
-                                achat.update(context);
-                                dette.create(context);
-                                return null;
-                            }
-                        });
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    remboursement.create(context);
+                    payee -= remboursement.payee;
+
                 }
             }
         });
@@ -138,18 +122,18 @@ public class VenteFragment extends Fragment implements Filterable {
         });
         builder.show();
     }
-    public void setTot(Double achat_tot) {
-        this.achat_tot = achat_tot;
-        lbl_det_hist_achat_tot.setText(achat_tot.toString());
+    public void setTot(Double vente_tot) {
+        this.vente_tot = vente_tot;
+        lbl_det_clot_tot.setText(vente_tot.toString());
     }
-    public void setRest(Double achat_rest) {
-        this.achat_rest = achat_rest;
-        lbl_det_hist_achat_rest.setText(achat_rest.toString());
+    public void setRest(Double vente_rest) {
+        this.vente_rest = vente_rest;
+        lbl_det_clot_rest.setText(vente_rest.toString());
     }
     public void addToTotals(Vente history) {
         if(history.perimee) return;
-        setTot(achat_tot +history.getTotal());
-        setRest(achat_rest+history.getReste());
+        setTot(vente_tot +history.getTotal());
+        setRest(vente_rest+history.getReste());
     }
     private void chargerStock() {
         try {
