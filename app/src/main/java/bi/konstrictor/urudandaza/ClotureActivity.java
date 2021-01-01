@@ -99,7 +99,6 @@ public class ClotureActivity extends RefreshableActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        checkWritePermission();
         if (id == R.id.action_backup) {
             if (checkWritePermission()) {
                 new AlertDialog.Builder(this)
@@ -152,9 +151,7 @@ public class ClotureActivity extends RefreshableActivity {
 
             }
         }else if(id == R.id.action_filtre_produit){
-            if (checkWritePermission()) {
-                new FilterClotureForm(this).show();
-            }
+            new FilterClotureForm(this).show();
         }
         return super.onOptionsItemSelected(item);
     }

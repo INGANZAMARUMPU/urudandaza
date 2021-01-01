@@ -16,51 +16,24 @@
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="12pt" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:id="@+id/check_entree"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Ivyaranguwe"
-                    android:checked="true"
-                    android:layout_weight="1"/>
-                <CheckBox
-                    android:id="@+id/check_sortie"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Ivyadandajwe"
-                    android:checked="true"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <CheckBox
                     android:id="@+id/check_dette"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Amadeni"
-                    android:checked="true"
-                    android:layout_weight="1"/>
+                    android:checked="true"/>
                 <CheckBox
                     android:id="@+id/check_perimee"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Ivyononekaye"
                     android:checked="true"
                     android:textColor="#f00"/>
             </LinearLayout>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

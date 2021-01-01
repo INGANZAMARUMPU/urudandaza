@@ -21,8 +21,9 @@ import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Liquide;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
-import bi.konstrictor.urudandaza.models.Remboursement;
+import bi.konstrictor.urudandaza.models.RemboursementAchat;
 import bi.konstrictor.urudandaza.models.Password;
+import bi.konstrictor.urudandaza.models.RemboursementVente;
 import bi.konstrictor.urudandaza.models.Vente;
 
 public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
@@ -45,7 +46,8 @@ public class InkoranyaMakuru extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, Vente.class);
             TableUtils.createTableIfNotExists(connectionSource, Cloture.class);
             TableUtils.createTableIfNotExists(connectionSource, Liquide.class);
-            TableUtils.createTableIfNotExists(connectionSource, Remboursement.class);
+            TableUtils.createTableIfNotExists(connectionSource, RemboursementAchat.class);
+            TableUtils.createTableIfNotExists(connectionSource, RemboursementVente.class);
             TableUtils.createTableIfNotExists(connectionSource, Account.class);
             TableUtils.createTableIfNotExists(connectionSource, Password.class);
 
