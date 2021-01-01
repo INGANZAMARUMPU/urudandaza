@@ -25,7 +25,8 @@ import java.util.List;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Vente;
 import bi.konstrictor.urudandaza.models.Personne;
 
 public class ConfirmKudandaza extends Dialog {
@@ -36,7 +37,7 @@ public class ConfirmKudandaza extends Dialog {
     private CheckBox check_vente_expired;
     private ProgressBar progress_vente;
     private String[] arrcontact;
-    private ArrayList<ActionStock> CART;
+    private ArrayList<Vente> CART;
     private Double payee, montant;
     private String client;
     private boolean ideni = false;
@@ -80,7 +81,7 @@ public class ConfirmKudandaza extends Dialog {
     }
     private void init() {
         String confirmation = "";
-        for(ActionStock as:CART){
+        for(Vente as:CART){
             confirmation += "- "+as.toString()+"\n";
         }
         lbl_vente_list.setText(confirmation);
@@ -176,8 +177,8 @@ public class ConfirmKudandaza extends Dialog {
     }
     private void performExpiration() {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
-        for (ActionStock cart : CART){
-            ActionStock as = new ActionStock();
+        for (Vente cart : CART){
+            Vente as = new Vente();
             as.expiration(cart.produit, cart.getQuantite(), inkoranyaMakuru.getLatestCloture());
             as.create(context);
             context.refresh(); dismiss();
@@ -196,14 +197,15 @@ public class ConfirmKudandaza extends Dialog {
                 }
             }
             InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
-            for (ActionStock cart : CART){
-                double total = cart.getQuantite()*cart.produit.prix;
-                ActionStock as = new ActionStock();
+            Cloture last_cloture = inkoranyaMakuru.getLatestCloture();
+            for (Vente cart : CART){
+                double total = cart.getTotal();
+                Vente as = null;
                 if (payee >= total) {
-                    as.kudandaza(cart.produit, cart.getQuantite(), personne, total, inkoranyaMakuru.getLatestCloture());
-                    payee -= as.getVenteTotal();
+                    as = new Vente(cart.produit, cart.getQuantite(), total, personne, "", last_cloture);
+                    payee -= as.getTotal();
                 } else {
-                    as.kudandaza(cart.produit, cart.getQuantite(), personne, payee, inkoranyaMakuru.getLatestCloture());
+                    as = new Vente(cart.produit, cart.getQuantite(), payee, personne, "", last_cloture);
                     payee = 0.;
                 }
                 as.create(context);

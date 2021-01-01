@@ -23,24 +23,25 @@ import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.OnTextChangeListener;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
+import bi.konstrictor.urudandaza.models.Vente;
 
 public class KudandazaForm extends Dialog {
     private RefreshableActivity context;
-    private TextView lbl_kudandaza_product, field_kudandaza_prix, field_kudandaza_total,
+    private TextView lbl_kudandaza_product, field_kudandaza_total,
             field_kudandaza_qtt, field_kudandaza_payee, lbl_kudandaza_unite;
     private CheckBox check_kudandaza_expired;
     private AutoCompleteTextView field_kudandaza_personne;
-    private String kudandaza_prix, kudandaza_qtt, client, kudandaza_payee;
+    private String kudandaza_qtt, client, kudandaza_payee;
     private ProgressBar progress_kudandaza;
     private String[] arrcontact;
     private Double payee, a_payer;
     private Produit produit;
     private boolean edition = false;
     private boolean ideni = false;
-    private ActionStock action_stock;
+    private Vente vente;
     private boolean expired;
 
     public KudandazaForm(final RefreshableActivity context, Produit produit) {
@@ -51,7 +52,6 @@ public class KudandazaForm extends Dialog {
 
         lbl_kudandaza_product = findViewById(R.id.lbl_kudandaza_product);
         field_kudandaza_qtt = findViewById(R.id.field_kudandaza_qtt);
-        field_kudandaza_prix = findViewById(R.id.field_kudandaza_prix);
         field_kudandaza_total = findViewById(R.id.field_kudandaza_total);
         field_kudandaza_payee = findViewById(R.id.field_kudandaza_payee);
         field_kudandaza_personne = findViewById(R.id.field_kudandaza_personne);
@@ -88,54 +88,11 @@ public class KudandazaForm extends Dialog {
             @Override
             public void textChanged(Editable s) {
                 if(field_kudandaza_qtt.hasFocus()) {
-                    String str_prix = field_kudandaza_prix.getText().toString().trim();
-                    String str_total = field_kudandaza_total.getText().toString().trim();
                     if (s.length()<1) return;
                     Double quantity = Double.parseDouble(s.toString());
-                    if (!str_prix.isEmpty()) {
-                        Double prix = Double.parseDouble(str_prix);
-                        Double total;
-                        total = prix*quantity;
-                        field_kudandaza_total.setText(total.toString());
-                        field_kudandaza_payee.setText(total.toString());
-                    } else if (!str_total.isEmpty()) {
-                        Double total = Double.parseDouble(str_total);
-                        Double prix;
-                        prix = total/quantity;
-                        field_kudandaza_prix.setText(prix.toString());
-                        field_kudandaza_payee.setText(total.toString());
-                    }
-                }
-            }
-        });
-        field_kudandaza_total.addTextChangedListener(new OnTextChangeListener() {
-            @Override
-            public void textChanged(Editable s) {
-                if(field_kudandaza_total.hasFocus()) {
-                    String str_qtt = field_kudandaza_qtt.getText().toString().trim();
-                    if ((!str_qtt.isEmpty()) && s.length()>0) {
-                        Double quantity = Double.parseDouble(str_qtt);
-                        Double total = Double.parseDouble(s.toString());
-                        Double prix = total/quantity;
-                        field_kudandaza_prix.setText(prix.toString());
-                        field_kudandaza_payee.setText(total.toString());
-                    }
-                }
-            }
-        });
-
-        field_kudandaza_prix.addTextChangedListener(new OnTextChangeListener() {
-            @Override
-            public void textChanged(Editable s) {
-                if (field_kudandaza_prix.hasFocus()) {
-                    String str_qtt = field_kudandaza_qtt.getText().toString().trim();
-                    if ((!str_qtt.isEmpty()) && s.length()>0) {
-                        Double quantity = Double.parseDouble(str_qtt);
-                        Double prix = Double.parseDouble(s.toString());
-                        Double total = prix * quantity;
-                        field_kudandaza_total.setText(total.toString());
-                        field_kudandaza_payee.setText(total.toString());
-                    }
+                    Double total = produit.prix*quantity;
+                    field_kudandaza_total.setText(total.toString());
+                    field_kudandaza_payee.setText(total.toString());
                 }
             }
         });
@@ -221,10 +178,12 @@ public class KudandazaForm extends Dialog {
     private void performExpiration() {
         getValues();
         double qtt = Double.parseDouble(kudandaza_qtt);
-        double prix = Double.parseDouble(kudandaza_prix);
-        action_stock.produit.prix = prix;
-        action_stock.expiration(action_stock.produit, qtt, action_stock.cloture);
-        action_stock.update(context);
+        vente.expiration(vente.produit, qtt, vente.cloture);
+        if(edition) {
+            vente.update(context);
+        } else {
+            vente.create(context);
+        }
         context.refresh();
         progress_kudandaza.setVisibility(View.GONE);
         dismiss();
@@ -235,8 +194,6 @@ public class KudandazaForm extends Dialog {
             InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
             progress_kudandaza.setVisibility(View.VISIBLE);
             double qtt = Double.parseDouble(kudandaza_qtt);
-            double prix = Double.parseDouble(kudandaza_prix);
-            produit.prix = prix;
             if(ideni) {
                 personne = Personne.getClient(client, context);
                 if (personne == null) {
@@ -245,11 +202,11 @@ public class KudandazaForm extends Dialog {
                 }
             }
             if (edition) {
-                action_stock.kudandaza(produit, qtt, personne, payee, null);
-                action_stock.update(context);
+                vente.produit = produit; vente.quantite = qtt;
+                vente.personne = personne; vente.payee = payee;
+                vente.update(context);
             } else {
-                ActionStock as = new ActionStock();
-                as.kudandaza(produit, qtt, personne, payee, inkoranyaMakuru.getLatestCloture());
+                Vente as = new Vente(produit, qtt, payee, personne, "", inkoranyaMakuru.getLatestCloture());
                 as.create(context);
             }
             dismiss();
@@ -259,16 +216,11 @@ public class KudandazaForm extends Dialog {
     }
     private void getValues(){
         kudandaza_qtt = field_kudandaza_qtt.getText().toString().trim();
-        kudandaza_prix = field_kudandaza_prix.getText().toString().trim();
         kudandaza_payee = field_kudandaza_payee.getText().toString().trim();
         client = field_kudandaza_personne.getText().toString().trim();
     }
     private Boolean validateFields() {
         getValues();
-        if(kudandaza_prix.isEmpty()){
-            field_kudandaza_prix.setError("uzuza ngaha");
-            return false;
-        }
         if(kudandaza_qtt.isEmpty()){
             field_kudandaza_qtt.setError("uzuza ngaha");
             return false;
@@ -277,7 +229,7 @@ public class KudandazaForm extends Dialog {
             field_kudandaza_payee.setError("uzuza ngaha");
             return false;
         }
-        a_payer = Double.parseDouble(kudandaza_prix)*Double.parseDouble(kudandaza_qtt);
+        a_payer = produit.prix*Double.parseDouble(kudandaza_qtt);
         payee = Double.parseDouble(kudandaza_payee);
         if(payee<a_payer){
             ideni = true;
@@ -289,15 +241,14 @@ public class KudandazaForm extends Dialog {
         return true;
     }
 
-    public void setEdition(ActionStock as) {
+    public void setEdition(Vente as) {
         this.edition = true;
-        this.action_stock = as;
+        this.vente = as;
         expired = as.perimee;
         Double qtt = Math.abs(as.getQuantite());
         lbl_kudandaza_product.setText(as.produit.nom);
         field_kudandaza_qtt.setText(qtt.toString());
-        field_kudandaza_prix.setText(as.getPrix().toString());
-        field_kudandaza_total.setText(as.getVenteTotal().toString());
+        field_kudandaza_total.setText(as.getTotal().toString());
         check_kudandaza_expired.setChecked(as.perimee);
         field_kudandaza_payee.setText(as.payee.toString());
         try {
