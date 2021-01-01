@@ -20,7 +20,7 @@ import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.OnTextChangeListener;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.Personne;
 import bi.konstrictor.urudandaza.models.Produit;
@@ -40,7 +40,7 @@ public class KuranguraForm extends Dialog {
     private Produit produit;
     private boolean edition = false;
     private boolean ideni = false;
-    private ActionStock action_stock;
+    private Achat achat;
 
     public KuranguraForm(final RefreshableActivity context, Produit produit) {
         super(context, R.style.Theme_AppCompat_DayNight_Dialog);
@@ -208,11 +208,11 @@ public class KuranguraForm extends Dialog {
                 }
             }
             if (edition) {
-                action_stock.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
-                action_stock.update(context);
+                achat.setQuantite(qtt, qtt_suppl); achat.prix = prix;
+                achat.personne = personne; achat.payee = payee;
+                achat.update(context);
             } else {
-                ActionStock as = new ActionStock();
-                as.kurangura(produit, qtt, qtt_suppl, prix, personne, payee, null, cloture);
+                Achat as = new Achat(produit, qtt, qtt_suppl, prix, payee, personne, null, cloture);
                 as.create(context);
             }
             dismiss();
@@ -253,14 +253,14 @@ public class KuranguraForm extends Dialog {
         return true;
     }
 
-    public void setEdition(ActionStock as) {
+    public void setEdition(Achat as) {
         this.edition = true;
-        this.action_stock = as;
+        this.achat = achat;
         field_kurangura_qtt_supl.setText(Integer.toString(as.getQuantiteSuppl()));
         lbl_kurangura_product.setText(as.produit.nom);
         field_kurangura_qtt.setText(Integer.toString(as.getQuantite().intValue()));
-        field_kurangura_prix.setText(as.getPrix().toString());
-        field_kurangura_total.setText(as.getAchatTotal().toString());
+        field_kurangura_prix.setText(as.prix.toString());
+        field_kurangura_total.setText(as.getTotal().toString());
         field_kurangura_payee.setText(as.payee.toString());
         try {
             field_kurangura_personne.setText(as.personne.nom);
