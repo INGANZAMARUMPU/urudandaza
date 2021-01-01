@@ -15,11 +15,11 @@ import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.interfaces.Model;
 
 @DatabaseTable
-public class Remboursement implements Model {
+public class RemboursementAchat implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)
-    public Achat action_stock;
+    public Achat achat;
     @DatabaseField
     public Double payee;
     @DatabaseField
@@ -31,11 +31,11 @@ public class Remboursement implements Model {
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id")
     private Password signature;
 
-    public Remboursement() {
+    public RemboursementAchat() {
     }
 
-    public Remboursement(Achat action_stock, Double payee, String motif) {
-        this.action_stock = action_stock;
+    public RemboursementAchat(Achat achat, Double payee, String motif) {
+        this.achat = achat;
         this.payee = payee;
         this.motif = motif;
         this.date = new Date();
@@ -54,7 +54,7 @@ public class Remboursement implements Model {
     public void create(Context context) {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            final Dao<Remboursement, Integer> dao = inkoranyaMakuru.getDao(Remboursement.class);
+            final Dao<RemboursementAchat, Integer> dao = inkoranyaMakuru.getDao(RemboursementAchat.class);
             dao.create(this);
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
@@ -67,7 +67,7 @@ public class Remboursement implements Model {
     public void update(Context context) {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            final Dao<Remboursement, Integer> dao = inkoranyaMakuru.getDao(Remboursement.class);
+            final Dao<RemboursementAchat, Integer> dao = inkoranyaMakuru.getDao(RemboursementAchat.class);
             dao.update(this);
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
@@ -80,7 +80,7 @@ public class Remboursement implements Model {
     public void delete(Context context) {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            final Dao<Remboursement, Integer> dao = inkoranyaMakuru.getDao(Remboursement.class);
+            final Dao<RemboursementAchat, Integer> dao = inkoranyaMakuru.getDao(RemboursementAchat.class);
             dao.delete(this);
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
