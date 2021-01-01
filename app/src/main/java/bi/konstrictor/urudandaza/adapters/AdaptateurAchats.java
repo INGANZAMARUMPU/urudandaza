@@ -24,7 +24,7 @@ import bi.konstrictor.urudandaza.fragments.AchatFragment;
 import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Cloture;
 
-public class AdaptateurAchat extends RecyclerView.Adapter<AdaptateurAchat.ViewHolder> {
+public class AdaptateurAchats extends RecyclerView.Adapter<AdaptateurAchats.ViewHolder> {
 
     private DetailHistActivity context;
     private ArrayList<Achat> achats;
@@ -32,7 +32,7 @@ public class AdaptateurAchat extends RecyclerView.Adapter<AdaptateurAchat.ViewHo
     private boolean is_dette;
     AchatFragment parent;
 
-    public AdaptateurAchat(DetailHistActivity context, ArrayList<Achat> achats, AchatFragment parent) {
+    public AdaptateurAchats(DetailHistActivity context, ArrayList<Achat> achats, AchatFragment parent) {
         this.context = context;
         this.achats = achats;
         this.cloture = context.cloture;

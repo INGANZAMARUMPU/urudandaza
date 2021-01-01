@@ -19,7 +19,7 @@ public class Remboursement implements Model {
     @DatabaseField(generatedId = true)
     public Integer id;
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)
-    public ActionStock action_stock;
+    public Achat action_stock;
     @DatabaseField
     public Double payee;
     @DatabaseField
@@ -34,7 +34,7 @@ public class Remboursement implements Model {
     public Remboursement() {
     }
 
-    public Remboursement(ActionStock action_stock, Double payee, String motif) {
+    public Remboursement(Achat action_stock, Double payee, String motif) {
         this.action_stock = action_stock;
         this.payee = payee;
         this.motif = motif;

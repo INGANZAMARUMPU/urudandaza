@@ -22,11 +22,10 @@ import java.util.ArrayList;
 import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
-import bi.konstrictor.urudandaza.adapters.AdaptateurVente;
+import bi.konstrictor.urudandaza.adapters.AdaptateurVentes;
 import bi.konstrictor.urudandaza.interfaces.Filterable;
 import bi.konstrictor.urudandaza.models.Vente;
 import bi.konstrictor.urudandaza.models.Cloture;
-import bi.konstrictor.urudandaza.models.Vente;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +38,7 @@ public class VenteFragment extends Fragment implements Filterable {
     RecyclerView recycler_history;
     private ArrayList<Vente> products = new ArrayList<>();;
     private Double achat_tot = 0., achat_rest = 0., vente_tot = 0., vente_reste = 0.;
-    private AdaptateurVente adaptateur;
+    private AdaptateurVentes adaptateur;
     public Cloture cloture = null;
 
     public VenteFragment(DetailHistActivity context) {
@@ -59,7 +58,7 @@ public class VenteFragment extends Fragment implements Filterable {
         recycler_history.setLayoutManager(new GridLayoutManager(context, 1));
 //        recycler_history.setLayoutManager(new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP));
 
-        adaptateur = new AdaptateurVente(context, products, this);
+        adaptateur = new AdaptateurVentes(context, products, this);
         recycler_history.addItemDecoration(new DividerItemDecoration(recycler_history.getContext(), DividerItemDecoration.VERTICAL));
         recycler_history.setAdapter(adaptateur);
         chargerStock();

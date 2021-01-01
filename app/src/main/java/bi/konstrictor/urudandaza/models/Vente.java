@@ -23,7 +23,7 @@ public class Vente implements Model {
     @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id", foreignAutoCreate=true)
     public Produit produit;
     @DatabaseField
-    private Double quantite = 0.;
+    public Double quantite = 0.;
     @DatabaseField
     public Double prix = 0.;
     @DatabaseField(canBeNull = false)
@@ -41,7 +41,19 @@ public class Vente implements Model {
     @DatabaseField(defaultValue = "0")
     public Boolean perimee=false;
 
-    public Vente() { }
+    public Vente() {}
+
+    public Vente(Produit produit, Double quantite, Double payee, Personne personne, String motif, Cloture cloture) {
+        this.produit = produit;
+        this.quantite = quantite;
+        this.prix = produit.prix;
+        this.total = getTotal();
+        this.payee = payee;
+        this.personne = personne;
+        this.motif = motif;
+        this.cloture = cloture;
+        this.date = new Date();
+    }
 
     public String getDateFormated(){
         SimpleDateFormat sdate = new SimpleDateFormat("dd/MM/yyyy ");

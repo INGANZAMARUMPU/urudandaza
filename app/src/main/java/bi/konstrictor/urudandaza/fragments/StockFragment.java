@@ -1,7 +1,6 @@
 package bi.konstrictor.urudandaza.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.ColumnArg;
 import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
@@ -23,7 +21,6 @@ import bi.konstrictor.urudandaza.DetailHistActivity;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
 import bi.konstrictor.urudandaza.R;
 import bi.konstrictor.urudandaza.adapters.AdaptateurStockBasic;
-import bi.konstrictor.urudandaza.models.ActionStock;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.ClotureProduit;
 import bi.konstrictor.urudandaza.models.Produit;

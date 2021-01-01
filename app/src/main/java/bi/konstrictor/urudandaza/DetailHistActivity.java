@@ -1,11 +1,9 @@
 package bi.konstrictor.urudandaza;
 
+import android.app.assist.AssistStructure;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +20,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import bi.konstrictor.urudandaza.dialogs.ConfirmKudandaza;
 import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
-import bi.konstrictor.urudandaza.fragments.ClotureFragment;
+import bi.konstrictor.urudandaza.fragments.AchatFragment;
 import bi.konstrictor.urudandaza.interfaces.RefreshableActivity;
-import bi.konstrictor.urudandaza.models.ActionStock;
+import bi.konstrictor.urudandaza.models.Achat;
 import bi.konstrictor.urudandaza.models.Cloture;
 import bi.konstrictor.urudandaza.models.Remboursement;
+import bi.konstrictor.urudandaza.models.Vente;
 import bi.konstrictor.urudandaza.pageadapters.CloturePageAdapter;
 
 public class DetailHistActivity extends RefreshableActivity {
@@ -39,7 +37,8 @@ public class DetailHistActivity extends RefreshableActivity {
     public HashMap<String, String> filters;
     public Boolean is_dette;
     public Cloture cloture;
-    public ArrayList<ActionStock> produits = new ArrayList<>();
+    public ArrayList<Achat> achats = new ArrayList<>();
+    public ArrayList<Vente> ventes = new ArrayList<>();
     public ArrayList<Date> dates;
 
     @Override
@@ -66,12 +65,13 @@ public class DetailHistActivity extends RefreshableActivity {
         tab_layout_cloture.setupWithViewPager(view_pager_cloture);
 
         if (cloture == null){
-            tab_layout_cloture.removeTabAt(1);
-            cloture_adapter.removeTabPage(1);
+            tab_layout_cloture.removeTabAt(2);
+            cloture_adapter.removeTabPage(2);
             tab_layout_cloture.setVisibility(View.GONE);
         } else {
-            tab_layout_cloture.getTabAt(0).setText("KUDANDAZA");
-            tab_layout_cloture.getTabAt(1).setText("STOCK");
+            tab_layout_cloture.getTabAt(0).setText("KURANGURA");
+            tab_layout_cloture.getTabAt(1).setText("KUDANDAZA");
+            tab_layout_cloture.getTabAt(2).setText("STOCK");
         }
 
         setSupportActionBar(toolbar);
@@ -91,7 +91,7 @@ public class DetailHistActivity extends RefreshableActivity {
         int id = item.getItemId();
         if(id == R.id.action_filtre){
             view_pager_cloture.setCurrentItem(0);
-            new FilterActionForm(this, (ClotureFragment) cloture_adapter.getItem(0)).show();
+            new FilterActionForm(this, (AchatFragment) cloture_adapter.getItem(0)).show();
         }else if(id == R.id.action_pay){
             showPayDialog();
         }
@@ -100,8 +100,14 @@ public class DetailHistActivity extends RefreshableActivity {
 
     private void showPayDialog() {
         Double montant=0.;
-        for (ActionStock as:produits){
-            montant += as.getTotal()-as.payee;
+        if(tab_layout_cloture.getSelectedTabPosition() == 0) {
+            for (Achat as : achats) {
+                montant += as.getTotal() - as.payee;
+            }
+        } else {
+            for (Vente as : ventes) {
+                montant += as.getTotal() - as.payee;
+            }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Arishe angahe?");
@@ -114,20 +120,20 @@ public class DetailHistActivity extends RefreshableActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Double payee = Double.parseDouble(input.getText().toString());
-                for (ActionStock as : produits) {
-                    double total = as.getTotal();
-                    Remboursement dette;
-                    if (payee >= total) {
-                        dette = new Remboursement(as, total, "");
-                        payee -= total;
-                    } else {
-                        dette = new Remboursement(as, payee, "");
-                        payee = 0.;
-                    }
-                    as.payee += dette.payee;
-                    as.update(DetailHistActivity.this);
-                    dette.create(DetailHistActivity.this);
-                }
+//                for (Achat as : produits) {
+//                    double total = as.getTotal();
+//                    Remboursement dette;
+//                    if (payee >= total) {
+//                        dette = new Remboursement(as, total, "");
+//                        payee -= total;
+//                    } else {
+//                        dette = new Remboursement(as, payee, "");
+//                        payee = 0.;
+//                    }
+//                    as.payee += dette.payee;
+//                    as.update(DetailHistActivity.this);
+//                    dette.create(DetailHistActivity.this);
+//                }
             }
         });
         builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {

@@ -71,13 +71,13 @@ public class ProductForm extends Dialog {
                 produit.nom = field_product_name.getText().toString();
                 produit.unite_entrant = field_product_unite_in.getText().toString();
                 produit.unite_sortant = field_product_unite_out.getText().toString();
-                produit.rapport = Double.parseDouble(
+                produit.rapport = Integer.parseInt(
                     field_product_unit_rapport.getText().toString());
                 produit.update(context);
                 dismiss();
                 context.refresh();
             } else {
-                double rapport = Double.parseDouble(product_unit_rapport);
+                int rapport = Integer.parseInt(product_unit_rapport);
                 Produit produit = new Produit(product_name, product_unite_in, product_unite_out, rapport, 0.);
                 produit.create(context);
                 dismiss();

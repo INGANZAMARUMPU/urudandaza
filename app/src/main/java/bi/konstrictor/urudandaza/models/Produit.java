@@ -23,7 +23,7 @@ public class Produit implements Model {
     @DatabaseField
     public String unite_sortant;
     @DatabaseField
-    public Double rapport; //entre les unité i/o
+    public Integer rapport; //entre les unité i/o
     @DatabaseField
     public Double prix;
     @DatabaseField
@@ -34,7 +34,7 @@ public class Produit implements Model {
     public Produit() {
     }
 
-    public Produit(String nom, String unite_entrant, String unite_sortant, Double rapport, Double prix) {
+    public Produit(String nom, String unite_entrant, String unite_sortant, int rapport, Double prix) {
         this.nom = nom;
         this.unite_entrant = unite_entrant;
         this.unite_sortant = unite_sortant;

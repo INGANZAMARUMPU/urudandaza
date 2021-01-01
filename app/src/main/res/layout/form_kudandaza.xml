@@ -67,25 +67,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <AutoCompleteTextView
-                        android:id="@+id/field_kudandaza_prix"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="igiciro ca kimwe*"
-                        android:inputType="numberSigned|numberDecimal"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <AutoCompleteTextView
+                    <EditText
                         android:id="@+id/field_kudandaza_total"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="yose hamwe"
-                        android:inputType="numberSigned|numberDecimal"
-                        android:maxLines="1"
-                        android:width="250dip" />
+                        android:editable="false"
+                        android:inputType="none"
+                        android:text="2 000 000"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

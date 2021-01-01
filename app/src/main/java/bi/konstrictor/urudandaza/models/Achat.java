@@ -42,15 +42,16 @@ public class Achat implements Model {
 
     public Achat() { }
 
-    public Achat(Produit produit, Double quantite, Double suppl, Double prix, Double total, Double payee, Personne personne, String motif, Cloture cloture) {
+    public Achat(Produit produit, Double quantite, Double suppl, Double prix, Double payee, Personne personne, String motif, Cloture cloture) {
         this.produit = produit;
         setQuantite(quantite, suppl);
         this.prix = prix;
-        this.total = total;
+        this.total = getQuantite()*prix;
         this.payee = payee;
         this.personne = personne;
         this.motif = motif;
         this.cloture = cloture;
+        this.date = new Date();
     }
 
     public void setQuantite(Double quantite, Double supl) {
@@ -154,11 +155,15 @@ public class Achat implements Model {
         }
     }
 
-    public double getQuantite() {
+    public Double getQuantite() {
         return quantite;
     }
 
     public Double getReste() {
         return total-payee;
+    }
+
+    public int getQuantiteSuppl() {
+        return quantite.intValue() % produit.rapport;
     }
 }
