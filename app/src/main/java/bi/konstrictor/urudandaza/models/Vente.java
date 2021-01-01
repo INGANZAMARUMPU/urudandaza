@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -102,7 +103,6 @@ public class Vente implements Model {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-
     }
 
     public void update(Context context){
@@ -131,6 +131,7 @@ public class Vente implements Model {
             });
             Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
+            Log.i("==== VENTE ====", e.getMessage());
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }

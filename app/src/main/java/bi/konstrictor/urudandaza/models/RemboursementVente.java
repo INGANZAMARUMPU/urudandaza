@@ -5,10 +5,12 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 import bi.konstrictor.urudandaza.Globals;
 import bi.konstrictor.urudandaza.InkoranyaMakuru;
@@ -51,12 +53,30 @@ public class RemboursementVente implements Model {
     }
 
     @Override
-    public void create(Context context) {
+    public void create(final Context context) {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
             final Dao<RemboursementVente, Integer> dao = inkoranyaMakuru.getDao(RemboursementVente.class);
-            dao.create(this);
-            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+            final Dao<Vente, Integer> daoAS = inkoranyaMakuru.getDao(Vente.class);
+            final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
+            final Cloture cloture = vente.cloture;
+            cloture.payee_vente += payee;
+            vente.payee += payee;
+            try {
+                TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                    new Callable<Void>(){
+                        @Override
+                        public Void call() throws Exception {
+                            daoAS.update(vente);
+                            daoCloture.update(cloture);
+                            dao.create(RemboursementVente.this);
+                            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+                            return null;
+                        }
+                    });
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
