@@ -27,8 +27,6 @@ public class Achat implements Model {
     private Double suppl = 0.;
     @DatabaseField
     public Double prix = 0.;
-    @DatabaseField(canBeNull = false)
-    private Double total;
     @DatabaseField
     public Double payee;
     @DatabaseField(foreign=true, foreignColumnName="id", foreignAutoCreate=true)
@@ -46,7 +44,6 @@ public class Achat implements Model {
         this.produit = produit;
         setQuantite(quantite, suppl);
         this.prix = prix;
-        this.total = getQuantite()*prix;
         this.payee = payee;
         this.personne = personne;
         this.motif = motif;
@@ -64,11 +61,7 @@ public class Achat implements Model {
     }
     @Override
     public String toString() {
-        return quantite +" " + produit.nom + " x " + prix + " : " + getTotal();
-    }
-
-    public Double getTotal() {
-        return quantite*prix;
+        return quantite +" " + produit.nom + " vyaguzwe " + prix;
     }
 
     @Override
@@ -81,7 +74,7 @@ public class Achat implements Model {
             produit.quantite += quantite;
             if(cloture == null) cloture = inkoranyaMakuru.getLatestCloture();
             cloture.payee_achat += payee;
-            cloture.achat += getTotal();
+            cloture.achat += prix;
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                     new Callable<Void>() {
                         @Override
@@ -108,7 +101,7 @@ public class Achat implements Model {
             produit.quantite = produit.quantite - old.quantite + quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
             cloture.payee_achat -= old.payee + payee;
-            cloture.achat -= old.getTotal() + getTotal();
+            cloture.achat -= old.prix + prix;
 
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                 new Callable<Void>() {
@@ -137,7 +130,7 @@ public class Achat implements Model {
             produit.quantite -= quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
             cloture.payee_achat -= payee;
-            cloture.achat -= getTotal();
+            cloture.achat -= prix;
             TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
                     new Callable<Void>() {
                         @Override
@@ -160,10 +153,14 @@ public class Achat implements Model {
     }
 
     public Double getReste() {
-        return total-payee;
+        return prix-payee;
     }
 
     public int getQuantiteSuppl() {
         return quantite.intValue() % produit.rapport;
+    }
+
+    public Double getPrixUnitaire() {
+        return prix/getQuantite();
     }
 }

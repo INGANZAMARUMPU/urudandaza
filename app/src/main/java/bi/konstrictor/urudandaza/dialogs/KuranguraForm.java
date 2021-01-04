@@ -32,7 +32,7 @@ public class KuranguraForm extends Dialog {
             field_kurangura_qtt_supl, lbl_kurangura_unite_sortant;
     private TextInputLayout layout_kurangura_prix;
     private AutoCompleteTextView field_kurangura_personne;
-    private String kurangura_prix, kurangura_qtt, client, kurangura_payee, kurangura_qtt_suppl;
+    private String kurangura_total, kurangura_qtt, client, kurangura_payee, kurangura_qtt_suppl;
     private Double quantite;
     private ProgressBar progress_kurangura;
     private String[] arrcontact;
@@ -198,7 +198,7 @@ public class KuranguraForm extends Dialog {
             progress_kurangura.setVisibility(View.VISIBLE);
             double qtt = Double.parseDouble(kurangura_qtt);
             double qtt_suppl = Double.parseDouble(kurangura_qtt_suppl);
-            double prix = Double.parseDouble(kurangura_prix);
+            double prix = Double.parseDouble(kurangura_total);
             payee = Double.parseDouble(kurangura_payee);
             if(ideni){
                 personne = Personne.getClient(client, context);
@@ -223,10 +223,10 @@ public class KuranguraForm extends Dialog {
     private Boolean validateFields() {
         kurangura_qtt = field_kurangura_qtt.getText().toString().trim();
         kurangura_qtt_suppl = field_kurangura_qtt_supl.getText().toString().trim();
-        kurangura_prix = field_kurangura_prix.getText().toString().trim();
+        kurangura_total = field_kurangura_total.getText().toString().trim();
         kurangura_payee = field_kurangura_payee.getText().toString().trim();
         client = field_kurangura_personne.getText().toString().trim();
-        if(kurangura_prix.isEmpty()){
+        if(kurangura_total.isEmpty()){
             field_kurangura_prix.setError("uzuza ngaha");
             return false;
         }
@@ -241,7 +241,7 @@ public class KuranguraForm extends Dialog {
             field_kurangura_payee.setError("uzuza ngaha");
             return false;
         }
-        a_payer = Double.parseDouble(kurangura_prix)*Double.parseDouble(kurangura_qtt);
+        a_payer = Double.parseDouble(kurangura_total);
         payee = Double.parseDouble(kurangura_payee);
         if(payee<a_payer){
             ideni = true;
@@ -255,12 +255,12 @@ public class KuranguraForm extends Dialog {
 
     public void setEdition(Achat as) {
         this.edition = true;
-        this.achat = achat;
+        this.achat = as;
         field_kurangura_qtt_supl.setText(Integer.toString(as.getQuantiteSuppl()));
         lbl_kurangura_product.setText(as.produit.nom);
         field_kurangura_qtt.setText(Integer.toString(as.getQuantite().intValue()));
         field_kurangura_prix.setText(as.prix.toString());
-        field_kurangura_total.setText(as.getTotal().toString());
+        field_kurangura_total.setText(as.prix.toString());
         field_kurangura_payee.setText(as.payee.toString());
         try {
             field_kurangura_personne.setText(as.personne.nom);

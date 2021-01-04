@@ -53,8 +53,8 @@ public class AdaptateurAchats extends RecyclerView.Adapter<AdaptateurAchats.View
         holder.lbl_hist_product.setText(achat.produit.nom);
         holder.lbl_hist_date.setText(achat.getDateFormated());
         holder.lbl_hist_qtt.setText(String.format("%.2f", qtt));
-        holder.lbl_hist_price.setText(String.format("%.2f", achat.prix));
-        holder.lbl_hist_tot.setText(String.format("%.2f", achat.getTotal()));
+        holder.lbl_hist_price.setText(String.format("%.2f", achat.getPrixUnitaire()));
+        holder.lbl_hist_tot.setText(String.format("%.2f", achat.prix));
         holder.lbl_hist_payee.setText(String.format("%.2f", achat.payee));
         holder.lbl_hist_reste.setText(String.format("%.2f", achat.getReste()));
         int rouge = context.getResources().getColor(R.color.colorRed);

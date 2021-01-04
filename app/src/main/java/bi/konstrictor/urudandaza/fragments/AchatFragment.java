@@ -87,7 +87,7 @@ public class AchatFragment extends Fragment implements Filterable {
     private void showPayDialog() {
         Double montant=0.;
         for (Achat as : achats) {
-            montant += as.getTotal() - as.payee;
+            montant += as.prix - as.payee;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Arishe angahe?");
@@ -102,7 +102,7 @@ public class AchatFragment extends Fragment implements Filterable {
                 payee = Double.parseDouble(input.getText().toString());
                 for (int i=0; i<achats.size(); i++) {
                     final Achat achat = achats.get(i);
-                    final double total = achat.getTotal();
+                    final double total = achat.prix;
                     RemboursementAchat remboursement;
                     if (payee >= total) {
                         remboursement = new RemboursementAchat(achat, total, "");
@@ -135,7 +135,7 @@ public class AchatFragment extends Fragment implements Filterable {
         lbl_det_clot_rest.setText(achat_rest.toString());
     }
     public void addToTotals(Achat history) {
-        setTot(achat_tot +history.getTotal());
+        setTot(achat_tot +history.prix);
         setRest(achat_reste+history.getReste());
     }
     private void chargerStock() {
