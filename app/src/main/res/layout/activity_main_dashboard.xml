@@ -279,7 +279,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="kuriha no kurihwa"
+                                        android:text="aya ker yarishwe"
                                         android:textAlignment="center"
                                         android:textSize="6pt"
                                         android:lines="2"
@@ -327,7 +327,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="kuriha no kurihwa"
+                                        android:text="amadeni atararihwa"
                                         android:textAlignment="center"
                                         android:textSize="6pt"
                                         android:lines="2"

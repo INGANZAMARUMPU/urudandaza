@@ -42,6 +42,11 @@
             android:parentActivityName=".MainDashBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".RemboursementActivity"
+            android:label="Ayarishwe"
+            android:parentActivityName=".MainDashBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".StockActivity"
             android:label="@string/title_activity_ibidandazwa"
             android:parentActivityName=".MainDashBoardActivity"
