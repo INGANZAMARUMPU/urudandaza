@@ -110,7 +110,6 @@ public class VenteFragment extends Fragment implements Filterable {
                     }
                     remboursement.create(context);
                     payee -= remboursement.payee;
-
                 }
             }
         });
