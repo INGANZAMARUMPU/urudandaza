@@ -144,7 +144,7 @@ public class AchatFragment extends Fragment implements Filterable {
             Where where = dao_as.queryBuilder().where();
             if (context.filters == null && context.dates == null ) return;
             if (context.is_dette)
-                where.ne("total", new ColumnArg("payee")).and();
+                where.ne("prix", new ColumnArg("payee")).and();
             if (context.dates != null && context.dates.size()>1){
                 where
                     .ge("date", context.dates.get(0)).and()
