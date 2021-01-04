@@ -108,7 +108,7 @@ public class Achat implements Model {
                     @Override
                     public Void call() throws Exception {
                         daoAS.update(Achat.this);
-                        daoProduit.update(produit);
+                        if(!cloture.compiled) daoProduit.update(produit);
                         daoCloture.update(cloture);
                         return null;
                     }

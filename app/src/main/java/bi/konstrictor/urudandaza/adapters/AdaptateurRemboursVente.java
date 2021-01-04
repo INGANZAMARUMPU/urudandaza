@@ -42,7 +42,7 @@ public class AdaptateurRemboursVente extends RecyclerView.Adapter<AdaptateurRemb
         holder.lbl_hist_product.setText(remboursable.vente.produit.nom);
         holder.lbl_hist_date.setText(remboursable.vente.getDateFormated());
         holder.lbl_hist_qtt.setText(String.format("%.2f", qtt));
-        holder.lbl_hist_price.setText(String.format("%.2f", remboursable.vente.prix));
+        holder.lbl_hist_price.setText(String.format("%.2f", remboursable.vente.getTotal()));
         holder.lbl_hist_tot.setText(String.format("%.2f", remboursable.vente.prix));
         holder.lbl_hist_payee.setText(String.format("%.2f", remboursable.payee));
         holder.lbl_hist_reste.setText(String.format("%.2f", remboursable.vente.getReste()));

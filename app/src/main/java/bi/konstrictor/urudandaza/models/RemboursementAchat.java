@@ -30,7 +30,7 @@ public class RemboursementAchat implements Model {
     public Date date;
     @DatabaseField
     public String checksum;
-    @DatabaseField(canBeNull=false, foreign=true, foreignColumnName="id")
+    @DatabaseField(foreign=true, foreignColumnName="id")
     private Password signature;
 
     public RemboursementAchat() {
@@ -57,23 +57,19 @@ public class RemboursementAchat implements Model {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
             final Dao<RemboursementAchat, Integer> dao = inkoranyaMakuru.getDao(RemboursementAchat.class);
-            final Dao<Achat, Integer> daoAS = inkoranyaMakuru.getDao(Achat.class);
-            final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
-            final Cloture cloture = achat.cloture;
-            cloture.payee_achat += payee;
+            final Dao<Achat, Integer> dao_achat = inkoranyaMakuru.getDao(Achat.class);
             achat.payee += payee;
             try {
                 TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
-                        new Callable<Void>(){
-                            @Override
-                            public Void call() throws Exception {
-                                daoAS.update(achat);
-                                daoCloture.update(cloture);
-                                dao.create(RemboursementAchat.this);
-                                Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
-                                return null;
-                            }
-                        });
+                    new Callable<Void>(){
+                        @Override
+                        public Void call() throws Exception {
+                            dao_achat.update(achat);
+                            dao.create(RemboursementAchat.this);
+                            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+                            return null;
+                        }
+                    });
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -84,12 +80,30 @@ public class RemboursementAchat implements Model {
     }
 
     @Override
-    public void update(Context context) {
+    public void update(final Context context) {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
             final Dao<RemboursementAchat, Integer> dao = inkoranyaMakuru.getDao(RemboursementAchat.class);
-            dao.update(this);
-            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+            final Dao<Cloture, Integer> dao_cloture = inkoranyaMakuru.getDao(Cloture.class);
+            final Cloture cloture = achat.cloture;
+            cloture.payee_achat += payee;
+            if (signature!=null) {
+                try {
+                    TransactionManager.callInTransaction(inkoranyaMakuru.getConnectionSource(),
+                        new Callable<Void>() {
+                            @Override
+                            public Void call() throws Exception {
+                                dao_cloture.update(cloture);
+                                dao.update(RemboursementAchat.this);
+                                Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
+                                return null;
+                            }
+                        });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(context, "ntacahindutse", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
             e.printStackTrace();
@@ -98,14 +112,5 @@ public class RemboursementAchat implements Model {
 
     @Override
     public void delete(Context context) {
-        InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
-        try {
-            final Dao<RemboursementAchat, Integer> dao = inkoranyaMakuru.getDao(RemboursementAchat.class);
-            dao.delete(this);
-            Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
-        } catch (SQLException e) {
-            Toast.makeText(context, "ntivyakunze", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
     }
 }

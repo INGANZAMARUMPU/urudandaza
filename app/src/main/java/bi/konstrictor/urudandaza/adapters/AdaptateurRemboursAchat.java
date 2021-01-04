@@ -10,8 +10,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.j256.ormlite.dao.Dao;
-
 import java.util.ArrayList;
 
 import bi.konstrictor.urudandaza.R;

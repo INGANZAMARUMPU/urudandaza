@@ -77,7 +77,7 @@ public class Vente implements Model {
     public void create(Context context) {
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            final Dao<Vente, Integer> daoAS = inkoranyaMakuru.getDao(Vente.class);
+            final Dao<Vente, Integer> dao_vente = inkoranyaMakuru.getDao(Vente.class);
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
             produit.quantite += quantite;
@@ -92,7 +92,7 @@ public class Vente implements Model {
                     new Callable<Void>() {
                         @Override
                         public Void call() throws Exception {
-                            daoAS.create(Vente.this);
+                            dao_vente.create(Vente.this);
                             daoProduit.update(produit);
                             daoCloture.update(cloture);
                             return null;
@@ -108,8 +108,8 @@ public class Vente implements Model {
     public void update(Context context){
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            final Dao<Vente, Integer> daoAS = inkoranyaMakuru.getDao(Vente.class);
-            Vente old = daoAS.queryForId(id);
+            final Dao<Vente, Integer> dao_vente = inkoranyaMakuru.getDao(Vente.class);
+            Vente old = dao_vente.queryForId(id);
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
             produit.quantite = produit.quantite - old.quantite + quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
@@ -123,8 +123,8 @@ public class Vente implements Model {
                 new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
-                        daoAS.update(Vente.this);
-                        daoProduit.update(produit);
+                        dao_vente.update(Vente.this);
+                        if (!cloture.compiled) daoProduit.update(produit);
                         daoCloture.update(cloture);
                         return null;
                     }
@@ -142,7 +142,7 @@ public class Vente implements Model {
 
         InkoranyaMakuru inkoranyaMakuru = new InkoranyaMakuru(context);
         try {
-            final Dao<Vente, Integer> daoAS = inkoranyaMakuru.getDao(Vente.class);
+            final Dao<Vente, Integer> dao_vente = inkoranyaMakuru.getDao(Vente.class);
             final Dao<Produit, Integer> daoProduit = inkoranyaMakuru.getDao(Produit.class);
             produit.quantite -= quantite;
             final Dao<Cloture, Integer> daoCloture = inkoranyaMakuru.getDao(Cloture.class);
@@ -156,7 +156,7 @@ public class Vente implements Model {
                     new Callable<Void>() {
                         @Override
                         public Void call() throws Exception {
-                            daoAS.delete(Vente.this);
+                            dao_vente.delete(Vente.this);
                             daoProduit.update(produit);
                             daoCloture.update(cloture);
                             return null;
