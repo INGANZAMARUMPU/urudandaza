@@ -48,6 +48,11 @@ public class AdaptateurRemboursVente extends RecyclerView.Adapter<AdaptateurRemb
         holder.lbl_hist_reste.setText(String.format("%.2f", remboursable.vente.getReste()));
         int rouge = context.getResources().getColor(R.color.colorRed);
         if (remboursable.vente.getReste()>0) holder.lbl_hist_reste.setTextColor(rouge);
+        if(remboursable.is_valid()){
+            holder.card_hist.setBackgroundColor(context.getResources().getColor(R.color.lightGray));
+        }else {
+            holder.card_hist.setBackgroundColor(context.getResources().getColor(R.color.blank));
+        }
     }
 
     private void editItem(RemboursementVente remboursable) {
@@ -77,7 +82,7 @@ public class AdaptateurRemboursVente extends RecyclerView.Adapter<AdaptateurRemb
         parent.setTot(0.);
         this.remboursables = remboursables;
         for (RemboursementVente as : remboursables){
-            parent.addToTotals(as.payee);
+            if(!as.is_valid()) parent.addToTotals(as.payee);
         }
         notifyDataSetChanged();
     }

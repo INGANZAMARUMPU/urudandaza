@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.dialogs;
 
 import android.app.Dialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;

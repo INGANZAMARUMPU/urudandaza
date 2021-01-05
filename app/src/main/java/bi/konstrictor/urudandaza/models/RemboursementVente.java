@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.models;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -9,6 +10,7 @@ import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
@@ -47,9 +49,23 @@ public class RemboursementVente implements Model {
         this.signature = password;
         this.checksum = Globals.sign(""+payee+date.getTime(), password.getSignature());
     }
-
+    public boolean sign(Context context, Account account){
+        InkoranyaMakuru db = new InkoranyaMakuru(context);
+        try {
+            Dao<Password,Integer> dao = db.getDao(Password.class);
+            ArrayList<Password> signatures = (ArrayList<Password>) dao.queryForEq("account_id", account.id);
+            if(signatures.size()>0) {
+                signature = signatures.get(signatures.size() - 1);
+                this.checksum = Globals.sign("" + payee + date.getTime(), signature.getSignature());
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public boolean is_valid(){
-        return checksum.equals(Globals.sign(""+payee+date.getTime(), this.signature.getSignature()));
+        return checksum.equals(Globals.sign(""+payee+date.getTime(), signature.getSignature()));
     }
 
     @Override
@@ -93,7 +109,7 @@ public class RemboursementVente implements Model {
                         new Callable<Void>() {
                             @Override
                             public Void call() throws Exception {
-                                dao_cloture.update(cloture);
+                                if ((!checksum.trim().isEmpty()) && is_valid() ) dao_cloture.update(cloture);
                                 dao.update(RemboursementVente.this);
                                 Toast.makeText(context, "Vyagenze neza", Toast.LENGTH_LONG).show();
                                 return null;

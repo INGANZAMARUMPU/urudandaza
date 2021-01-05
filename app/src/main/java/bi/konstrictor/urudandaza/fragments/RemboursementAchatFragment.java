@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.Where;
-import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,11 +30,10 @@ import bi.konstrictor.urudandaza.adapters.AdaptateurRemboursAchat;
 import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
 import bi.konstrictor.urudandaza.interfaces.Filterable;
 import bi.konstrictor.urudandaza.interfaces.RemboursementFragment;
-import bi.konstrictor.urudandaza.models.Achat;
+import bi.konstrictor.urudandaza.models.Account;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Password;
 import bi.konstrictor.urudandaza.models.RemboursementAchat;
-import bi.konstrictor.urudandaza.models.RemboursementVente;
-import bi.konstrictor.urudandaza.models.Vente;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,7 +92,18 @@ public class RemboursementAchatFragment extends Fragment implements Filterable, 
             builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    Account admin = new Account().getAdminAccount(context);
+                    if(Password.authenticate(context, input.getText().toString(), admin)){
+                        for (RemboursementAchat rembours: remboursements) {
+                            if(!rembours.is_valid()) {
+                                if (rembours.sign(context, admin))
+                                    rembours.update(context);
+                            }
+                        }
+                        context.refresh();
+                    } else {
+                        Toast.makeText(context, "mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {

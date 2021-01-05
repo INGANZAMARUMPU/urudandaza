@@ -31,7 +31,10 @@ import bi.konstrictor.urudandaza.adapters.AdaptateurRemboursVente;
 import bi.konstrictor.urudandaza.dialogs.FilterActionForm;
 import bi.konstrictor.urudandaza.interfaces.Filterable;
 import bi.konstrictor.urudandaza.interfaces.RemboursementFragment;
+import bi.konstrictor.urudandaza.models.Account;
 import bi.konstrictor.urudandaza.models.Cloture;
+import bi.konstrictor.urudandaza.models.Password;
+import bi.konstrictor.urudandaza.models.RemboursementAchat;
 import bi.konstrictor.urudandaza.models.RemboursementVente;
 import bi.konstrictor.urudandaza.models.Vente;
 
@@ -104,7 +107,18 @@ public class RemboursementVenteFragment extends Fragment implements Filterable, 
             builder.setPositiveButton("Sawa", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    Account admin = new Account().getAdminAccount(context);
+                    if(Password.authenticate(context, input.getText().toString(), admin)){
+                        for (RemboursementVente rembours: remboursements) {
+                            if(!rembours.is_valid()) {
+                                if (rembours.sign(context, admin))
+                                    rembours.update(context);
+                            }
+                        }
+                        context.refresh();
+                    } else {
+                        Toast.makeText(context, "mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
             builder.setNegativeButton("Reka", new DialogInterface.OnClickListener() {

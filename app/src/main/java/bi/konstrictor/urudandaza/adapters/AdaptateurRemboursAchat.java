@@ -1,6 +1,7 @@
 package bi.konstrictor.urudandaza.adapters;
 
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,11 @@ public class AdaptateurRemboursAchat extends RecyclerView.Adapter<AdaptateurRemb
         holder.lbl_hist_reste.setText(String.format("%.2f", remboursable.achat.getReste()));
         int rouge = context.getResources().getColor(R.color.colorRed);
         if (remboursable.achat.getReste()>0) holder.lbl_hist_reste.setTextColor(rouge);
+        if(remboursable.is_valid()){
+            holder.card_hist.setBackgroundColor(context.getResources().getColor(R.color.lightGray));
+        }else {
+            holder.card_hist.setBackgroundColor(context.getResources().getColor(R.color.blank));
+        }
     }
 
     private void editItem(RemboursementAchat remboursable) {
@@ -77,7 +83,7 @@ public class AdaptateurRemboursAchat extends RecyclerView.Adapter<AdaptateurRemb
         parent.setTot(0.);
         this.remboursables = remboursables;
         for (RemboursementAchat as : remboursables){
-            parent.addToTotals(as.payee);
+            if (!as.is_valid()) parent.addToTotals(as.payee);
         }
         notifyDataSetChanged();
     }
@@ -90,7 +96,7 @@ public class AdaptateurRemboursAchat extends RecyclerView.Adapter<AdaptateurRemb
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            this.view = itemView;
+            lbl_hist_product = itemView.findViewById(R.id.lbl_hist_product);
             lbl_hist_product = itemView.findViewById(R.id.lbl_hist_product);
             lbl_hist_date = itemView.findViewById(R.id.lbl_hist_date);
             lbl_hist_qtt = itemView.findViewById(R.id.lbl_hist_qtt);
